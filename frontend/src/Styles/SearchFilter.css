@@ -1,0 +1,24 @@
+.searchFilterContainer {
+    width: 90%;
+    height: 15vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+    width: 100%;
+    display: flex; /* Hace que los elementos del form se alineen en una fila */
+    align-items: center;
+    gap: 10px; /* Espacio entre los elementos */
+}
+.filterButton {
+    background-color: #B2C9CE;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 100px;
+    cursor: pointer;
+    white-space: nowrap; /* Evita que el texto se rompa */
+    flex-shrink: 0; /* Evita que los botones se reduzcan demasiado */
+}

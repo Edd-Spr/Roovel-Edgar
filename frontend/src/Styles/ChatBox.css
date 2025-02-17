@@ -1,0 +1,42 @@
+.chatBox{
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+}
+.chatBox:hover{
+    background-color: #9c8f87;
+}
+.photoContainer{
+    width: 7vh;
+    height: 7vh;
+    background-color: rgb(140, 140, 140);
+    border-radius: 100%;
+    margin-left: 2vh;
+    margin-right: 3vh;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+.photoProfile{
+    height: 100%;
+}
+.textContainer{
+    height: 10vh;
+    width: 12vw;
+    display: flex;
+    align-items: flex-start;
+}
+.nameProfile{
+    height: 2vh;
+    width: 12vw;
+    min-width: 12vh;
+    margin-top: 2.7vh;
+    display: flex;
+    align-items: center;
+    font-size: 2.2vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(63, 63, 91);
+}

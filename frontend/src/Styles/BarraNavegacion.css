@@ -1,0 +1,14 @@
+html, body{
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #E5E7EB;
+    width: 100vw;
+    height: 100vh;
+}
+.barraNav{
+    width: 100vw;
+    height: 8vh;
+    background-color: #4A617F;
+}

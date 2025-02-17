@@ -1,0 +1,21 @@
+.chatContainer{
+    display: flex;
+}
+.chatSection{
+    width: 20vw;
+    height: 92vh;
+    min-width: 30vh;
+    background-color: #E2DAD0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    overflow: scroll;
+}
+.chatSearchContainer{
+    width: 100%;
+    height: 12vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

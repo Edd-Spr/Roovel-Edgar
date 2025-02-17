@@ -1,0 +1,13 @@
+.messageEditorContainer{
+    width: 30vw;
+    height: 10vh;
+    background-color: aqua;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    border: 10px;
+    border-top: 10px;
+    border-top: black;
+    border-color: blueviolet;
+}

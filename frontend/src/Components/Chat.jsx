@@ -1,0 +1,172 @@
+import ChatBox from './ChatBox.jsx';
+import ChatOpen from './ChatOpen.jsx';
+import SearchInput from '../Components/SearchInput.jsx';
+import '../Styles/chatsContainer.css';
+import { useState } from 'react';
+
+const Chat = () =>{
+  const [isOpen, setIsOpen] = useState(false);
+  const [actualChat, setActualChat] = useState('');
+
+    return (
+      <article className="chatContainer">
+        <ChatsSection
+        setActualChat={setActualChat}
+        setIsOpen={setIsOpen}
+        />
+
+        {isOpen && 
+        <ChatOpen
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        infoProfile={perfiles.find((perfil) => perfil.id === actualChat)}
+        />}
+      </article>
+    );
+  }
+  
+
+  const ChatsSection = ({setActualChat, setIsOpen}) =>{
+
+    return (
+    <div className="chatSection">
+      <div className="chatSearchContainer">
+        <SearchInput size={18}/>
+      </div>
+      {perfiles.map((perfil) => 
+        <ChatBox
+          image={perfil.imagen}
+          name={perfil.nombre}
+          setActualChat={setActualChat}
+          setIsOpen={setIsOpen}
+          infoProfile={perfil}
+        />
+        )}
+    </div>
+    )
+  }
+  
+  const perfiles = [
+    {
+        id: 1,
+        nombre: "Carlos Gómez",
+        imagen: "imagen1.jpeg",
+        descripcion: "Aficionado al fútbol y la tecnología. Siempre en busca de nuevos retos.",
+        mensajes: [
+            { idRemitente: 1, remitente: "Carlos", contenido: "¡Hola! ¿Cómo va tu día?", timestamp: "2024-07-01 09:00 AM" },
+            { idRemitente: 2, remitente: "María", contenido: "Bien, ¿y el tuyo?", timestamp: "2024-07-01 09:05 AM" }
+        ]
+    },
+    {
+        id: 2,
+        nombre: "María Rodríguez",
+        imagen: "imagen2.jpeg",
+        descripcion: "Amante del cine y la buena comida. Me encanta salir con amigos.",
+        mensajes: [
+            { idRemitente: 2, remitente: "María", contenido: "¿Vamos al cine el sábado?", timestamp: "2024-07-02 03:30 PM" },
+            { idRemitente: 3, remitente: "Luis", contenido: "Sí, suena bien. ¿Qué película quieres ver?", timestamp: "2024-07-02 03:35 PM" }
+        ]
+    },
+    {
+        id: 3,
+        nombre: "Luis Fernández",
+        imagen: "imagen3.jpeg",
+        descripcion: "Apasionado por la música y los videojuegos. Siempre dispuesto a ayudar.",
+        mensajes: [
+            { idRemitente: 3, remitente: "Luis", contenido: "¿Terminaste el trabajo de la uni?", timestamp: "2024-07-03 06:00 PM" },
+            { idRemitente: 1, remitente: "Carlos", contenido: "Casi, solo me falta revisar algunos detalles.", timestamp: "2024-07-03 06:05 PM" },
+            { idRemitente: 3, remitente: "Luis", contenido: "Pues fijate que a mi me viene valiendo 3 hectareas de pura verga", timestamp: "2024-07-03 06:00 PM" },
+        ]
+    },
+    {
+        id: 4,
+        nombre: "Sofía Méndez",
+        imagen: "imagen4.jpeg",
+        descripcion: "Me encanta viajar y conocer nuevas culturas. La fotografía es mi pasión.",
+        mensajes: [
+            { idRemitente: 4, remitente: "Sofía", contenido: "¡Feliz cumpleaños! 🎉", timestamp: "2024-07-04 08:00 AM" },
+            { idRemitente: 2, remitente: "María", contenido: "¡Gracias! Qué lindo detalle. 💖", timestamp: "2024-07-04 08:05 AM" }
+        ]
+    },
+    {
+        id: 5,
+        nombre: "Javier Ramírez",
+        imagen: "imagen5.jpeg",
+        descripcion: "Programador de corazón. Me encanta el café y los retos de código.",
+        mensajes: [
+            { idRemitente: 5, remitente: "Javier", contenido: "¿Alguien ha probado la nueva IA de OpenAI?", timestamp: "2024-07-05 10:15 AM" },
+            { idRemitente: 6, remitente: "Elena", contenido: "Sí, está increíble.", timestamp: "2024-07-05 10:20 AM" }
+        ]
+    },
+    {
+        id: 6,
+        nombre: "Elena Torres",
+        imagen: "imagen6.jpeg",
+        descripcion: "Amo la lectura y la ciencia ficción. Escritora en mi tiempo libre.",
+        mensajes: [
+            { idRemitente: 6, remitente: "Elena", contenido: "¿Recomiendan algún libro de ciencia ficción?", timestamp: "2024-07-06 07:30 PM" },
+            { idRemitente: 7, remitente: "Ricardo", contenido: "Sí, 'Duna' es un clásico.", timestamp: "2024-07-06 07:40 PM" }
+        ]
+    },
+    {
+        id: 7,
+        nombre: "Ricardo Pérez",
+        imagen: "imagen7.jpeg",
+        descripcion: "Amante del senderismo y la aventura. Siempre buscando la siguiente expedición.",
+        mensajes: [
+            { idRemitente: 7, remitente: "Ricardo", contenido: "¿Quién se anima a una caminata el domingo?", timestamp: "2024-07-07 12:00 PM" },
+            { idRemitente: 8, remitente: "Gabriela", contenido: "¡Yo! Me encanta caminar.", timestamp: "2024-07-07 12:10 PM" }
+        ]
+    },
+    {
+        id: 8,
+        nombre: "Gabriela Sánchez",
+        imagen: "imagen8.jpeg",
+        descripcion: "Amante de los animales y la naturaleza. Siempre en busca de nuevas experiencias.",
+        mensajes: [
+            { idRemitente: 8, remitente: "Gabriela", contenido: "¡Mi perrito aprendió un nuevo truco!", timestamp: "2024-07-08 04:30 PM" },
+            { idRemitente: 9, remitente: "David", contenido: "¡Qué genial! ¿Cuál es?", timestamp: "2024-07-08 04:35 PM" }
+        ]
+    },
+    {
+        id: 9,
+        nombre: "David Castro",
+        imagen: "imagen9.jpeg",
+        descripcion: "Ingeniero de software. Me encanta la inteligencia artificial y los videojuegos.",
+        mensajes: [
+            { idRemitente: 9, remitente: "David", contenido: "¿Alguien juega Valorant?", timestamp: "2024-07-09 08:45 PM" },
+            { idRemitente: 10, remitente: "Andrea", contenido: "¡Sí! Soy main Jett.", timestamp: "2024-07-09 08:50 PM" }
+        ]
+    },
+    {
+        id: 10,
+        nombre: "Andrea López",
+        imagen: "imagen10.jpeg",
+        descripcion: "Bailarina y fan de los videojuegos. Siempre en movimiento.",
+        mensajes: [
+            { idRemitente: 10, remitente: "Andrea", contenido: "¿Alguien quiere ir a clases de salsa?", timestamp: "2024-07-10 05:00 PM" },
+            { idRemitente: 11, remitente: "Fernando", contenido: "¡Me interesa! Siempre he querido aprender.", timestamp: "2024-07-10 05:10 PM" }
+        ]
+    },
+    {
+        id: 11,
+        nombre: "Fernando Ríos",
+        imagen: "imagen11.jpeg",
+        descripcion: "Músico y productor. Apasionado por los sonidos y la creatividad.",
+        mensajes: [
+            { idRemitente: 11, remitente: "Fernando", contenido: "Estoy produciendo una nueva canción. ¿Ideas?", timestamp: "2024-07-11 02:00 PM" },
+            { idRemitente: 12, remitente: "Valeria", contenido: "¿Qué tal algo con influencias de jazz?", timestamp: "2024-07-11 02:05 PM" }
+        ]
+    },
+    {
+        id: 12,
+        nombre: "Valeria Martínez",
+        imagen: "imagen12.jpeg",
+        descripcion: "Diseñadora gráfica. Amante del arte y la ilustración.",
+        mensajes: [
+            { idRemitente: 12, remitente: "Valeria", contenido: "Acabo de terminar un nuevo diseño. ¿Opiniones?", timestamp: "2024-07-12 11:00 AM" },
+            { idRemitente: 1, remitente: "Carlos", contenido: "¡Se ve increíble! Me encanta tu estilo.", timestamp: "2024-07-12 11:10 AM" }
+        ]
+    }
+];
+  export default Chat;

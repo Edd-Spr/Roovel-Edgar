@@ -1,0 +1,34 @@
+.messageBoxContainer{
+    width: 100%;
+    min-height: 5vh;
+    display: flex;
+    justify-content: flex-start;
+    align-content: flex-start;
+    margin-top: 8px;
+}
+.messageBox{
+    max-width: 20vw;
+    padding: 10px;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 5px;
+}
+.receivedMessageBox{
+    background-color: #CBA18A;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.sentMessageBox{
+    align-self: flex-end;
+    justify-content: right;
+    background-color: #B2C9CE;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.messageText {
+    
+    margin: 0;
+    padding: 0;
+    color: rgb(59, 59, 59);
+}

@@ -1,0 +1,14 @@
+.matchProfileBox{
+    width: 23.5vw;
+    height: 13vw;
+    background-color: white;
+    margin: 0.5vw;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 5px 5px rgb(210, 210, 210);
+}
+.photoProfileContainer{
+    width: 13vw;
+    height: 13vw;
+    background-color: rgb(157, 157, 157);
+}

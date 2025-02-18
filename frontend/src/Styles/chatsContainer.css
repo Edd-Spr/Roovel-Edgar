@@ -4,9 +4,7 @@
 .chatSection{
     width: 20vw;
     height: 92vh;
-    min-width: 30vh;
     background-color: #E2DAD0;
-    display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-content: flex-start;
@@ -18,4 +16,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.leftBarChat{
+    width: 4vw;
+    height: 92vh;
+    background-color: #D3C0B5;
+}
+.toggleChatButton{
+    width: 6vh;
+    height: 6vh;
 }

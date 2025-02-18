@@ -7,6 +7,7 @@
     height: 92vh;
     background-color: rgb(255, 255, 255);
     overflow: scroll;
+    transition: .3s;
 }
 .contactBar{
     width: 100%;

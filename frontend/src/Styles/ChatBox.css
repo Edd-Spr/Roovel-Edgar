@@ -28,6 +28,7 @@
     width: 12vw;
     display: flex;
     align-items: flex-start;
+    margin-left: 2vh;
 }
 .nameProfile{
     height: 2vh;

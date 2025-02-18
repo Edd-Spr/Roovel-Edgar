@@ -2,12 +2,12 @@ import '../Styles/ChatOpen.css';
 import MessageBox from './MessageBox';
 import MessageEditor from './MessageEditor';
 
-const ChatOpen = ({infoProfile, setIsOpen}) =>{
+const ChatOpen = ({infoProfile, setIsOpen, user}) =>{
     return (
         <section className="ChatOpen">
             <ContactBar infoProfile={infoProfile} setIsOpen={setIsOpen}/>
             <InfoChatSection infoProfile={infoProfile}/>
-            <MessageContainer infoProfile={infoProfile}/>
+            <MessageContainer infoProfile={infoProfile} user={user}/>
             <MessageEditor/>
         </section>
     )
@@ -41,7 +41,7 @@ function InfoChatSection({infoProfile}){
     );
 }
 
-function MessageContainer({infoProfile}){
+function MessageContainer({infoProfile, user}){
     
     return (
         <div style={{width: '100%', minHeight: '35vh'}}>
@@ -49,6 +49,7 @@ function MessageContainer({infoProfile}){
             <MessageBox 
                 messages={info}
                 chatUserId={infoProfile.id}
+                user={user}
             />)}
         </div>
     );

@@ -21,6 +21,7 @@
     width: 4vw;
     height: 92vh;
     background-color: #D3C0B5;
+    transition: .3s;
 }
 .toggleChatButton{
     width: 6vh;

@@ -22,7 +22,7 @@ const ContactsContainer = ({setActualChat, setIsOpen, perfiles, barChatOpen, set
   const ContactsSection = ({setActualChat, setIsOpen, perfiles, barChatOpen, setBarChatOpen}) =>{
 
     return (
-    <div className="chatSection" style={{ width: barChatOpen ? '20vw' : '9vh' }}>
+    <div className="chatSection" style={{ width: barChatOpen ? '20vw' : '9vh', transition: '.3s'}}>
 
       <div className="chatSearchContainer">
         <SearchInput size={barChatOpen ? 18 : 2.5}/>

@@ -1,0 +1,59 @@
+html, body{
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #E5E7EB;
+    width: 100vw;
+    height: 100vh;
+}
+.barraNav {
+    width: 100vw;
+    height: 8vh;
+    background-color: #4A617F;
+    display: flex;
+    align-items: center;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('/Graphics/Fonts/Poppins/Poppins-SemiBold.ttf') format('truetype');
+}
+.logoName {
+    color: white;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    font-size: 30px;
+    font-family: 'Poppins', sans-serif;
+}
+.barNavRigthContainer{
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+}
+.userPhotoProfileContainer{
+    width: 6vh;
+    height: 6vh;
+    border-radius: 100%;
+    background-color: rgb(255, 255, 255);
+    margin-left: auto;
+    margin-right: 20px;
+}
+.actionButtons{
+    background: none;
+    border: none;
+    color: white;
+    margin-left: auto;
+    margin-right: 20px;
+    
+}
+.notificationButton{
+    width: 6vh;
+    height: 6vh;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}

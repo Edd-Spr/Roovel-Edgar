@@ -1,3 +1,8 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
 .featuresCarouselContainer{
     width: 100vw;
     height: 60vh;
@@ -8,8 +13,9 @@
     align-items: center;
     overflow: hidden;
 }
+/*1380px o 93w*/
 .carouselImage{
-    width: 95vw;
+    width: 1380px;
     transform: translateX(10vw) translateY(-5vw); 
 }
 

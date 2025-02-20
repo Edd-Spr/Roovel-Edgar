@@ -1,11 +1,15 @@
 import { useState } from 'react';
-import '../Styles/PagesStyles/Home.css'
+import { motion } from "framer-motion";
+import '../Styles/PagesStyles/Home.css';
+import SignInBanner from '../Components/SignInBanner.jsx';
+const isLogged = false;
 
 const Home = () => {
     return (
         <>
             <FeaturesCarousel/>
             <StayFinder/>
+            {isLogged || <SignInBanner/>}
         </>
     );
 }
@@ -58,7 +62,17 @@ const FeaturesCarousel = () =>{
     
     return (
         <article className="featuresCarouselContainer">
-            <img src={actualCarouselBox.image} alt="" className="carouselImage"/>
+            <motion.img
+                key={actualCarousel} 
+                src={actualCarouselBox.image}
+                alt=""
+                className="carouselImage"
+                draggable="false"
+                initial={{ opacity: 0.5, x: 0 }}
+                animate={{ opacity: 1, x: 50 }}
+                exit={{ opacity: 0, x: 100 }}
+                transition={{ duration: 8 }}
+            />
             <CarouselInfo
                 actualCarouselBox={actualCarouselBox}
             />
@@ -113,7 +127,7 @@ const StayFinder = () => {
     return (
         <article className="stayFinderContainer">
             <section className="stayFinderBox">
-                
+
             </section>
         </article>
     );

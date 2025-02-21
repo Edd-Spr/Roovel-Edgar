@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { motion } from "framer-motion";
 import '../Styles/PagesStyles/Home.css';
 import SignInBanner from '../Components/SignInBanner.jsx';
+import RoomSlider from '../Components/RoomSlider.jsx';
+
 const isLogged = false;
 
 const Home = () => {
@@ -10,6 +12,7 @@ const Home = () => {
             <FeaturesCarousel/>
             <StayFinder/>
             {isLogged || <SignInBanner/>}
+            <RoomSlider/>
         </>
     );
 }

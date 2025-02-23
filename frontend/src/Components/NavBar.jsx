@@ -30,7 +30,7 @@ const NavBar = () => {
             <p className="logoName">Roovel</p>
             <div className='barNavRigthContainer'>
                 {navActions.map((actions) => (
-                    <button className="actionButtons">{actions.name}</button>
+                    <button className="actionButtons" key={actions.id}>{actions.name}</button>
                 ))}
 
                 <button className="notificationButton">

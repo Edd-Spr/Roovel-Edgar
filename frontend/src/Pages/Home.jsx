@@ -3,6 +3,9 @@ import { motion } from "framer-motion";
 import '../Styles/PagesStyles/Home.css';
 import SignInBanner from '../Components/SignInBanner.jsx';
 import RoomSlider from '../Components/RoomSlider.jsx';
+import MultiRange from '../Components/MultiRangeSlider.jsx';
+import InputButton from '../Components/InputButton.jsx';
+
 
 const isLogged = false;
 
@@ -86,7 +89,6 @@ const FeaturesCarousel = () =>{
         </article>
     );
 }
-
 const CarouselInfo = ({actualCarouselBox}) => {
     return(
         <>
@@ -100,20 +102,21 @@ const CarouselInfo = ({actualCarouselBox}) => {
         </>
     );
 }
-const CarouselButtons = ({actualCarousel, setActualCarousel}) =>{
-    return(
+const CarouselButtons = ({ actualCarousel, setActualCarousel }) => {
+    return (
         <section className='carouselButtonsContainer'>
             {CAROUSEL_CONTENT.map((item) => 
                 <CarouselButton 
+                    key={item.id}
                     name={item.buttonName}
                     id={item.id}
                     actualCarousel={actualCarousel}
                     setActualCarousel={setActualCarousel}
-                />)}
+                />
+            )}
         </section>
     );
 }
-
 const CarouselButton = ({name, id, actualCarousel, setActualCarousel}) => {
 
     function handleClick(){
@@ -127,10 +130,71 @@ const CarouselButton = ({name, id, actualCarousel, setActualCarousel}) => {
 }
 
 const StayFinder = () => {
+
+        
+    const [finderBy, setFinderBy] = useState(1);
+    const handleFinderBy = (value) => {
+        setFinderBy(value);
+    };
+
+    const min = 17;
+    const max = 65;
+    const [minValue, set_minValue] = useState(min);
+    const [maxValue, set_maxValue] = useState(max);
+    const [actualValue, setActualValue] = useState(false);
+    const [gender, setGender] = useState(0);
+    const [pets, setPets] = useState(0);
+
+    
     return (
         <article className="stayFinderContainer">
             <section className="stayFinderBox">
-
+                <div className="containerFinderBy">
+                    <label htmlFor="" className='labelStayFinder'> ¿Roomie o Habitación? Encuentra lo que necesitas</label>
+                    <div className="buttonsFindByContainer">
+                        <button 
+                            className={`buttonFindBy ${finderBy === 1 ? 'activeFindBy' : ''}`}
+                            onClick={() => handleFinderBy(1)}
+                        >
+                            Habitación
+                        </button>
+                        <button 
+                            className={`buttonFindBy ${finderBy === 2 ? 'activeFindBy' : ''}`}
+                            onClick={() => handleFinderBy(2)}
+                        >
+                            Roomie
+                        </button>
+                    </div>
+                </div>
+                <div className="inputsContainer">
+                    <input type="text" className='inputStayFinder' placeholder='Escribe una dirección'/>
+                    <MultiRange
+                        minValue={minValue}
+                        maxValue={maxValue}
+                        set_minValue={set_minValue}
+                        set_maxValue={set_maxValue}
+                        min={min}
+                        max={max}
+                        actualValue={actualValue}
+                        setActualValue={setActualValue}
+                    />
+                    <InputButton
+                        valueInput={gender}
+                        setValueInput={setGender}
+                        options={['Todos los Generos', 'Solo Hombres', 'Solo Mujeres']}
+                    />
+                    <InputButton
+                        valueInput={pets}
+                        setValueInput={setPets}
+                        options={['No mascotas', 'Cualquier mascota', 'Solo Perros', 'Solo Gatos']}
+                    />
+                    <button className="searchButton">
+                        <img src="/Graphics/Icons/lupa.png" 
+                        alt="" 
+                        style={{width: '100%'}}/>
+                    </button>
+                    
+                </div>
             </section>
         </article>
     );

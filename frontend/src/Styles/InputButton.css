@@ -1,0 +1,30 @@
+.inputButtonContainer{
+    height: 6vh;
+    background-color: rgb(120, 120, 120);
+    overflow: hidden;
+}
+.buttonStyle{
+    height: 100%;
+    background-color: white;
+    color: #899F9D;
+    padding: 5px;
+    border: 0;
+    text-align: center;
+    border: 1px solid #899F9D;
+    outline: none;
+    transition: .3s;
+    font-size: 13px;
+}
+.buttonStyle:hover{
+    background-color: rgb(227, 227, 227);
+}
+.activeButton{
+    background-color: #85ADB6;
+    color: white;
+}
+.activeButton:hover{
+    background-color: #73979f;
+}
+.optionStyle{
+    background-color: blueviolet;
+}

@@ -108,3 +108,66 @@ html, body{
     border-radius: 5px;
     box-shadow: 0 0 5px 5px rgba(96, 96, 96, 0.2);
 }
+.containerFinderBy{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+}
+.labelStayFinder{
+    font-family: 'poppins';
+    margin-top: 3vh;
+    font-size: 20px;
+    color: #899F9D;
+}
+.buttonsFindByContainer{
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    gap: 10px;
+}
+.buttonFindBy{
+    background: none;
+    border: none;
+    transition: .3s;
+    cursor: pointer;
+}
+.activeFindBy{
+    border-bottom: 2px solid #CBA18A;
+    color: #CBA18A;
+}
+.inputsContainer{
+    width: 100%;
+    height: 50%;
+    align-items: center;
+    align-content: center;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    border-top: 1px solid rgb(205, 205, 205);
+}
+.inputStayFinder{
+    width: 30vw;
+    height: 6vh;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid rgb(180, 180, 180);
+    color: rgb(200, 200, 200);
+}
+.inputStayFinder:focus {
+    outline: 1px solid #4A617F;  /* Cambia el color y grosor del borde */
+    border-radius: 1px;
+}
+.searchButton{
+    width: 6vh;
+    height: 6vh;
+    background-color: #CBA18A;
+    border: 1px solid #9D7C6A;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}

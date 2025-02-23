@@ -1,0 +1,95 @@
+.multiRangeContainer{
+    width: 200px;
+    border: 1px solid #98aeac;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: #98aeac;
+}
+.multi-range-slider {
+    width: 90%;
+
+    background-color: #B2C9CE;
+    border-radius: 8px;
+    padding: 10px;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 2px !important;
+    position: relative;
+}
+
+/* Barra de fondo (inactiva) */
+.multi-range-slider .track {
+    height: 6px !important;
+    border-radius: 3px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: none !important; /* Elimina sombras internas */
+}
+
+/* Barra activa (entre perillas) */
+.multi-range-slider .bar {
+    background-color: #ff7f50 !important;
+    background: #ff7f50 !important; /* Cambia a un color visible */
+    height: 6px !important;
+    border-radius: 3px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: none !important;
+}
+
+.my-slider .range-bar {
+    box-shadow: none !important;
+}
+/* Perillas */
+.multi-range-slider .thumb {
+    background-color: white !important;
+    width: 14px !important;
+    height: 14px !important;
+    border-radius: 50%;
+    border: 2px solid #e8e8e8 !important;
+    box-shadow: none !important; /* Elimina cualquier sombra */
+    display: block !important;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: move !important;
+}
+
+/* Evita que haya perillas duplicadas */
+.multi-range-slider .thumb::after,
+.multi-range-slider .thumb::before {
+    content: none !important;
+}
+
+
+.backButton{
+    position: absolute;
+    bottom: 2px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 13px;
+}
+.labelStyle{
+
+    cursor: pointer;
+    width: 100%;
+    height: 6vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #98aeac;
+    background-color: white;
+    font-size: 13px;
+}
+.labelRange{
+    position: absolute;
+    bottom: 2px;
+    font-size: 13px;
+    color: white;
+}

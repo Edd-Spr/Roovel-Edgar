@@ -154,7 +154,6 @@ html, body{
     box-sizing: border-box;
     padding: 10px;
     border: 1px solid rgb(180, 180, 180);
-    color: rgb(200, 200, 200);
 }
 .inputStayFinder:focus {
     outline: 1px solid #4A617F;  /* Cambia el color y grosor del borde */

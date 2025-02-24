@@ -5,6 +5,7 @@ import SignInBanner from '../Components/SignInBanner.jsx';
 import RoomSlider from '../Components/RoomSlider.jsx';
 import MultiRange from '../Components/MultiRangeSlider.jsx';
 import InputButton from '../Components/InputButton.jsx';
+import AdvertisingSection from '../Components/AdvertisingSection.jsx';
 
 
 const isLogged = false;
@@ -16,6 +17,21 @@ const Home = () => {
             <StayFinder/>
             {isLogged || <SignInBanner/>}
             <RoomSlider/>
+            <AdvertisingSection
+               title='¿Tienes Habitaciónes Vacías?' 
+               description='Convierte tu espacio en una oportunidad. Publica tu habitación o casa y encuentra al roomie o inquilino ideal.'
+               direction=''
+               image="/Graphics/carousel-rooms.jpeg" 
+               position={1}
+            />
+            <AdvertisingSection
+               title='¿Problemas con los gastos compartidos?' 
+               description='Evita malentendidos y disputas por los pagos. Usa nuestra app para dividir de forma precisa y justa lo que le toca a cada uno.'
+               direction=''
+               image="/Graphics/advertising-image-div.jpeg" 
+               position={2}
+               color='#CEB6A9'
+            />
         </>
     );
 }

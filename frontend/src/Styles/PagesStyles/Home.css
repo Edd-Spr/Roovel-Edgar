@@ -133,6 +133,7 @@ html, body{
     border: none;
     transition: .3s;
     cursor: pointer;
+    color: gray;
 }
 .activeFindBy{
     border-bottom: 2px solid #CBA18A;

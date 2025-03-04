@@ -16,13 +16,21 @@ const Home = () => {
             <FeaturesCarousel/>
             <StayFinder/>
             {isLogged || <SignInBanner/>}
-            <RoomSlider/>
+            <RoomSlider
+            roomSliderTitle='Vistos Recientemente'
+            rooms={rooms}
+            />
             <AdvertisingSection
                title='¿Tienes Habitaciónes Vacías?' 
                description='Convierte tu espacio en una oportunidad. Publica tu habitación o casa y encuentra al roomie o inquilino ideal.'
                direction=''
                image="/Graphics/carousel-rooms.jpeg" 
                position={1}
+            />
+
+            <RoomSlider
+                roomSliderTitle='Recomendados'
+                rooms={rooms}
             />
             <AdvertisingSection
                title='¿Problemas con los gastos compartidos?' 
@@ -31,6 +39,7 @@ const Home = () => {
                image="/Graphics/advertising-image-div.jpeg" 
                position={2}
                color='#CEB6A9'
+               top='-100px'
             />
         </>
     );
@@ -205,7 +214,7 @@ const StayFinder = () => {
                         options={['No mascotas', 'Cualquier mascota', 'Solo Perros', 'Solo Gatos']}
                     />
                     <button className="searchButton">
-                        <img src="/Graphics/Icons/lupa.png" 
+                        <img src="/Graphics/Icons/search_icon.png" 
                         alt="" 
                         style={{width: '100%'}}/>
                     </button>
@@ -215,3 +224,55 @@ const StayFinder = () => {
         </article>
     );
 }
+
+const rooms = [
+    { 
+      id: 1, 
+      name: "Habitación Centro", 
+      address: "Av. Juárez 102, Centro, Guadalajara, JAL", 
+      image: "/Graphics/roomTr.jpeg" 
+    },
+    { 
+      id: 2, 
+      name: "Habitación Chapultepec", 
+      address: "Calle Vidrio 320, Americana, Guadalajara, JAL", 
+      image: "/Graphics/roomTr.jpeg" 
+    },
+    { 
+      id: 3, 
+      name: "Habitación Providencia y muchas más mamadas nomás para checar esta madre de la app", 
+      address: "Av. Pablo Neruda 1500, Providencia, Guadalajara, JAL y muchas más mamadas nomás para checar esta madre de la app", 
+      image: "/Graphics/roomTr.jpeg" 
+    },
+    { 
+      id: 4, 
+      name: "Habitación Zapopan", 
+      address: "Calle Santa Rita 234, Zapopan, Guadalajara, JAL", 
+      image: "/Graphics/roomTr.jpeg" 
+    },
+    { 
+      id: 5, 
+      name: "Habitación Tlaquepaque", 
+      address: "Calle Juárez 45, Centro, Tlaquepaque, JAL", 
+      image: "/Graphics/roomTr.jpeg" 
+    },
+    { 
+      id: 6, 
+      name: "Habitación Tonalá", 
+      address: "Av. Tonaltecas 555, Tonalá, Guadalajara, JAL", 
+      image: "/Graphics/roomTr.jpeg" 
+    },
+    { 
+      id: 7, 
+      name: "Habitación Minerva", 
+      address: "Av. Vallarta 2800, Minerva, Guadalajara, JAL", 
+      image: "/Graphics/roomTr.jpeg" 
+    },
+    { 
+      id: 8, 
+      name: "Habitación Andares", 
+      address: "Blvd. Puerta de Hierro 5000, Andares, Guadalajara, JAL", 
+      image: "/Graphics/roomTr.jpeg" 
+    }
+  ];
+  

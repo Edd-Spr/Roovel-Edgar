@@ -1,13 +1,27 @@
-.messageEditorContainer{
+.messageEditorContainer {
     width: 30vw;
-    height: 10vh;
-    background-color: aqua;
-    position: fixed;
+    height: auto;
+    position: absolute;
     bottom: 0;
     display: flex;
-    align-items: center;
-    border: 10px;
-    border-top: 10px;
-    border-top: black;
-    border-color: blueviolet;
+    align-items: flex-end; /* Para que se expanda hacia arriba */
+    border-top: 1px solid rgb(220, 220, 220);
+    padding-top: 10px;
+}
+.textAreaChat {
+    width: 25vw;
+    min-height: 5vh;
+    max-height: 20vh;
+    border-radius: 20px;
+    border: 5px solid rgb(235, 235, 235);
+    overflow-y: auto; /* Asegura que siempre haya scroll si es necesario */
+    margin-left: 10px;
+    background-color: rgb(235, 235, 235);
+    margin-bottom: 10px; /* Anclado abajo */
+    transition: bottom 0.1s ease-in-out; /* Transición suave */
+    outline: none;
+    background-color: rgb(223, 223, 223);
+    box-sizing: border-box; /* Esto asegura que el padding y el borde no afecten el tamaño */
+    padding: 5px;
+    resize: none; /* Evita que el usuario lo redimensione manualmente */
 }

@@ -8,6 +8,7 @@ const Chat = () =>{
   const [isOpen, setIsOpen] = useState(false);
   const [actualChat, setActualChat] = useState('');
   const [barChatOpen, setBarChatOpen] = useState(true);
+  const [activeSection, setActiveSection] = useState('chats')
   const [user, setUser] = useState(222);
 
     return (
@@ -20,15 +21,21 @@ const Chat = () =>{
             setBarChatOpen={setBarChatOpen}
             setActualChat={setActualChat}
             setIsOpen={setIsOpen}
+            activeSection={activeSection}
+            setActiveSection={setActiveSection}
         />
 
-        <ContactsContainer
+
+        {activeSection == 'chats' ? <ContactsContainer
             setActualChat={setActualChat}
             setIsOpen={setIsOpen}
             perfiles={perfiles}
             barChatOpen={barChatOpen}
             setBarChatOpen={setBarChatOpen}
-        />
+        /> : 
+        <FriendsRequest/>
+    
+    }
 
         {isOpen && 
         <ChatOpen
@@ -43,14 +50,45 @@ const Chat = () =>{
     );
   }
 
-const LeftBarChat = ({grupos, barChatOpen, setBarChatOpen, setActualChat, setIsOpen}) => {
+const LeftBarChat = ({grupos, barChatOpen, setBarChatOpen, setActualChat, setIsOpen, activeSection, setActiveSection}) => {
 
     return (
 
         <div className='leftBarChat' style={barChatOpen ? {} : {width: '20vw'}}>
 
+            <button className="leftBarButtonAction" 
+                style={{ width: barChatOpen == false ? '20vw' : '9vh' }}
+                onClick={() => setActiveSection('chats')}>
+                <img 
+                    src="/Graphics/Icons/chat_bubble.png" 
+                    alt="" 
+                    draggable='false'
+                    style={{height: '60%'}}
+                    className='iconLeftBarButtonAction'
+                    />
+            </button>
+
+            <button className="leftBarButtonAction" 
+                style={{ width: barChatOpen == false ? '20vw' : '9vh' }}
+                onClick={() => {
+                    setActiveSection('friends')
+                    setBarChatOpen(true)
+                }}
+                >
+                <img 
+                    src="/Graphics/Icons/friend_request.png" 
+                    alt="" 
+                    draggable='false'
+                    style={{height: '60%'}}
+                    className='iconLeftBarButtonAction'
+                    />
+            </button>
+        
+            {activeSection == 'chats' &&
+            <>
             {grupos.map((perfil) => 
                 <ChatBox
+                    key={perfil.nombre} 
                     image={perfil.imagen}
                     name={perfil.nombre}
                     setActualChat={setActualChat}
@@ -65,8 +103,18 @@ const LeftBarChat = ({grupos, barChatOpen, setBarChatOpen, setActualChat, setIsO
                 barChatOpen={barChatOpen}
                 setBarChatOpen={setBarChatOpen}
             />
+            </>
+        }
         </div>
 
+    );
+}
+
+const FriendsRequest = () => {
+    return (
+        <div className="friendsRequestContainer">
+
+        </div>
     );
 }
 
@@ -75,7 +123,12 @@ const ToggleChatButton = ({setBarChatOpen, barChatOpen}) =>{
     return(
 
         <button className='toggleChatButton' onClick={()=>setBarChatOpen(!barChatOpen)}>
-
+            <img 
+                src="/Graphics/Icons/flechas.png" 
+                alt="" 
+                style={{width: '100%'}}
+                draggable='false'
+                />
         </button>
 
     );

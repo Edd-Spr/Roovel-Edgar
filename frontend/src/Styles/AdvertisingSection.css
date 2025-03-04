@@ -20,6 +20,7 @@
 }
 .imgAdvertising{
     width: 100%;
+    position: absolute;
 }
 .bluAdvertising{
     background-color: #9EBAB7;

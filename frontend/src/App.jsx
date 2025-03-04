@@ -8,7 +8,8 @@ function App() {
   return (
     <div style={{ display: "flex", flexWrap: "wrap" }}>
       <NavBar/>
-      <Home/>
+      {/*<Home/>*/}
+      <MatchingPage/>
     </div>
 )
 }

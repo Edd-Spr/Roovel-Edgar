@@ -9,7 +9,8 @@ const styleRoommatesContainer = {
   justifyContent: 'center',
   alignItems: 'flex-start',
   alignContent: 'flex-start',
-  overflow: 'scroll'
+  overflow: 'scroll',
+  backgroundColor: '#E5E7EB',
 
 }
 const styleRoommatesResult = {
@@ -25,7 +26,7 @@ const styleRoommatesResult = {
       <div style={styleRoommatesContainer}>
         <div style={styleRoommatesResult}>
           <SearchFilter/>
-          {perfilesRoomies.map(() => <MatchProfileBox/>)}
+          {perfilesRoomies.map((perfil) => <MatchProfileBox key={perfil.id}/>)}
         </div>
         
       </div>

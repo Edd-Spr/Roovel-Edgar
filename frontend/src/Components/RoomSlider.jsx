@@ -7,7 +7,7 @@ const CustomLeftArrow = ({ onClick }) => (
     <button className="custom-arrow custom-left-arrow" onClick={onClick}>
         <span>
             <img 
-                src="/Graphics/Icons/left-row-icon.png" 
+                src="/Graphics/Icons/arrow_back.png" 
                 alt="" 
                 draggable="false"
                 style={{height: '70%'}}
@@ -20,7 +20,7 @@ const CustomRightArrow = ({ onClick }) => (
     <button className="custom-arrow custom-right-arrow" onClick={onClick}>
         <span>
             <img 
-                src="/Graphics/Icons/rigth-row-icon.png" 
+                src="/Graphics/Icons/arrow_forward.png" 
                 alt="" 
                 draggable="false"
                 style={{height: '70%'}}

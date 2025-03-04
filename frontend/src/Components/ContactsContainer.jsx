@@ -30,6 +30,7 @@ const ContactsContainer = ({setActualChat, setIsOpen, perfiles, barChatOpen, set
       
       {perfiles.map((perfil) => 
         <ChatBox
+          key={perfil.id}
           image={perfil.imagen}
           name={perfil.nombre}
           setActualChat={setActualChat}

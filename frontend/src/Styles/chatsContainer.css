@@ -26,4 +26,36 @@
 .toggleChatButton{
     width: 6vh;
     height: 6vh;
+    background: none;
+    border: none;
+    transition: .3s;
+    position: absolute;
+    bottom: 0;
+    margin: 1vh;
+}
+.toggleChatButton:hover{
+
+    width: 6.5vh;
+    height: 6.5vh;
+}
+
+.leftBarButtonAction{
+    height: 8vh;
+    transition: .3s;
+    border: none;
+    background: none;
+    text-align: left;
+}
+.iconLeftBarButtonAction{
+margin-left: 1vh;
+}
+.leftBarButtonAction:hover{
+    background-color: #b5a296;
+}
+.friendsRequestContainer{
+    width: 20vw;
+    height: 92vh;
+    background-color: white;
+    border-right: 1px solid #b5a296;
+    transition: .3s;
 }

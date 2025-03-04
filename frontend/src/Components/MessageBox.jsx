@@ -2,7 +2,6 @@ import '../Styles/MessageBox.css';
 
 const MessageBox = ({messages, info, chatUserId, user}) =>{
 
-    console.log(chatUserId);
     const flag = true;
     return (
         <div className="messageBoxContainer" style={messages.idRemitente === user ? {justifyContent: 'flex-end'} : {justifyContent: 'flex-start'}}>

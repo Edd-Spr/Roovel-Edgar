@@ -214,7 +214,7 @@ const StayFinder = () => {
                         options={['No mascotas', 'Cualquier mascota', 'Solo Perros', 'Solo Gatos']}
                     />
                     <button className="searchButton">
-                        <img src="/Graphics/Icons/lupa.png" 
+                        <img src="/Graphics/Icons/search_icon.png" 
                         alt="" 
                         style={{width: '100%'}}/>
                     </button>

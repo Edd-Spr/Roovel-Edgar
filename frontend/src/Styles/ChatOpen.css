@@ -81,7 +81,8 @@
     justify-content: center;
     font-size: 3.2vh;
     margin: 10px;
-    color: #4A617F
+    color: #4A617F;
+    text-align: center;
 }
 .infoDescription{
 

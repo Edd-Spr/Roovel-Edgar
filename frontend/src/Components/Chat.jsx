@@ -8,7 +8,9 @@ const Chat = () =>{
   const [isOpen, setIsOpen] = useState(false);
   const [actualChat, setActualChat] = useState('');
   const [barChatOpen, setBarChatOpen] = useState(true);
-  const [activeSection, setActiveSection] = useState('chats')
+  const [leftBarButtonPressed, setLeftBarButtonPressed] = useState(false);
+  const [activeSection, setActiveSection] = useState('chats');
+
   const [user, setUser] = useState(222);
 
     return (
@@ -19,14 +21,18 @@ const Chat = () =>{
             grupos={grupos}
             barChatOpen={barChatOpen}
             setBarChatOpen={setBarChatOpen}
+            actualChat={actualChat}
             setActualChat={setActualChat}
             setIsOpen={setIsOpen}
             activeSection={activeSection}
             setActiveSection={setActiveSection}
+            leftBarButtonPressed={leftBarButtonPressed}
+            setLeftBarButtonPressed={setLeftBarButtonPressed}
         />
 
 
         {activeSection == 'chats' ? <ContactsContainer
+            actualChat={actualChat}
             setActualChat={setActualChat}
             setIsOpen={setIsOpen}
             perfiles={perfiles}
@@ -50,15 +56,28 @@ const Chat = () =>{
     );
   }
 
-const LeftBarChat = ({grupos, barChatOpen, setBarChatOpen, setActualChat, setIsOpen, activeSection, setActiveSection}) => {
+const LeftBarChat = ({grupos, barChatOpen, setBarChatOpen, actualChat, setActualChat, setIsOpen, activeSection, setActiveSection, leftBarButtonPressed, setLeftBarButtonPressed}) => {
 
+    function chatClick(){
+        setLeftBarButtonPressed(false);
+        setActiveSection('chats');
+    }
+    function friendsClick(){
+        setLeftBarButtonPressed(true)
+        setActiveSection('friends')
+        setBarChatOpen(true)
+    }
     return (
 
-        <div className='leftBarChat' style={barChatOpen ? {} : {width: '20vw'}}>
+        <div className='leftBarChat' style={barChatOpen ? {} : {width: '20vw'}} >
 
             <button className="leftBarButtonAction" 
-                style={{ width: barChatOpen == false ? '20vw' : '9vh' }}
-                onClick={() => setActiveSection('chats')}>
+                style={{ 
+                    width: barChatOpen === false ? '20vw' : '9vh',
+                    background: leftBarButtonPressed == false ? 'gray' : 'transparent',
+                }}
+                onClick={chatClick}
+            >
                 <img 
                     src="/Graphics/Icons/chat_bubble.png" 
                     alt="" 
@@ -69,12 +88,11 @@ const LeftBarChat = ({grupos, barChatOpen, setBarChatOpen, setActualChat, setIsO
             </button>
 
             <button className="leftBarButtonAction" 
-                style={{ width: barChatOpen == false ? '20vw' : '9vh' }}
-                onClick={() => {
-                    setActiveSection('friends')
-                    setBarChatOpen(true)
-                }}
-                >
+                style={{ 
+                    width: barChatOpen == false ? '20vw' : '9vh', 
+                    background: leftBarButtonPressed == true ? 'gray' : 'transparent' }}
+                onClick={friendsClick}
+            >
                 <img 
                     src="/Graphics/Icons/friend_request.png" 
                     alt="" 
@@ -88,9 +106,11 @@ const LeftBarChat = ({grupos, barChatOpen, setBarChatOpen, setActualChat, setIsO
             <>
             {grupos.map((perfil) => 
                 <ChatBox
-                    key={perfil.nombre} 
+                    key={perfil.id}
+                    chatKey={perfil.id}
                     image={perfil.imagen}
                     name={perfil.nombre}
+                    actualChat={actualChat}
                     setActualChat={setActualChat}
                     setIsOpen={setIsOpen}
                     infoProfile={perfil}
@@ -136,8 +156,9 @@ const ToggleChatButton = ({setBarChatOpen, barChatOpen}) =>{
   
 const perfiles = [
     {
-        id: 1,
-        nombre: "Carlos Gómez",
+        id: 'p-1',
+        chatType: 'profile',
+        nombre: "Carlos Gómez Hernandez Guadalupe",
         imagen: "imagen1.jpeg",
         descripcion: "Aficionado al fútbol y la tecnología. Siempre en busca de nuevos retos.",
         mensajes: [
@@ -146,7 +167,8 @@ const perfiles = [
         ]
     },
     {
-        id: 2,
+        id: 'p-2',
+        chatType: 'profile',
         nombre: "María Rodríguez",
         imagen: "imagen2.jpeg",
         descripcion: "Amante del cine y la buena comida. Me encanta salir con amigos.",
@@ -156,7 +178,8 @@ const perfiles = [
         ]
     },
     {
-        id: 3,
+        id: 'p-3',
+        chatType: 'profile',
         nombre: "Luis Fernández",
         imagen: "imagen3.jpeg",
         descripcion: "Apasionado por la música y los videojuegos. Siempre dispuesto a ayudar.",
@@ -167,7 +190,8 @@ const perfiles = [
         ]
     },
     {
-        id: 4,
+        id: 'p-4',
+        chatType: 'profile',
         nombre: "Sofía Méndez",
         imagen: "imagen4.jpeg",
         descripcion: "Me encanta viajar y conocer nuevas culturas. La fotografía es mi pasión.",
@@ -177,7 +201,8 @@ const perfiles = [
         ]
     },
     {
-        id: 5,
+        id: 'p-5',
+        chatType: 'profile',
         nombre: "Javier Ramírez",
         imagen: "imagen5.jpeg",
         descripcion: "Programador de corazón. Me encanta el café y los retos de código.",
@@ -187,7 +212,8 @@ const perfiles = [
         ]
     },
     {
-        id: 6,
+        id: 'p-6',
+        chatType: 'profile',
         nombre: "Elena Torres",
         imagen: "imagen6.jpeg",
         descripcion: "Amo la lectura y la ciencia ficción. Escritora en mi tiempo libre.",
@@ -197,7 +223,8 @@ const perfiles = [
         ]
     },
     {
-        id: 7,
+        id: 'p-7',
+        chatType: 'profile',
         nombre: "Ricardo Pérez",
         imagen: "imagen7.jpeg",
         descripcion: "Amante del senderismo y la aventura. Siempre buscando la siguiente expedición.",
@@ -207,7 +234,8 @@ const perfiles = [
         ]
     },
     {
-        id: 8,
+        id: 'p-8',
+        chatType: 'profile',
         nombre: "Gabriela Sánchez",
         imagen: "imagen8.jpeg",
         descripcion: "Amante de los animales y la naturaleza. Siempre en busca de nuevas experiencias.",
@@ -217,7 +245,8 @@ const perfiles = [
         ]
     },
     {
-        id: 9,
+        id: 'p-9',
+        chatType: 'profile',
         nombre: "David Castro",
         imagen: "imagen9.jpeg",
         descripcion: "Ingeniero de software. Me encanta la inteligencia artificial y los videojuegos.",
@@ -227,7 +256,8 @@ const perfiles = [
         ]
     },
     {
-        id: 10,
+        id: 'p-10',
+        chatType: 'profile',
         nombre: "Andrea López",
         imagen: "imagen10.jpeg",
         descripcion: "Bailarina y fan de los videojuegos. Siempre en movimiento.",
@@ -237,7 +267,8 @@ const perfiles = [
         ]
     },
     {
-        id: 11,
+        id: 'p-11',
+        chatType: 'profile',
         nombre: "Fernando Ríos",
         imagen: "imagen11.jpeg",
         descripcion: "Músico y productor. Apasionado por los sonidos y la creatividad.",
@@ -247,7 +278,8 @@ const perfiles = [
         ]
     },
     {
-        id: 12,
+        id: 'p-12',
+        chatType: 'profile',
         nombre: "Valeria Martínez",
         imagen: "imagen12.jpeg",
         descripcion: "Diseñadora gráfica. Amante del arte y la ilustración.",
@@ -259,7 +291,8 @@ const perfiles = [
 ];
 const grupos = [
     {
-        id: 111,
+        id: 'g-1',
+        chatType: 'grupo',
         nombre: "Grupo de Tecnología",
         imagen: "grupo1.jpeg",
         descripcion: "Discusiones sobre tecnología, programación y IA.",
@@ -275,7 +308,8 @@ const grupos = [
         ]
     },
     {
-        id: 22,
+        id: 'g-2',
+        chatType: 'grupo',
         nombre: "Grupo de Cine y Series",
         imagen: "grupo2.jpeg",
         descripcion: "Compartimos opiniones sobre películas y series.",
@@ -291,7 +325,8 @@ const grupos = [
         ]
     },
     {
-        id: 33,
+        id: 'g-3',
+        chatType: 'grupo',
         nombre: "Grupo de Música",
         imagen: "grupo3.jpeg",
         descripcion: "Compartimos música y recomendaciones.",
@@ -307,7 +342,8 @@ const grupos = [
         ]
     },
     {
-        id: 44,
+        id: 'g-4',
+        chatType: 'grupo',
         nombre: "Grupo de Viajes",
         imagen: "grupo4.jpeg",
         descripcion: "Compartimos experiencias y recomendaciones de viajes.",
@@ -323,7 +359,8 @@ const grupos = [
         ]
     },
     {
-        id: 55,
+        id: 'g-5',
+        chatType: 'grupo',
         nombre: "Grupo de Videojuegos",
         imagen: "grupo5.jpeg",
         descripcion: "Discusiones sobre videojuegos y recomendaciones.",

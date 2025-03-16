@@ -1,14 +1,15 @@
 .chatContainer{
     display: flex;
+    position: absolute;
 }
-.chatSection{
+.chatContactsSection{
     width: 20vw;
     height: 92vh;
-    background-color: #E2DAD0;
     flex-wrap: wrap;
     justify-content: center;
     align-content: flex-start;
     overflow: scroll;
+    background-color: #E2DAD0;
 }
 .chatSearchContainer{
     width: 100%;

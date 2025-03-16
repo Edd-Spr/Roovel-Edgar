@@ -1,5 +1,5 @@
 .messageEditorContainer {
-    width: 30vw;
+    width: 55vw;
     height: auto;
     position: absolute;
     bottom: 0;
@@ -7,10 +7,11 @@
     align-items: flex-end; /* Para que se expanda hacia arriba */
     border-top: 1px solid rgb(220, 220, 220);
     padding-top: 10px;
+    background-color: rgb(255, 255, 255);
 }
 .textAreaChat {
-    width: 25vw;
-    min-height: 5vh;
+    width: 50vw;
+    min-height: 6vh;
     max-height: 20vh;
     border-radius: 20px;
     border: 5px solid rgb(235, 235, 235);

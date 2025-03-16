@@ -5,7 +5,7 @@ import { useState } from 'react';
 import ContactsContainer from './ContactsContainer.jsx';
 
 const Chat = () =>{
-  const [isOpen, setIsOpen] = useState(false);
+  const [chatIsOpen, setChatIsOpen] = useState(false);
   const [actualChat, setActualChat] = useState('');
   const [barChatOpen, setBarChatOpen] = useState(true);
   const [leftBarButtonPressed, setLeftBarButtonPressed] = useState(false);
@@ -16,47 +16,48 @@ const Chat = () =>{
     return (
 
       <article className="chatContainer">
+        <section style={{zIndex: '1000', display: 'flex'}}>
+            <LeftBarChat
+                grupos={grupos}
+                barChatOpen={barChatOpen}
+                setBarChatOpen={setBarChatOpen}
+                actualChat={actualChat}
+                setActualChat={setActualChat}
+                setChatIsOpen={setChatIsOpen}
+                activeSection={activeSection}
+                setActiveSection={setActiveSection}
+                leftBarButtonPressed={leftBarButtonPressed}
+                setLeftBarButtonPressed={setLeftBarButtonPressed}
+            />
 
-        <LeftBarChat
-            grupos={grupos}
-            barChatOpen={barChatOpen}
-            setBarChatOpen={setBarChatOpen}
-            actualChat={actualChat}
-            setActualChat={setActualChat}
-            setIsOpen={setIsOpen}
-            activeSection={activeSection}
-            setActiveSection={setActiveSection}
-            leftBarButtonPressed={leftBarButtonPressed}
-            setLeftBarButtonPressed={setLeftBarButtonPressed}
-        />
 
+            {activeSection == 'chats' ? <ContactsContainer
+                actualChat={actualChat}
+                setActualChat={setActualChat}
+                setChatIsOpen={setChatIsOpen}
+                perfiles={perfiles}
+                barChatOpen={barChatOpen}
+                setBarChatOpen={setBarChatOpen}
+            /> : 
+            <FriendsRequest/>
+            }
 
-        {activeSection == 'chats' ? <ContactsContainer
-            actualChat={actualChat}
-            setActualChat={setActualChat}
-            setIsOpen={setIsOpen}
-            perfiles={perfiles}
-            barChatOpen={barChatOpen}
-            setBarChatOpen={setBarChatOpen}
-        /> : 
-        <FriendsRequest/>
+        </section>
     
-    }
-
-        {isOpen && 
         <ChatOpen
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
+            chatIsOpen={chatIsOpen}
+            setChatIsOpen={setChatIsOpen}
             infoProfile={[...perfiles, ...grupos].find((perfil) => perfil.id === actualChat)}
             user={user}
-        />}
+            setActualChat={setActualChat}
+        />
 
       </article>
 
     );
   }
 
-const LeftBarChat = ({grupos, barChatOpen, setBarChatOpen, actualChat, setActualChat, setIsOpen, activeSection, setActiveSection, leftBarButtonPressed, setLeftBarButtonPressed}) => {
+const LeftBarChat = ({grupos, barChatOpen, setBarChatOpen, actualChat, setActualChat, setChatIsOpen, activeSection, setActiveSection, leftBarButtonPressed, setLeftBarButtonPressed}) => {
 
     function chatClick(){
         setLeftBarButtonPressed(false);
@@ -112,7 +113,7 @@ const LeftBarChat = ({grupos, barChatOpen, setBarChatOpen, actualChat, setActual
                     name={perfil.nombre}
                     actualChat={actualChat}
                     setActualChat={setActualChat}
-                    setIsOpen={setIsOpen}
+                    setChatIsOpen={setChatIsOpen}
                     infoProfile={perfil}
                     barChatOpen={barChatOpen}
                     setBarChatOpen={setBarChatOpen}

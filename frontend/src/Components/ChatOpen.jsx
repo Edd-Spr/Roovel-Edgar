@@ -3,26 +3,36 @@ import '../Styles/ChatOpen.css';
 import MessageBox from './MessageBox';
 import MessageEditor from './MessageEditor';
 
-const ChatOpen = ({ infoProfile, setIsOpen, user }) => {
+const ChatOpen = ({ infoProfile, chatIsOpen, setChatIsOpen, user, setActualChat }) => {
     const [messageContainerHeight, setMessageContainerHeight] = useState(window.innerHeight * 0.85);
 
     return (
-        <section className="ChatOpen">
-            <ContactBar infoProfile={infoProfile} setIsOpen={setIsOpen} />
-            <MessageContainer infoProfile={infoProfile} user={user} messageContainerHeight={messageContainerHeight} />
-            <MessageEditor setMessageContainerHeight={setMessageContainerHeight} />
+        <section className="chatOpenContainer" style={{ width: chatIsOpen && '55vw'}}>
+            <section className="ChatOpen" >
+                <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat}/>
+                <MessageContainer infoProfile={infoProfile} user={user} messageContainerHeight={messageContainerHeight} />
+                <MessageEditor setMessageContainerHeight={setMessageContainerHeight} />
+            </section>
         </section>
     );
 };
 
-function ContactBar({ infoProfile, setIsOpen }) {
+function ContactBar({ infoProfile, setChatIsOpen, setActualChat }) {
+
+    function close(){
+        setChatIsOpen(false) 
+        setTimeout(() => setActualChat(''), 400)
+        
+    }
     return (
         <div className="contactBar">
             <div className="contactBarPhotoContainer">
-                <img src={`/PhotoProfiles/${infoProfile.imagen}`} alt="" className='contactBarPhoto' />
+                <img src={`/PhotoProfiles/${infoProfile?.imagen}`} alt="" className="contactBarPhoto" />
             </div>
-            <p className="profileName">{infoProfile.nombre}</p>
-            <button className="closeChat" onClick={() => setIsOpen(false)}>
+
+            <p className="profileName">{infoProfile?.nombre}</p>
+    
+            <button className="closeChat" onClick={close}>
                 <img 
                     src="/Graphics/Icons/close.png" 
                     alt="" 
@@ -37,10 +47,10 @@ function InfoChatSection({ infoProfile }) {
     return (
         <div className="infoChatSection">
             <div className="InfoPhotoContainer">
-                <img src={`/PhotoProfiles/${infoProfile.imagen}`} alt="" className='contactBarPhoto' />
+                <img src={`/PhotoProfiles/${infoProfile?.imagen}`} alt="" className='contactBarPhoto' />
             </div>
-            <p className="infoName">{infoProfile.nombre}</p>
-            <p className="infoDescription">{infoProfile.descripcion}</p>
+            <p className="infoName">{infoProfile?.nombre}</p>
+            <p className="infoDescription">{infoProfile?.descripcion}</p>
         </div>
     );
 }
@@ -49,19 +59,18 @@ function MessageContainer({ infoProfile, user, messageContainerHeight }) {
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
-        if (!infoProfile.mensajes) return;
+        if (!infoProfile?.mensajes) return;
 
         messagesEndRef.current?.scrollIntoView();
-    }, [infoProfile.mensajes]);
+    }, [infoProfile?.mensajes]);
 
     return (
         <div className='messageContainer' style={{ height: messageContainerHeight, overflowY: 'auto' }}>
-            <InfoChatSection infoProfile={infoProfile} />
-            {infoProfile.mensajes?.map((info) => (
+            {infoProfile?.mensajes?.map((info, index) => (
                 <MessageBox
-                    key={info.id}
+                    key={index}
                     messages={info}
-                    chatUserId={infoProfile.id}
+                    chatUserId={infoProfile?.id}
                     user={user}
                 />
             ))}

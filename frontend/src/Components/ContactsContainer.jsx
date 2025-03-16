@@ -3,14 +3,14 @@ import SearchInput from '../Components/SearchInput.jsx';
 import '../Styles/chatsContainer.css';
 import { useState } from 'react';
 
-const ContactsContainer = ({actualChat, setActualChat, setIsOpen, perfiles, barChatOpen, setBarChatOpen}) => {
+const ContactsContainer = ({actualChat, setActualChat, setChatIsOpen, perfiles, barChatOpen, setBarChatOpen}) => {
 
     return (
         <div className="contactsContainer" style={{display: 'flex'}}>
             <ContactsSection
               actualChat={actualChat}
               setActualChat={setActualChat}
-              setIsOpen={setIsOpen}
+              setChatIsOpen={setChatIsOpen}
               perfiles={perfiles}
               barChatOpen={barChatOpen}
               setBarChatOpen={setBarChatOpen}
@@ -20,10 +20,10 @@ const ContactsContainer = ({actualChat, setActualChat, setIsOpen, perfiles, barC
   }
 
 
-  const ContactsSection = ({actualChat, setActualChat, setIsOpen, perfiles, barChatOpen, setBarChatOpen}) =>{
+  const ContactsSection = ({actualChat, setActualChat, setChatIsOpen, perfiles, barChatOpen, setBarChatOpen}) =>{
 
     return (
-    <div className="chatSection" style={{ width: barChatOpen ? '20vw' : '9vh', transition: '.3s'}}>
+    <div className="chatContactsSection" style={{ width: barChatOpen ? '20vw' : '9vh', transition: '.3s'}}>
 
       <div className="chatSearchContainer">
         <SearchInput size={barChatOpen ? 18 : 2.5}/>
@@ -37,7 +37,7 @@ const ContactsContainer = ({actualChat, setActualChat, setIsOpen, perfiles, barC
           image={perfil.imagen}
           name={perfil.nombre}
           setActualChat={setActualChat}
-          setIsOpen={setIsOpen}
+          setChatIsOpen={setChatIsOpen}
           infoProfile={perfil}
           barChatOpen={barChatOpen}
           setBarChatOpen={setBarChatOpen}

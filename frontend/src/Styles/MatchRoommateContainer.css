@@ -1,0 +1,228 @@
+.matchRoommateContainer{
+    width: 76vw;
+    height: 92vh;
+}
+.matchCardContainer{
+    width: 55vw;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(245, 245, 245);
+    border-right: 1px solid rgb(160, 160, 160);
+    margin-left: 24vw;
+}
+.cardContainer{
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgb(217, 217, 217);
+}
+.matchCard{
+    height: 85vh;
+    width: 55vh;
+    background-color: rgb(204, 204, 204);
+    box-shadow: 0 0 10px 5px rgb(192, 192, 192);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+}
+.matchCardProfileImage{
+    height: 120%;
+    position: absolute;
+    user-select: none;
+}
+.imageButton{
+    position: absolute;
+    width: 5vh;
+    height: 5vh;
+    border: none;
+    background: none;
+    border-radius: 100%;
+    background-color: rgba(0, 0, 0, 0.307);
+    transition: .3s;
+
+    user-select: none;
+    cursor: pointer;
+}
+.imageButton:hover{
+    background-color: rgba(0, 0, 0, 0.444);
+}
+.activeThumbnailContainer{
+    width: 100%;
+    height: 5vh;
+    position: absolute;
+    top: 0;
+    display: flex;
+    gap: 5px;
+    box-sizing: border-box;
+    padding: 10px;
+    align-items: center;
+}
+.thumbnail{
+    width: 100%;
+    height: 0.5vh;
+    border-radius: 10px;
+    border: 0.9px solid white;
+    transition: .3s;
+}
+.activeThumbnail{
+    background-color: white;
+}
+.matchActions {
+    position: absolute;
+    width: 55vh;
+    height: 25vh;
+    bottom: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 30%, rgba(0, 0, 0, 0) 100%); 
+}
+/*  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 30%, rgba(0, 0, 0, 0) 100%); */
+.firstInfoContainer{
+    width: 100%;
+    height: 12vh;
+    box-sizing: border-box;
+    padding: 2vh;
+}
+.firstInfoInInfoCardContainer{
+    width: 55vh;
+    height: 12vh;
+    box-sizing: border-box;
+    padding: 3vh;
+}
+.ageAndNameContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.ageAndNameInfoCardContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: black;
+}
+.profileNameMatchCard{
+    color: white;
+    max-width: 40vh;
+    font-family: 'Poppins', sans-serif;
+    font-size: 4vh;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    user-select: none;
+    pointer-events: none;
+}
+.profileAgeMatchCard{
+    font-size: 4vh;
+    color: white;
+    margin: 0;
+    margin-left: 2vh;
+    user-select: none;
+    pointer-events: none;
+}
+.profileLocationMatchCard{
+    margin: 0;
+    color: white;
+    font-size: 2vh;
+    user-select: none;
+    pointer-events: none;
+}
+.actionButtonsContainer{
+    width: 100%;
+    height: 11vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2vh;
+    gap: 20px;
+}
+.interactWithMatchCard{
+    width: 10vh;
+    height: 10vh;
+    border-radius: 100%;
+    border: 1px solid white;
+    color: white;
+    background: none;
+
+    user-select: none;
+    cursor: pointer;
+}
+.smallInteractWithMatchCard{
+    width: 6vh;
+    height: 6vh;
+    border-radius: 100%;
+    border: 1px solid white;
+    color: white;
+    background: none;
+    cursor: pointer;
+    user-select: none;
+}
+.profileCardInfoContainer{
+    width: 0;
+    position: relative;
+    transition: .5s;
+}
+.profileCardInfo{
+    width: 55vh;
+    position: absolute;
+    right: 0;
+    height: 85vh;
+    transition: 0.5s;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+.closeInfoCard{
+    width: 5vh;
+    height: 5vh;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 100%;
+    border: none;
+    background: none;
+    transition: .3s;
+    opacity: 70%;
+    cursor: pointer;
+    z-index: 1;
+    user-select: none;
+}
+.closeInfoCard:hover{
+    opacity: 100%;
+}
+
+.tagsContainer{
+    width: 55vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 7px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.tagProfileCard{
+    background-color: #CBA18A;
+    color: white;
+    padding: 5px;
+    height: 2vh;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    font-size: 2vh;
+    user-select: none;
+    margin: 0;
+}

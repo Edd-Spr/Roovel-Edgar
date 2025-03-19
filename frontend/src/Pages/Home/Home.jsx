@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { motion } from "framer-motion";
 import '../Styles/PagesStyles/Home.css';
-import SignInBanner from '../Components/SignInBanner.jsx';
-import RoomSlider from '../Components/RoomSlider.jsx';
-import MultiRange from '../Components/MultiRangeSlider.jsx';
-import InputButton from '../Components/InputButton.jsx';
-import AdvertisingSection from '../Components/AdvertisingSection.jsx';
+import SignInBanner from '../../Components/SignInBanner/SignInBanner.jsx';
+import RoomSlider from '../../Components/RoomSlider/RoomSlider.jsx';
+import MultiRange from '../../Components/MultiRangeSlider/MultiRangeSlider.jsx';
+import InputButton from '../../Components/InputButton/InputButton.jsx';
+import AdvertisingSection from '../../Components/AdvertisingSection/AdvertisingSection.jsx';
 
 
 const isLogged = false;

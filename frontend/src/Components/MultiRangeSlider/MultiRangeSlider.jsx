@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import '../Styles/MultiRangeSlider.css'
+import './MultiRangeSlider.css'
 import MultiRangeSlider from "multi-range-slider-react";
 
 const MultiRange = ({minValue, maxValue, set_minValue, set_maxValue, min, max, actualValue, setActualValue}) => {

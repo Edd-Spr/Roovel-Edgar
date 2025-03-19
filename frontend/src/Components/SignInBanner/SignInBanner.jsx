@@ -1,4 +1,4 @@
-import '../Styles/SignInBanner.css';
+import './SignInBanner.css';
 
 const SignInBanner = () => {
     return (

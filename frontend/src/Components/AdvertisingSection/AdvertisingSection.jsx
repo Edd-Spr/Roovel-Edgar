@@ -1,4 +1,4 @@
-import '../Styles/AdvertisingSection.css'
+import './AdvertisingSection.css'
 
 const AdvertisingSection = ({title, description, direction,image, position, color, top}) => {
     return (

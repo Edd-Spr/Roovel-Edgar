@@ -1,4 +1,4 @@
-import '../Styles/InputButton.css'
+import './InputButton.css'
 
 const InputButton = ({ valueInput, setValueInput, options, radius, height }) => {
 

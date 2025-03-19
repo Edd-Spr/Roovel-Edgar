@@ -1,7 +1,7 @@
-import '../Styles/PagesStyles/Authentication.css'
-import InputForm from '../Components/InputForm';
+import './Authentication.css'
+import InputForm from '../../Components/InputForm/InputForm';
 import BounceLoader from "react-spinners/BounceLoader";
-import ProfileCustomization from '../Components/ProfileCustomization';
+import ProfileCustomization from '../../Components/ProfileCustomization/ProfileCustomization';
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from 'react';
 
@@ -9,7 +9,7 @@ import { useState } from 'react';
 const Authentication = () => {
     const [signInSignUp, setSignInSignUp] = useState(false);
     const [authenticationIsLoading, setAuthenticationIsLoading] = useState(false);
-    const [customizationStep, setCustomizationStep] = useState(true);
+    const [customizationStep, setCustomizationStep] = useState(false);
 
     return (
         <main className='authentication'>

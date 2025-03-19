@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from "framer-motion";
-import '../Styles/PagesStyles/Home.css';
+import './Home.css';
 import SignInBanner from '../../Components/SignInBanner/SignInBanner.jsx';
 import RoomSlider from '../../Components/RoomSlider/RoomSlider.jsx';
 import MultiRange from '../../Components/MultiRangeSlider/MultiRangeSlider.jsx';

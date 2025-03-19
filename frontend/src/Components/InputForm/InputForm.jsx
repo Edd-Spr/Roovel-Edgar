@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import '../Styles/InputForm.css'
+import './InputForm.css'
 
 const InputForm = ({title, type, Width, Height, options}) => {
 

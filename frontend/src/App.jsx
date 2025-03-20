@@ -1,5 +1,5 @@
 import NavBar from './Components/NavBar.jsx';
-import Authentication from './Pages/Authentication.jsx';
+import Authentication from './Pages/Authentication/Authentication.jsx';
 import Home from './Pages/Home/Home.jsx';
 import MatchingPage from './Pages/RoommateMatchingPage.jsx';
 
@@ -13,8 +13,7 @@ function App() {
       <MatchingPage/>
       <Authentication/>
       */}
-      <NavBar/>
-      <Home/>
+      <Authentication/>
     </div>
 )
 }

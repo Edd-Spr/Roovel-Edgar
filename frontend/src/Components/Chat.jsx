@@ -3,7 +3,7 @@ import ChatBox from './ChatBox.jsx';
 import '../Styles/chatsContainer.css';
 import { useState } from 'react';
 import ContactsContainer from './ContactsContainer.jsx';
-
+import {getMessages} from '../templade/callback_chat_messges.js'
 const Chat = () =>{
   const [chatIsOpen, setChatIsOpen] = useState(false);
   const [actualChat, setActualChat] = useState('');
@@ -154,7 +154,7 @@ const ToggleChatButton = ({setBarChatOpen, barChatOpen}) =>{
 
     );
 }
-  
+console.log(getMessages(2,1))
 const perfiles = [
     {
         id: 'p-1',
@@ -163,9 +163,10 @@ const perfiles = [
         imagen: "imagen1.jpeg",
         descripcion: "Aficionado al fútbol y la tecnología. Siempre en busca de nuevos retos.",
         mensajes: [
-            { idRemitente: 1, remitente: "Carlos", contenido: "¡Hola! ¿Cómo va tu día?", timestamp: "2024-07-01 09:00 AM" },
-            { idRemitente: 222, remitente: "María", contenido: "Bien, ¿y el tuyo?", timestamp: "2024-07-01 09:05 AM" }
+            { idRemitente: 4, remitente: "Sofía", contenido: "¡Feliz cumpleaños! 🎉", timestamp: "2024-07-04 08:00 AM" },
+            { idRemitente: 222, remitente: "María", contenido: "¡Gracias! Qué lindo detalle. 💖", timestamp: "2024-07-04 08:05 AM" }
         ]
+        
     },
     {
         id: 'p-2',

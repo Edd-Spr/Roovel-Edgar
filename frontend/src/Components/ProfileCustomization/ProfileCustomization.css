@@ -4,7 +4,21 @@
     background-color: white;
     position: absolute;
     display: flex;
+    flex-wrap: wrap;
 }
+.goBack{
+    width: 20vw;
+    height: 7vh;
+    margin-top: 2vh;
+    color:#B2C9CE;
+    background: none;
+    border: 1px solid #B2C9CE;
+    transition: .3s;
+}
+.goBack:hover{
+    background-color: rgb(238, 238, 238);
+}
+/* Custom Progress Bar -----------------------------*/
 .customProgressContainer{
     width: 70vw;
     height: 10vh;
@@ -27,6 +41,20 @@
     background-color: #4A617F;
     color: white;
 }
+
+/* Loader ---------------------------------------*/
+.customizationLoader{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 230, 214, 0.163);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+/* ////////////////// First Step //////////////////
+
+/* Inputs Container -----------------------------*/
 .inputsPersonalInfoContainer{
     width: 35vw;
     height: 75vh;
@@ -49,7 +77,7 @@
     width: 30vw;
     text-align: left;
 }
-
+/* Photo Profile --------------------------------*/
 .firstStepTagsMainContainer{
     width: 32vw;
     height: 75vh;
@@ -83,6 +111,7 @@
     opacity: 0;
     position: absolute;
 }
+/* Tags ----------------------------------------*/
 .firstStepTagsContainer{
     width: 35vw;
     height: 28vh;
@@ -148,5 +177,154 @@
     border: none;
     color: white;
     margin-top: 2vh;
-    align-self:flex-end;
+    transition: .3s;
+}
+.nextStep:hover{
+    background-color: #9cb2b6;
+}
+
+
+/* ////////////////// Second Step //////////////////
+
+/* Choose Box --------------------------------*/
+
+.chooseBoxTitle{
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color:#4A617F;
+    padding-left: 5px;
+    font-size: xx-large;
+}
+.choseBoxContainer{
+    width: 100%;
+    height: 95%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    align-content: center;
+    align-items: center;
+}
+.chooseBox{
+    width: 16vw;
+    height: 18vw;
+    background: white;
+    border: 1px solid rgb(177, 177, 177);
+    border-radius: 10px;
+    transition: .3s;
+    overflow: hidden;
+    position: relative;
+}
+.chooseBox:hover{
+    width: 17vw;
+    height: 19vw;
+    box-shadow: 0 0 10px 2px rgb(228, 228, 228);
+}
+.chooseBoxTitleCard{
+    font-family: Arial, Helvetica, sans-serif;
+    color:#4A617F;
+    width: 100%;
+    padding-left: 5px;
+    font-size: x-large;
+    margin: 3vh;
+}
+
+/* ////////////////// Third Step ////////////////// */
+
+.photosBoxTitle{
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color:#4A617F;
+    padding-left: 5px;
+    font-size: xx-large;
+}
+.subTitlePhotosBox{
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    color: gray;
+}
+.photosBoxContainer{
+    width: 100%;
+    height: 95%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 15px;
+}
+.inputSelectPhoto{
+    width: 13vw;
+    height: 20vw;
+    background-color: #d1d1d1;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: .3s;
+    display: flex;
+    justify-content: center;
+}
+.inputSelectPhoto:hover{
+    background-color: #c4c4c4;
+}
+.photosBoxContainer button{
+    width: 20vw;
+    height: 7vh;
+}
+
+.backButtonThirdStep{
+    background: none;
+    color:#9cb2b6;
+    border: 1px solid #9cb2b6;
+    transition: .3s;
+}
+.backButtonThirdStep:hover{
+    background-color: #eeeeee;
+}
+.photosBoxContainer button:last-child{
+    background: none;
+    background-color:#B2C9CE;
+    border: none;
+    color: white;
+    transition: .3s;
+
+}
+.photosBoxContainer button:last-child:hover{
+    background-color: #9cb2b6;
+}
+/*-----------------------------------------------*/
+
+.resultProfileCustomization{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}
+.finishTitle{
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color:#4A617F;
+    padding-left: 5px;
+    font-size: xxx-large;
+}
+.finishButton{
+    width: 10vw;
+    height: 8vh;
+    background-color: #B2C9CE;
+    border: none;
+    color: white;
+    margin-top: 5vh;
+    transition: .3s;
+    align-self: center;
+}
+.finishButton:hover{
+    background-color: #9cb2b6;
 }

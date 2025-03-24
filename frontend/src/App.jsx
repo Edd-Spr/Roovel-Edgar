@@ -1,15 +1,19 @@
 import NavBar from './Components/NavBar.jsx';
-import Home from './Pages/Home.jsx';
+import Authentication from './Pages/Authentication/Authentication.jsx';
+import Home from './Pages/Home/Home.jsx';
 import MatchingPage from './Pages/RoommateMatchingPage.jsx';
-
 
 function App() {
 
   return (
     <div style={{ display: "flex", flexWrap: "wrap" }}>
+      {/*
       <NavBar/>
-      {/*<Home/>*/}
+      <Home/>
       <MatchingPage/>
+      <Authentication/>
+      */}
+      <Authentication/>
     </div>
 )
 }

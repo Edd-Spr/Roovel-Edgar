@@ -10,12 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+<<<<<<< HEAD
     "axios": "^1.8.3",
+=======
+    "@react-spring/web": "^9.7.5",
+>>>>>>> 6fd5006526ed959546da724887d9a871b88cd6bd
     "framer-motion": "^12.4.4",
     "multi-range-slider-react": "^2.0.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-multi-carousel": "^2.8.5"
+    "react-easy-crop": "^5.4.1",
+    "react-multi-carousel": "^2.8.5",
+    "react-spinners": "^0.15.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",

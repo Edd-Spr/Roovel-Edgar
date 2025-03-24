@@ -10,11 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "axios": "^1.8.3",
-=======
     "@react-spring/web": "^9.7.5",
->>>>>>> 6fd5006526ed959546da724887d9a871b88cd6bd
+    "axios": "^1.8.4",
     "framer-motion": "^12.4.4",
     "multi-range-slider-react": "^2.0.7",
     "react": "^18.3.1",

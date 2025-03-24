@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
 import { getCroppedImg } from "./cropImage";
-import './ImageCropper.css';
+import "./ImageCropper.css";
 
-const ImageCropper = ({ imageSrc, onCropComplete, onClose }) => {
+const ImageCropperRect = ({ imageSrc, onCropComplete, onClose }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedImage, setCroppedImage] = useState(null);
@@ -16,14 +16,14 @@ const ImageCropper = ({ imageSrc, onCropComplete, onClose }) => {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
-        <div className="cropper-container">
+      <div className="modal-content large">
+        <div className="cropper-container large">
           <Cropper
             image={imageSrc}
             crop={crop}
             zoom={zoom}
-            aspect={1}
-            cropShape="round"
+            aspect={9 / 16}
+            cropShape="rect"
             showGrid={false}
             onCropChange={setCrop}
             onZoomChange={setZoom}
@@ -39,4 +39,4 @@ const ImageCropper = ({ imageSrc, onCropComplete, onClose }) => {
   );
 };
 
-export default ImageCropper;
+export default ImageCropperRect;

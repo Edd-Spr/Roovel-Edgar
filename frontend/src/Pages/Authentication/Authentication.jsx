@@ -12,7 +12,7 @@ const Authentication = () => {
     const [customizationStep, setCustomizationStep] = useState(false);
 
     return (
-        <main className='authentication'>
+        <article className='authentication'>
             <article className='mainBoxContainer'>
                 <AnimatePresence exitBeforeEnter>
                     {customizationStep === false ? (
@@ -73,7 +73,7 @@ const Authentication = () => {
                     )}
                 </AnimatePresence>
             </article>
-        </main>
+        </article>
     );
 };
 

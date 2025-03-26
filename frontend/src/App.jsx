@@ -1,4 +1,3 @@
-import NavBar from './Components/NavBar.jsx';
 import Authentication from './Pages/Authentication/Authentication.jsx';
 import Home from './Pages/Home/Home.jsx';
 import MatchingPage from './Pages/RoommateMatchingPage.jsx';
@@ -13,20 +12,15 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router';
 function App() {
 
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", height: "100vh", width: "100vw" }}>
-      <Router>
-        <Routes>
-          <Route path="/" element={ <Home/>} />
-          <Route path="/matching" element={ <MatchingPage/>} />
-          <Route path="/auth" element={<Authentication/>} />
-          <Route path='/map' element={<Map />} />
-        </Routes>
-      </Router>
-    </div>
-)
+    <Router>
+      <Routes>
+        <Route path="/" element={ <Home/>} />
+        <Route path="/matching" element={ <MatchingPage/>} />
+        <Route path="/auth" element={<Authentication/>} />
+        <Route path='/map' element={<Map />} />
+      </Routes>
+    </Router>
+  )
 }
 
-
-
 export default App
-

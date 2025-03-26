@@ -1,0 +1,53 @@
+.card-figure {
+  position: relative;
+	height: calc(24rem * 0.7);/** 70% of card-article height */
+  aspect-ratio: 16 / 9;
+	width: 100%;
+	background-color: gray;
+	margin: 0;
+}
+
+.card-image {
+  aspect-ratio: 16 / 9;
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+	background-color: gray;
+}
+
+.card-button {
+  height: 100%;
+  width: 15%;
+	background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.card-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.card-forward {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.card-arrow {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  opacity: 0.25;
+  transition: opacity 0.3s;
+}
+
+.card-arrow:hover {
+  opacity: 0.75;
+}

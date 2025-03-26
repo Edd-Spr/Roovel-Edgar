@@ -4,7 +4,7 @@ html, body{
     display: flex;
     flex-wrap: wrap;
     background-color: #E5E7EB;
-    width: 100vw;
+    width: 100dvw;
     height: 100vh;
 }
 .barraNav {

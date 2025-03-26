@@ -1,0 +1,36 @@
+.map-form {
+  position: absolute;
+  top: 1.5rem;
+  left: 4rem;
+  z-index: 9;
+
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  gap: .5rem;
+}
+
+.map-form__input {
+  width: 15rem;
+  padding: .5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 1.5rem;
+}
+
+.map-form__input::placeholder {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.map-form__button {
+  padding: .5rem 1rem;
+  border-radius: 1.5rem;
+  color: #FFFFFF;
+  background-color: #4A617F;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.map-form__button:hover {
+  background-color: #3A4D63;
+}

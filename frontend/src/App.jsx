@@ -14,7 +14,7 @@ function App() {
       <Authentication/>
       */}
       <NavBar/>
-      <MatchingPage/>
+      <Home/>
     </div>
 )
 }

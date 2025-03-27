@@ -4,6 +4,7 @@ import '../Styles/chatsContainer.css';
 import { useState } from 'react';
 import ContactsContainer from './ContactsContainer.jsx';
 import {getMessages} from '../templade/callback_chat_messges.js'
+import { httpClientePlugin } from '../Plugins/index.js'
 const Chat = () =>{
   const [chatIsOpen, setChatIsOpen] = useState(false);
   const [actualChat, setActualChat] = useState('');
@@ -11,7 +12,7 @@ const Chat = () =>{
   const [leftBarButtonPressed, setLeftBarButtonPressed] = useState(false);
   const [activeSection, setActiveSection] = useState('chats');
 
-  const [user, setUser] = useState(222);
+  const [user, setUser] = useState(2);
 
     return (
 
@@ -154,7 +155,20 @@ const ToggleChatButton = ({setBarChatOpen, barChatOpen}) =>{
 
     );
 }
-console.log(getMessages(2,1))
+const mensajes = await getMessages(2,1)
+
+   const perfiles3=  [
+        {
+            id: 'p-1',
+            chatType: 'profile',
+            nombre: "Carlos Gómez Hernandez Guadalupe",
+            imagen: "imagen1.jpeg",
+            descripcion: "Aficionado al fútbol y la tecnología. Siempre en busca de nuevos retos.",
+            mensajes: mensajes // Ahora mensajes es un array de objetos, NO una Promise
+        }
+    ]
+    console.log(perfiles3)
+
 const perfiles = [
     {
         id: 'p-1',
@@ -162,10 +176,7 @@ const perfiles = [
         nombre: "Carlos Gómez Hernandez Guadalupe",
         imagen: "imagen1.jpeg",
         descripcion: "Aficionado al fútbol y la tecnología. Siempre en busca de nuevos retos.",
-        mensajes: [
-            { idRemitente: 4, remitente: "Sofía", contenido: "¡Feliz cumpleaños! 🎉", timestamp: "2024-07-04 08:00 AM" },
-            { idRemitente: 222, remitente: "María", contenido: "¡Gracias! Qué lindo detalle. 💖", timestamp: "2024-07-04 08:05 AM" }
-        ]
+        mensajes: mensajes
         
     },
     {

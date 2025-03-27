@@ -4,9 +4,21 @@ export const getMessages = async(UserSentMenssge_Chat,UserReciveMenssage_Chat)=>
     try{
         const  url = `http://localhost:3000/api/messages?idReciveMessague=${UserReciveMenssage_Chat}&idSentMessage=${UserSentMenssge_Chat}`
         const  menssages = await httpClientePlugin.get(url)
+        const pass = [...menssages]
+        //console.log(pass)
+        return pass
+    }catch(Error){
+        return 'user not found'
+    }
+
+}
+export const sendMessage = async(UserSentMenssge_Chat,UserReciveMenssage_Chat,Message)=>{
+    try{
+        const  url = `http://localhost:3000/api/messages`
+        const  menssages = await httpClientePlugin.post(url,{UserSentMenssge_Chat,UserReciveMenssage_Chat,Message})
         return menssages
     }catch(Error){
-        return 'pokemon not found'
+        return 'user not found'
     }
 
 }

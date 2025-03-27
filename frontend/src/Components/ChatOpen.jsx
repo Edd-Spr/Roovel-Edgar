@@ -3,15 +3,17 @@ import '../Styles/ChatOpen.css';
 import MessageBox from './MessageBox';
 import MessageEditor from './MessageEditor';
 
-const ChatOpen = ({ infoProfile, chatIsOpen, setChatIsOpen, user, setActualChat }) => {
+const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, user, setActualChat }) => {
     const [messageContainerHeight, setMessageContainerHeight] = useState(window.innerHeight * 0.85);
+    const idReciveMessague = infoProfile?.id; // ID del destinatario
+    const idSentMessage = user; // ID del remitente (usuario actual)
 
     return (
-        <section className="chatOpenContainer" style={{ width: chatIsOpen && '55vw'}}>
-            <section className="ChatOpen" >
-                <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat}/>
+        <section className="chatOpenContainer" style={{ width: chatIsOpen && '55vw' }}>
+            <section className="ChatOpen">
+                <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat} />
                 <MessageContainer infoProfile={infoProfile} user={user} messageContainerHeight={messageContainerHeight} />
-                <MessageEditor setMessageContainerHeight={setMessageContainerHeight} />
+                <MessageEditor setMessageContainerHeight={setMessageContainerHeight} idReciveMessague={idReciveMessague} idSentMessage={idSentMessage} />
             </section>
         </section>
     );

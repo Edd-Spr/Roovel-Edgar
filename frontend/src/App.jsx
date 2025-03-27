@@ -14,6 +14,10 @@ function App() {
       <Authentication/>
       */}
       <NavBar/>
+<<<<<<< Updated upstream
+=======
+      <Home/>
+>>>>>>> Stashed changes
       <MatchingPage/>
     </div>
 )

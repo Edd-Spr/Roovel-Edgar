@@ -214,7 +214,7 @@ const perfiles = [
         ]
     },
     {
-        id: 'p-6',
+        id: 'p-6ç',
         chatType: 'profile',
         nombre: "Elena Torres",
         imagen: "imagen6.jpeg",

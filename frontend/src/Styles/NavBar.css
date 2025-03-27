@@ -8,7 +8,7 @@ html, body{
     height: 100vh;
 }
 .barraNav {
-    width: 100vw;
+    width: 100%;
     height: 8vh;
     background-color: #4A617F;
     display: flex;

@@ -10,14 +10,30 @@ export const httpClientePlugin = {
             throw error;
         }
     },
-    post: async(url, body) => {
+    post: async( idSentMessage,idReciveMessague, message) => {
         try {
-            const response = await axios.post(url, body);
-            return response.data;
-        } catch (error) {
-            console.error('Error posting data:', error);
-            throw error;
-        }
+            const response = await fetch('http://localhost:3000/api/messages', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                idReciveMessague,
+                idSentMessage,
+                message,
+              }),
+            });
+        
+            if (!response.ok) {
+              throw new Error('Error al enviar el mensaje');
+            }
+        
+            const data = await response.json();
+            console.log('Mensaje enviado:', data);
+            return data;
+          } catch (error) {
+            console.error('Error al enviar el mensaje:', error);
+          }
     },
     put: async(url, body) => {
         return new Error('This part code isnt implement');

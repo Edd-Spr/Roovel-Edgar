@@ -3,10 +3,11 @@ import '../Styles/ChatOpen.css';
 import MessageBox from './MessageBox';
 import MessageEditor from './MessageEditor';
 
-const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, user, setActualChat }) => {
+const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, setActualChat }) => {
     const [messageContainerHeight, setMessageContainerHeight] = useState(window.innerHeight * 0.85);
-    const idReciveMessague = infoProfile?.id; // ID del destinatario
+    const idReciveMessague = idRemitente; // ID del destinatario
     const idSentMessage = user; // ID del remitente (usuario actual)
+    console.log('ID del remitente:', idRemitente);
 
     return (
         <section className="chatOpenContainer" style={{ width: chatIsOpen && '55vw' }}>

@@ -6,6 +6,7 @@ import Layout from '../Layout/index.jsx';
 import MapForm from './Components/MapForm/index.jsx';
 import Card from './Components/Card/index.jsx';
 import Shadow from './Components/Shadow/index.jsx';
+import CustomMarker from './Components/CustomMarker/index.jsx';
 
 import useCustomMap from './hooks/useMap.js';
 
@@ -45,11 +46,11 @@ export default function Index() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker eventHandlers={ eventHandlers } position={ position }>
+        <CustomMarker eventHandlers={ eventHandlers } position={ position }>
           <Popup>
             { readableDirection }
           </Popup>
-        </Marker>
+        </CustomMarker>
 
         { places && places.map((place) => { return (
           <Marker 

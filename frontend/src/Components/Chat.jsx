@@ -11,59 +11,33 @@ const Chat = () =>{
   const [barChatOpen, setBarChatOpen] = useState(true);
   const [leftBarButtonPressed, setLeftBarButtonPressed] = useState(false);
   const [activeSection, setActiveSection] = useState('chats');
-const [mensajes, setMensajes] = useState([]); // Estado para los mensajes
-
-
-  const [user, setUser] = useState(2);
-  const fetchMessages = async () => {
-    try {
-      const response = await getMessages(user, remitente); // Llamar a la función getMessages
-      setMensajes(response); 
-      console.log('Mensajes obtenidos:', response);
-    } catch (error) {
-      console.error('Error al obtener los mensajes iniciales:', error);
-    }
-  };
-
-  // useEffect para actualizar los mensajes cada 1 segundo
-  useEffect(() => {
-    fetchMessages(); // Llamar a la función inmediatamente al montar el componente
-
-    const interval = setInterval(() => {
-      fetchMessages(); // Llamar a la función cada 1 segundo
-    }, 1000);
-
-    return () => clearInterval(interval); // Limpiar el intervalo al desmontar el componente
-  }, [actualChat, user]); // Dependencias: actualChat y use
-
-   const parasite = mensajes
+  const [user, setUser] = useState(1);
 const perfiles = [
    {
        id: 'p-1',
-       idRemitente: 1,
+       idRemitente: 2,
        chatType: 'profile',
        nombre: "Carlos Gómez Hernandez Guadalupe",
        imagen: "imagen1.jpeg",
        descripcion: "Aficionado al fútbol y la tecnología. Siempre en busca de nuevos retos.",
-       mensajes: parasite
        
    },
    {
        id: 'p-2',
        chatType: 'profile',
-       idRemitente: 1,
+       idRemitente: 6,
        nombre: "María Rodríguez",
        imagen: "imagen2.jpeg",
        descripcion: "Amante del cine y la buena comida. Me encanta salir con amigos.",
        mensajes: [
-           { idRemitente: 2, remitente: "María", contenido: "¿Vamos al cine el sábado?", timestamp: "2024-07-02 03:30 PM" },
+           { idRemitente: 1, remitente: "María", contenido: "¿Vamos al cine el sábado?", timestamp: "2024-07-02 03:30 PM" },
            { idRemitente: 222, remitente: "Luis", contenido: "Sí, suena bien. ¿Qué película quieres ver?", timestamp: "2024-07-02 03:35 PM" }
        ]
    },
    {
        id: 'p-3',
        chatType: 'profile',
-       idRemitente: 1,
+       idRemitente: 8,
        nombre: "Luis Fernández",
        imagen: "imagen3.jpeg",
        descripcion: "Apasionado por la música y los videojuegos. Siempre dispuesto a ayudar.",
@@ -307,7 +281,7 @@ const grupos = [
             chatIsOpen={chatIsOpen}
             setChatIsOpen={setChatIsOpen}
             infoProfile={[...perfiles, ...grupos].find((perfil) => perfil.id === actualChat)}
-            idRemitente={remitente} // Aquí pasas el valor de idRemitente
+            idRemitente={remitente} 
             user={user}
             setActualChat={setActualChat}
         />

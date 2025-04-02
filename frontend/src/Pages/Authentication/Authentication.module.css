@@ -1,18 +1,4 @@
-:root {
-    --background-color: #E5DCD0;
-    --container-bg: white;
-    --box-shadow: rgba(192, 192, 192, 0.454);
-    --accent-color: #CBA18A;
-    --title-color: white;
-    --button-bg: #B2C9CE;
-    --button-hover-bg: #87a0a5;
-    --button-text: white;
-    --button-border: #B2C9CE;
-    --secondary-button-text: #B2C9CE;
-    --loader-bg: rgba(255, 230, 214, 0.163);
-    --loader-border: rgba(0, 0, 0, 0.1);
-    --loader-highlight: rgb(41, 97, 134);
-}
+
 
 .authentication {
     width: 100vw;

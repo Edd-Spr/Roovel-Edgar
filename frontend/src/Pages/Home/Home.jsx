@@ -4,7 +4,7 @@ import Styles from './Home.module.css';
 import SignInBanner from '../../Components/SignInBanner/SignInBanner.jsx';
 import RoomSlider from '../../Components/RoomSlider/RoomSlider.jsx';
 import MultiRange from '../../Components/MultiRangeSlider/MultiRangeSlider.jsx';
-import InputButton from '../../Components/InputButton/InputButton.jsx';
+import FilterButton from '../../Components/FilterButton/FilterButton.jsx';
 import AdvertisingSection from '../../Components/AdvertisingSection/AdvertisingSection.jsx';
 
 
@@ -92,12 +92,12 @@ const FeaturesCarousel = () =>{
     const actualCarouselBox = CAROUSEL_CONTENT.find((item) => item.id == actualCarousel);
     
     return (
-        <article className="featuresCarouselContainer">
+        <article className={Styles.featuresCarouselContainer}>
             <motion.img
                 key={actualCarousel} 
                 src={actualCarouselBox.image}
                 alt=""
-                className="carouselImage"
+                className={Styles.carouselImage}
                 draggable="false"
                 initial={{ opacity: 0.5, x: 0 }}
                 animate={{ opacity: 1, x: 50 }}
@@ -117,19 +117,19 @@ const FeaturesCarousel = () =>{
 const CarouselInfo = ({actualCarouselBox}) => {
     return(
         <>
-            <section className="carouselInfoBlur">
+            <section className={Styles.carouselInfoBlur}>
             </section>
-            <section className='carouselInfo'>
-                <h1 className='titleCarousel'>{actualCarouselBox.title}</h1>
-                <p className="carouselDescription">{actualCarouselBox.description}</p>
-                <button className="infoCarouselButton">{actualCarouselBox.buttonContent}</button>
+            <section className={Styles.carouselInfo}>
+                <h1 className={Styles.titleCarousel}>{actualCarouselBox.title}</h1>
+                <p className={Styles.carouselDescription}>{actualCarouselBox.description}</p>
+                <button className={Styles.infoCarouselButton}>{actualCarouselBox.buttonContent}</button>
             </section>
         </>
     );
 }
 const CarouselButtons = ({ actualCarousel, setActualCarousel }) => {
     return (
-        <section className='carouselButtonsContainer'>
+        <section className={Styles.carouselButtonsContainer}>
             {CAROUSEL_CONTENT.map((item) => 
                 <CarouselButton 
                     key={item.id}
@@ -148,7 +148,7 @@ const CarouselButton = ({name, id, actualCarousel, setActualCarousel}) => {
         setActualCarousel(id)
     }
     return (
-        <button className={`carouselButton ${id == actualCarousel && 'carouselButtonActive'}`} onClick={handleClick}>
+        <button className={`${Styles.carouselButton} ${id == actualCarousel && Styles.carouselButtonActive}`} onClick={handleClick}>
             <p>{name}</p>
         </button>
     );
@@ -169,51 +169,48 @@ const StayFinder = () => {
     const [actualValue, setActualValue] = useState(false);
     const [gender, setGender] = useState(0);
     const [pets, setPets] = useState(0);
+    const [rangeValues, setRangeValues] = useState([17, 60]);
 
     
     return (
-        <article className="stayFinderContainer">
-            <section className="stayFinderBox">
-                <div className="containerFinderBy">
-                    <label htmlFor="" className='labelStayFinder'> ¿Roomie o Habitación? Encuentra lo que necesitas</label>
-                    <div className="buttonsFindByContainer">
+        <article className={Styles.stayFinderContainer}>
+            <section className={Styles.stayFinderBox}>
+                <div className={Styles.containerFinderBy}>
+                    <label htmlFor="" className={Styles.labelStayFinder}> ¿Roomie o Habitación? Encuentra lo que necesitas</label>
+                    <div className={Styles.buttonsFindByContainer}>
                         <button 
-                            className={`buttonFindBy ${finderBy === 1 ? 'activeFindBy' : ''}`}
+                            className={`${Styles.buttonFindBy} ${finderBy === 1 ? Styles.activeFindBy : ''}`}
                             onClick={() => handleFinderBy(1)}
                         >
                             Habitación
                         </button>
                         <button 
-                            className={`buttonFindBy ${finderBy === 2 ? 'activeFindBy' : ''}`}
+                            className={`${Styles.buttonFindBy} ${finderBy === 2 ? Styles.activeFindBy : ''}`}
                             onClick={() => handleFinderBy(2)}
                         >
                             Roomie
                         </button>
                     </div>
                 </div>
-                <div className="inputsContainer">
-                    <input type="text" className='inputStayFinder' placeholder='Escribe una dirección'/>
-                    <MultiRange
-                        minValue={minValue}
-                        maxValue={maxValue}
-                        set_minValue={set_minValue}
-                        set_maxValue={set_maxValue}
-                        min={min}
-                        max={max}
-                        actualValue={actualValue}
-                        setActualValue={setActualValue}
+                <div className={Styles.inputsContainer}>
+                    <input type="text" className={Styles.inputStayFinder} placeholder='Escribe una dirección'/>
+                    <FilterButton
+                        buttonType='multirange'
+                        rangeValues={rangeValues}
+                        setRangeValues={setRangeValues}
+                        modalPlace={0}
                     />
-                    <InputButton
+                    <FilterButton
                         valueInput={gender}
                         setValueInput={setGender}
                         options={['Todos los Generos', 'Solo Hombres', 'Solo Mujeres']}
                     />
-                    <InputButton
+                    <FilterButton
                         valueInput={pets}
                         setValueInput={setPets}
                         options={['No mascotas', 'Cualquier mascota', 'Solo Perros', 'Solo Gatos']}
                     />
-                    <button className="searchButton">
+                    <button className={Styles.searchButton}>
                         <img src="/Graphics/Icons/search_icon.png" 
                         alt="" 
                         style={{width: '100%'}}/>

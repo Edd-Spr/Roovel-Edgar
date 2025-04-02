@@ -1,0 +1,125 @@
+.inputButtonContainer{
+    height: 6vh;
+    background-color: var(--gray-dark);
+    border: 1px solid var(--secondary-color);
+    position: relative;
+}
+.buttonStyle{
+    height: 100%;
+    background-color: var(--white);
+    color: var(--secondary-color);
+    padding: 5px;
+    border: 0;
+    text-align: center;
+    outline: none;
+    transition: .3s;
+    font-size: 13px;
+    cursor: pointer;
+}
+.buttonStyle:hover{
+    background-color: var(--gray-light);
+}
+.activeButton{
+    background-color: var(--secondary-color);
+    color: var(--white);
+}
+.activeButton:hover{
+    background-color: var(--secondary-color-hover);
+}
+.optionStyle{
+    background-color: var(--accent-color);
+}
+.modalRange{
+    position: absolute;
+    width: 17rem;
+    height: 12rem;
+    background-color: var(--white);
+    border: 1px solid var(--secondary-color);
+    left: 0;
+    z-index: 10;
+    transition: .3s;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+.modalRange h1{
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 100;
+    color: var(--primary-color);
+}
+.modalRange p{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    text-align: center;
+    color: var(--primary-color);
+}
+.modalRange button{
+    width: 90%;
+    height: 2.5rem;
+    background-color: var(--secondary-color);
+    border: none;
+    color: var(--white);
+    font-size: 14px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+.modalRange button:hover{
+    background-color: var(--hover-color);
+}
+.rangeSlider{
+    width: 90%;
+    height: 5px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: var(--secondary-color);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.overlay{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 5;
+}
+.hideOverlay{
+    display: none;
+}
+.track {
+    background-color: var(--gray-light);
+    height: 6px;
+    border-radius: 10px;
+}
+.middleTrack {
+    height: 5px;
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+.thumb {
+    width: 15px;
+    height: 15px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+.thumb:hover {
+    width: 18px;
+    height: 18px;
+}
+.thumb:focus {
+    outline: none;
+}

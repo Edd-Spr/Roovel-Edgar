@@ -62,6 +62,7 @@ export default function useMap() {
     const map = useMapLeaflet();
     useEffect(() => {
       // Set the map's view to the new position with zoom level 13
+      if ( !position ) return
       map.setView(position, 15);
     }, [position, map]);
   

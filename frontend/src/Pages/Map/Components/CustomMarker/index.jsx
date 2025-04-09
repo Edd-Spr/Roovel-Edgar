@@ -1,8 +1,8 @@
 import L from "leaflet"
-import { Marker } from "react-leaflet"
+import { Marker, Popup } from "react-leaflet"
 import markerIcon from '../../../../../public/Graphics/Icons/marker-svgrepo.svg'
 
-export default function CustomMarker({ position, eventHandlers, children }) {
+export default function CustomMarker({ position, eventHandlers, children, popUpText }) {
 	const customIcon = new L.Icon({
 		iconUrl: markerIcon,
 		iconSize: [ 45, 45 ], // size of the icon
@@ -14,7 +14,11 @@ export default function CustomMarker({ position, eventHandlers, children }) {
 		<Marker 
 			icon={ customIcon }
 			position={ position } 
-			eventHandlers={ eventHandlers } 
-			>{ children }</Marker>
+			eventHandlers={ eventHandlers }
+			>
+			<Popup className="popup" position={ position }>
+				{ popUpText }
+			</Popup>
+		</Marker>
 	)
 }

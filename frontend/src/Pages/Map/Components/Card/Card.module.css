@@ -117,6 +117,16 @@
   transition: background-color 0.3s;
 }
 
+.card__room--ocupied:hover::after {
+  content: 'Ocupada' !important;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .card__room-img {
   width: 100%;
   height: 100%;

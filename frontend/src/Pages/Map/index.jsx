@@ -1,18 +1,18 @@
 import '../../leaflet/leaflet.css';
 import styles from './map.module.css';
 
-import Layout from '../Layout/index.jsx';
+import Layout from '../Layout';
 
-import MapForm from './Components/MapForm/index.jsx';
-import Card from './Components/Card/index.jsx';
-import Shadow from './Components/Shadow/index.jsx';
-import CustomMarker from './Components/CustomMarker/index.jsx';
+import MapForm from './Components/MapForm';
+import Card from './Components/Card';
+import Shadow from './Components/Shadow';
+import CustomMap from './Components/CustomMap';
 
 import useCustomMap from './hooks/useMap.js';
 
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { Marker } from 'react-leaflet'
 
-export default function Index() {
+export default function Map() {
   const { 
     position, 
     readableDirection, 
@@ -29,6 +29,10 @@ export default function Index() {
   const inputPlaceholder = 'Ubicación';
   const submitMessage = 'Buscar';
 
+  const occupiedRoomsCount = home?.rooms?.reduce((count, room) => {
+    return room.room_ocupied ? count : count + 1;
+  }, 0);
+
   return (
     <Layout>
       <MapForm 
@@ -36,22 +40,8 @@ export default function Index() {
         inputPlaceholder={ ( typeof( readableDirection ) === 'string' ) ? readableDirection : inputPlaceholder } 
         submitMessage={ submitMessage }
       />
-      <MapContainer 
-        className={ styles[`map`] }	
-        center={ position } 
-        zoom={15} 
-        scrollWheelZoom={false}
-        >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <CustomMarker eventHandlers={ eventHandlers } position={ position }>
-          <Popup>
-            { readableDirection }
-          </Popup>
-        </CustomMarker>
-
+      
+      <CustomMap className={ styles[`map`] }	position={ position } MapLocator={ MapLocator } SetViewOnUpdate={ SetViewOnUpdate } >
         { places && places.map((place) => { return (
           <Marker 
             id={ `${ place.ubication[ 0 ] } --- ${ place.ubication[ 1 ] }` }
@@ -61,19 +51,18 @@ export default function Index() {
             >
           </Marker>
         )})}
+      </CustomMap>
 
-        <SetViewOnUpdate position={ position } /> {/* This will update the map center */}
-        <MapLocator /> {/* This will allow the user to click on the map */}
-      </MapContainer>
       { displayCard ? (
         <>
           <Card 
             title={ home.home_name }
             address={ home.home_address }
-            roomsNumber={ 6 }
+            roomsNumber={ occupiedRoomsCount }
             showingState={ displayCard } 
-            tags={ ['tag1', 'tag2', 'tag3'] }
-            rooms={ [ 'room1', 'room2', 'room3' ] }
+            tags={ home.tags }
+            rooms={ home.rooms }
+            onSale={ home.home_all_in }
             showLessHandler={ () => showLessHandler( displayCard ) } 
             showMoreHandler={ () => showMoreHandler( displayCard ) }
           />

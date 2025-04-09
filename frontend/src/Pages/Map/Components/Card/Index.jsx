@@ -15,6 +15,7 @@ export default function Card({
   showMoreHandler, 
   showLessHandler, 
   roomsNumber, 
+  onSale,
   tags, 
   rooms 
 }) {
@@ -23,7 +24,7 @@ export default function Card({
       <CardImageSlider Title={ title } img={ img } />
 
 			<section className={ styles[`card-description`] }>
-        <CardHeader title={ title } address={ address } roomsNumber={ roomsNumber } />
+        <CardHeader title={ title } address={ address } roomsNumber={ roomsNumber } onSale={ onSale } />
         {
           showingState >= 2 &&
           ( 
@@ -46,12 +47,12 @@ export default function Card({
               <section className={ styles[`card__rooms-section`] }>
                 <h2>Habitaciones</h2>
                 <section className={ styles[`card__rooms`] }>
-                  { rooms?.map((room) => (
+                  { rooms?.map((room, i) => (
                     <figure 
-                      key={ room }
-                      className={ styles[`card__room`] }
+                      key={ `room-${ i }--home` }
+                      className={ `${ styles[`card__room`] } ${ (room.room_ocupied) ? styles[`card__room--ocupied`] : '' }` }
                       >
-                      <h3 className={ styles[`card__room-name`] } >{ room }</h3>
+                      <h3 className={ styles[`card__room-name`] } >{ `Habitación ${ i + 1 }` }</h3>
                       <img 
                         src={ room.img } 
                         alt={ room.room_name } 

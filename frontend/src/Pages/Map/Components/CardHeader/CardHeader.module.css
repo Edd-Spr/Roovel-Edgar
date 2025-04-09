@@ -52,8 +52,9 @@
 	font-weight: 500;
 	color: #5EA0F5;
 }
- 
+
 .card-header__logistics p {
 	margin: 0;
 	font-size: 1rem;
+	text-align: center;
 }

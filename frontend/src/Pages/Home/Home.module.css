@@ -1,0 +1,224 @@
+:root {
+    --background-color: #ffffff;
+    --container-bg: white;
+    --box-shadow: rgba(192, 192, 192, 0.454);
+    --accent-color: #CBA18A;
+    --title-color: white;
+    --button-bg: #B2C9CE;
+    --button-hover-bg: #87a0a5;
+    --button-text: white;
+    --button-border: #B2C9CE;
+    --secondary-button-text: #B2C9CE;
+    --loader-bg: rgba(255, 230, 214, 0.163);
+    --loader-border: rgba(0, 0, 0, 0.1);
+    --loader-highlight: rgb(41, 97, 134);
+    --primary-color: #4A617F;
+    --hover-color: #354860;
+    --secondary-color: #B2C9CE;
+    --secondary-color-hover: #97adb3;
+    --active-tag-color: #CBA18A;
+    --inactive-tag-color: #e5bfab;
+    --border-color: #B2C9CE;
+    --button-hover-color: #9cb2b6;
+    --loader-bg-color: rgba(255, 230, 214, 0.163);
+    --tag-hover-color: #eeeeee;
+    --input-hover-background: #c0c0c0;
+    --white-color: white;
+    --input-background: white;    
+    --gray-light: #f0f0f0;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+}
+
+.featuresCarouselContainer {
+    width: 100vw;
+    height: 60vh;
+    background-color: var(--secondary-color);
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* 1380px o 93w */
+.carouselImage {
+    width: 1380px;
+    transform: translateX(10vw) translateY(-5vw); 
+}
+
+.carouselInfoBlur {
+    position: absolute;
+    width: 40vw;
+    height: 100vh;
+    top: -20;
+    left: 0;
+    background-color: var(--secondary-color);
+    filter: blur(190px);
+}
+
+.carouselInfo {
+    position: absolute;
+    width: 33vw;
+    height: 100%;
+    left: 0;
+    padding-left: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/Graphics/Fonts/Poppins/Poppins-Bold.ttf') format('truetype');
+}
+
+.titleCarousel {
+    color: var(--background-color);
+    font-size: 7.2vh;
+    margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.2;
+}
+
+.carouselDescription {
+    color: var(--background-color);
+    margin-top: 10px;
+    width: 25vw;
+}
+
+.infoCarouselButton {
+    width: 34vh;
+    height: 7vh;
+    background: none;
+    color: var(--background-color);
+    border: 2px solid var(--background-color);
+    margin-top: 10px;
+    transition: .3s;
+}
+
+.infoCarouselButton:hover {
+    background-color: var(--background-color);
+    color: var(--secondary-color);
+}
+
+.carouselButtonsContainer {
+    width: 100%;
+    height: 6vh;
+    background-color: rgba(41, 54, 71, 0.56);
+    position: absolute;
+    bottom: 0;
+    display: flex;
+}
+
+.carouselButton {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: none;
+    color: rgba(255, 255, 255, 0.56);
+    transition: .3s;
+}
+
+.carouselButtonActive {
+    color: var(--background-color);
+    border-bottom: 3px solid var(--background-color);
+}
+
+.carouselButton:hover {
+    color: var(--background-color);
+}
+
+.stayFinderContainer {
+    width: 100vw;
+    height: 32vh;
+    background: linear-gradient(to bottom, var(--active-tag-color), var(--inactive-tag-color));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.stayFinderBox {
+    width: 80vw;
+    height: 25vh;
+    background-color: var(--background-color);
+    border-radius: 5px;
+    box-shadow: 0 0 5px 5px rgba(96, 96, 96, 0.2);
+}
+
+.containerFinderBy {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+}
+
+.labelStayFinder {
+    font-family: 'Poppins';
+    margin-top: 3vh;
+    font-size: 20px;
+    color: var(--primary-color);
+}
+
+.buttonsFindByContainer {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    gap: 10px;
+}
+
+.buttonFindBy {
+    background: none;
+    border: none;
+    transition: .3s;
+    cursor: pointer;
+    color: gray;
+}
+
+.activeFindBy {
+    border-bottom: 2px solid var(--active-tag-color);
+    color: var(--active-tag-color);
+}
+
+.inputsContainer {
+    width: 100%;
+    height: 50%;
+    align-items: center;
+    align-content: center;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.inputStayFinder {
+    width: 30vw;
+    height: 6vh;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    background-color: var(--input-background);
+}
+
+.inputStayFinder:focus {
+    outline: 1px solid var(--primary-color);
+    border-radius: 1px;
+}
+
+.searchButton {
+    width: 6vh;
+    height: 6vh;
+    background-color: var(--active-tag-color);
+    border: 1px solid var(--hover-color);
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}

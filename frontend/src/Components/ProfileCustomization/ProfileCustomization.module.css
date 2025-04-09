@@ -1,25 +1,29 @@
-.profileCustomizationMainBox{
+
+.profileCustomizationMainBox {
     width: 70vw;
     height: 85vh;
-    background-color: white;
+    background-color: var(--background-color);
     position: absolute;
     display: flex;
     flex-wrap: wrap;
 }
-.goBack{
+
+.goBack {
     width: 20vw;
     height: 7vh;
     margin-top: 2vh;
-    color:#B2C9CE;
+    color: var(--secondary-color);
     background: none;
-    border: 1px solid #B2C9CE;
+    border: 1px solid var(--secondary-color);
     transition: .3s;
 }
-.goBack:hover{
+
+.goBack:hover {
     background-color: rgb(238, 238, 238);
 }
+
 /* Custom Progress Bar -----------------------------*/
-.customProgressContainer{
+.customProgressContainer {
     width: 70vw;
     height: 10vh;
     position: absolute;
@@ -29,33 +33,36 @@
     align-items: center;
     gap: 15px;
 }
-.customProgressButton{
+
+.customProgressButton {
     border-radius: 100%;
     width: 5vh;
     height: 5vh;
     background: none;
-    color: #4A617F;
-    border: 1px solid #4A617F;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
 }
-.activeCustomProgressButton{
-    background-color: #4A617F;
+
+.activeCustomProgressButton {
+    background-color: var(--primary-color);
     color: white;
 }
 
 /* Loader ---------------------------------------*/
-.customizationLoader{
+.customizationLoader {
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 230, 214, 0.163);
+    background-color: var(--loader-bg-color);
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
 }
-/* ////////////////// First Step //////////////////
+
+/* ////////////////// First Step ////////////////// */
 
 /* Inputs Container -----------------------------*/
-.inputsPersonalInfoContainer{
+.inputsPersonalInfoContainer {
     width: 35vw;
     height: 75vh;
     display: flex;
@@ -67,9 +74,10 @@
     padding-top: 3vh;
     gap: 15px;
 }
-.titlePersonalInfo{
+
+.titlePersonalInfo {
     font-family: Arial;
-    color: #4A617F;
+    color: var(--primary-color);
     font-size: 5vh;
     padding: 0;
     margin: 1vh;
@@ -77,8 +85,9 @@
     width: 30vw;
     text-align: left;
 }
+
 /* Photo Profile --------------------------------*/
-.firstStepTagsMainContainer{
+.firstStepTagsMainContainer {
     width: 32vw;
     height: 75vh;
     display: flex;
@@ -89,11 +98,12 @@
     box-sizing: border-box;
     padding-top: 5vh;
 }
-.firstStepPhotoProfileContainer{
+
+.firstStepPhotoProfileContainer {
     width: 10vw;
     height: 10vw;
     border-radius: 100%;
-    background-color: #4A617F;
+    background-color: var(--primary-color);
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -101,18 +111,21 @@
     position: relative;
     transition: .3s;
 }
-.firstStepPhotoProfileContainer:hover{
-    background-color: #354860;
+
+.firstStepPhotoProfileContainer:hover {
+    background-color: var(--hover-color);
 }
-.inputFilePhotoProfile{
+
+.inputFilePhotoProfile {
     width: 100%;
     height: 100%;
     cursor: pointer;
     opacity: 0;
     position: absolute;
 }
+
 /* Tags ----------------------------------------*/
-.firstStepTagsContainer{
+.firstStepTagsContainer {
     width: 35vw;
     height: 28vh;
     margin-top: 3vh;
@@ -122,69 +135,73 @@
     gap: 5px;
     overflow-y: scroll;
 }
-.activeTag{
+
+.activeTag {
     margin: 0;
     padding: 5px;
     padding-left: 10px;
     padding-right: 10px;
-    border: 1px solid #CBA18A;
-    background-color: #CBA18A;
+    border: 1px solid var(--active-tag-color);
+    background-color: var(--active-tag-color);
     color: #ffffff;
     border-radius: 20px;
     transition: .1s;
     cursor: pointer;
 }
-.activeTag:hover{
+
+.activeTag:hover {
     background-color: #b79381;
     border: 1px solid #b79381;
     padding-left: 12px;
     padding-right: 12px;
-
 }
-.tagFirstStep{
+
+.tagFirstStep {
     margin: 0;
     padding: 5px;
     padding-left: 10px;
     padding-right: 10px;
-    border: 1px solid #4A617F;
+    border: 1px solid var(--primary-color);
     background: none;
-    color: #4A617F;
+    color: var(--primary-color);
     border-radius: 20px;
     transition: .1s;
     cursor: pointer;
 }
-.tagFirstStep:hover{
-    background-color: #eeeeee;
-    color: #4A617F;
 
+.tagFirstStep:hover {
+    background-color: var(--tag-hover-color);
+    color: var(--primary-color);
     padding-left: 12px;
     padding-right: 12px;
 }
-.tagFirstStepP{
+
+.tagFirstStepP {
     margin: 0;
 }
-.tagsTitle{
+
+.tagsTitle {
     width: 100%;
     margin: 0;
-    color: #4A617F;
+    color: var(--primary-color);
     margin-top: 3vh;
     text-align: center;
 }
-.nextStep{
+
+.nextStep {
     width: 90%;
     height: 8vh;
-    background-color: #B2C9CE;
+    background-color: var(--secondary-color);
     border: none;
     color: white;
     margin-top: 2vh;
     transition: .3s;
 }
-.nextStep:hover{
-    background-color: #9cb2b6;
+
+.nextStep:hover {
+    background-color: var(--button-hover-color);
 }
-
-
-/* ////////////////// Second Step //////////////////
+/* ////////////////// Second Step ////////////////// */
 
 /* Choose Box --------------------------------*/
 
@@ -193,10 +210,11 @@
     text-align: center;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    color:#4A617F;
+    color: var(--primary-color);
     padding-left: 5px;
     font-size: xx-large;
 }
+
 .choseBoxContainer{
     width: 100%;
     height: 95%;
@@ -207,24 +225,27 @@
     align-content: center;
     align-items: center;
 }
+
 .chooseBox{
     width: 16vw;
     height: 18vw;
     background: white;
-    border: 1px solid rgb(177, 177, 177);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
     transition: .3s;
     overflow: hidden;
     position: relative;
 }
+
 .chooseBox:hover{
     width: 17vw;
     height: 19vw;
-    box-shadow: 0 0 10px 2px rgb(228, 228, 228);
+    box-shadow: 0 0 10px 2px var(--hover-shadow);
 }
+
 .chooseBoxTitleCard{
     font-family: Arial, Helvetica, sans-serif;
-    color:#4A617F;
+    color: var(--primary-color);
     width: 100%;
     padding-left: 5px;
     font-size: x-large;
@@ -238,16 +259,18 @@
     text-align: center;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    color:#4A617F;
+    color: var(--primary-color);
     padding-left: 5px;
     font-size: xx-large;
 }
+
 .subTitlePhotosBox{
     width: 100%;
     text-align: center;
     margin: 0;
-    color: gray;
+    color: var(--secondary-color);
 }
+
 .photosBoxContainer{
     width: 100%;
     height: 95%;
@@ -258,19 +281,22 @@
     align-content: center;
     gap: 15px;
 }
+
 .inputSelectPhoto{
     width: 13vw;
     height: 20vw;
-    background-color: #d1d1d1;
+    background-color: var(--input-background);
     border-radius: 10px;
     overflow: hidden;
     transition: .3s;
     display: flex;
     justify-content: center;
 }
+
 .inputSelectPhoto:hover{
-    background-color: #c4c4c4;
+    background-color: var(--input-hover-background);
 }
+
 .photosBoxContainer button{
     width: 20vw;
     height: 7vh;
@@ -278,26 +304,30 @@
 
 .backButtonThirdStep{
     background: none;
-    color:#9cb2b6;
-    border: 1px solid #9cb2b6;
+    color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
     transition: .3s;
 }
+
 .backButtonThirdStep:hover{
-    background-color: #eeeeee;
+    background-color: var(--hover-background);
 }
+
 .photosBoxContainer button:last-child{
     background: none;
-    background-color:#B2C9CE;
+    background-color: var(--primary-color);
     border: none;
     color: white;
     transition: .3s;
-
 }
+
 .photosBoxContainer button:last-child:hover{
-    background-color: #9cb2b6;
+    background-color: var(--hover-background);
 }
-/*-----------------------------------------------*/
 
+/* ----------------------------------------------- */
+
+/* Final Step */
 .resultProfileCustomization{
     width: 100%;
     height: 100%;
@@ -306,25 +336,46 @@
     justify-content: center;
     align-content: center;
 }
+
 .finishTitle{
     width: 100%;
     text-align: center;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    color:#4A617F;
+    color: var(--primary-color);
     padding-left: 5px;
     font-size: xxx-large;
 }
+
 .finishButton{
     width: 10vw;
     height: 8vh;
-    background-color: #B2C9CE;
+    background-color: var(--primary-color);
     border: none;
     color: white;
     margin-top: 5vh;
     transition: .3s;
     align-self: center;
 }
+
 .finishButton:hover{
-    background-color: #9cb2b6;
+    background-color: var(--hover-background);
+}
+
+
+.resultBoxContainer{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+.resultTitle{
+    width: 100%;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color:var(--primary-color);
+    font-size: 2rem;
 }

@@ -13,7 +13,8 @@ function App() {
       <MatchingPage/>
       <Authentication/>
       */}
-      <Authentication/>
+      <NavBar/>
+      <Home/>
     </div>
 )
 }

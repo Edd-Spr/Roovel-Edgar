@@ -1,4 +1,4 @@
-import { httpClientePlugin } from '../Plugins/index'
+import { httpClientePlugin ,ClientPlugin_perfiles_chat } from '../Plugins/index'
 
 export const getMessages = async(UserSentMenssge_Chat,UserReciveMenssage_Chat)=>{
     try{
@@ -21,4 +21,14 @@ export const sendMessage = async(UserSentMenssge_Chat,UserReciveMenssage_Chat,Me
         return 'user not found'
     }
 
+}
+export const getPorfiles = async(actualuser)=>{
+    try {
+         const url =  `http://localhost:3000/api/porfilesChat?userActivateChat=${actualuser}`
+         const response = await ClientPlugin_perfiles_chat.get(url)
+         return response
+    } catch (error) {
+        return 'user not found'
+        
+    }
 }

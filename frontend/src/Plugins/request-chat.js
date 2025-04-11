@@ -42,3 +42,23 @@ export const httpClientePlugin = {
         return new Error('This part code isnt implement');
     }
 };
+export const ClientPlugin_perfiles_chat = {
+  get: async(url) => {
+    try {
+      const response = await axios.get(url);
+      return response.data;
+  } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
+  }
+  },
+  post: async(url, body) => {
+    return new Error('This part code isnt implement');
+  },
+  put: async(url, body) => {
+    return new Error('This part code isnt implement');
+  },
+  delete: async(url, body) => { 
+    return new Error('This part code isnt implement');
+  }
+};

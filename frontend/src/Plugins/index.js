@@ -1,1 +1,1 @@
-export {httpClientePlugin} from './request-chat.js';
+export {httpClientePlugin, ClientPlugin_perfiles_chat} from './request-chat.js';

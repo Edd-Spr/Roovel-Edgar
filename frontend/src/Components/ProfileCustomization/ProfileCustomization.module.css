@@ -1,17 +1,3 @@
-:root {
-    --primary-color: #4A617F;
-    --secondary-color: #B2C9CE;
-    --hover-color: #354860;
-    --active-tag-color: #CBA18A;
-    --inactive-tag-color: #4A617F;
-    --background-color: #ffffff;
-    --border-color: #B2C9CE;
-    --button-hover-color: #9cb2b6;
-    --loader-bg-color: rgba(255, 230, 214, 0.163);
-    --tag-hover-color: #eeeeee;
-    --input-background: #cccccc;
-    --input-hover-background: #c0c0c0;
-}
 
 .profileCustomizationMainBox {
     width: 70vw;

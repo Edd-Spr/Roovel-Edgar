@@ -1,8 +1,8 @@
-import './AdvertisingSection.css'
+import Styles from './AdvertisingSection.module.css'
 
 const AdvertisingSection = ({title, description, direction,image, position, color, top}) => {
     return (
-    <article className="advertisingSectionContainer">
+    <article className={Styles.advertisingSectionContainer}>
         {position === 1 ? 
         <>
             <AdvertisingTitleBox title={title} image={image} color={color} top={top}/> 
@@ -18,23 +18,24 @@ const AdvertisingSection = ({title, description, direction,image, position, colo
 
 const AdvertisingTitleBox = ({title, image, color, top}) => {
     return (
-        <section className='AdvertisingBox'>
+        <section className={Styles.AdvertisingBox}>
             <img 
                 src={image}
                 alt=""
-                className="imgAdvertising"
+                className={Styles.imgAdvertising}
+                draggable="false"
                 style={{top: top}}
             />
-            <div className="bluAdvertising" style={{background: color}}></div>
-            <label htmlFor="" className='titleAdvertising'>{title}</label>
+            <div className={Styles.blurAdvertising} style={{background: color}}></div>
+            <label htmlFor="" className={Styles.titleAdvertising}>{title}</label>
         </section>
     );
 }
 const AdvertisingInfoBox = ({color, description, direction}) => {
     return (
-        <section className='AdvertisingBox'  style={{background: color, padding: '50px'}}>
-            <label htmlFor="" className="advertisingDescription">{description}</label>
-            <button className="advertisingButton">Explorar</button>
+        <section className={Styles.AdvertisingBox}  style={{background: color, padding: '50px'}}>
+            <label htmlFor="" className={Styles.advertisingDescription}>{description}</label>
+            <button className={Styles.advertisingButton}>Explorar</button>
         </section>
     );
 }

@@ -1,35 +1,40 @@
 import { useState, useEffect, useRef } from 'react';
+import { io } from 'socket.io-client';
 import '../Styles/ChatOpen.css';
 import MessageBox from './MessageBox';
 import MessageEditor from './MessageEditor';
-import { getMessages } from '../templade/callback_chat_messges.js';
+
+const socket = io('http://localhost:3000');
 
 const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, setActualChat }) => {
     const [messageContainerHeight, setMessageContainerHeight] = useState(window.innerHeight * 0.85);
-    const [mensajes, setMensajes] = useState([]); // Estado para los mensajes
-    const parasite = mensajes; // Alias para los mensajes
+    const [messageList, setMessageList] = useState([]); // Renombrado de menssgeContainer a messageList
 
-    // Función para obtener mensajes
-    const fetchMessages = async () => {
-        try {
-            const response = await getMessages(user, idRemitente); // Llamar a la función getMessages
-            setMensajes(response); // Actualizar el estado con los mensajes obtenidos
-            console.log('Mensajes obtenidos:', response);
-        } catch (error) {
-            console.error('Error al obtener los mensajes iniciales:', error);
-        }
-    };
-
-    // useEffect para actualizar los mensajes cada 1 segundo
     useEffect(() => {
-        fetchMessages(); // Llamar a la función inmediatamente al montar el componente
+        if (!idRemitente || !user) return;
 
-        const interval = setInterval(() => {
-            fetchMessages(); 
-        }, 2000);
+        socket.emit('fetch messages', { idReciveMessague: idRemitente, idSentMessage: user });
 
-        return () => clearInterval(interval); 
-    }, [idRemitente, user]); 
+        socket.on('fetch messages response', (messages) => {
+            console.log('Mensajes históricos:', messages);
+            setMessageList(messages); 
+        });
+
+        socket.on('new message', (newMessage) => {
+            console.log('Nuevo mensaje recibido:', newMessage);
+            if (!newMessage || !newMessage.id || !newMessage.idReciveMessague || !newMessage.idSentMessage || !newMessage.message) {
+                console.error('Formato de mensaje inválido:', newMessage);
+                return;
+            }
+            socket.emit('fetch messages', { idReciveMessague: idRemitente, idSentMessage: user });
+        });
+
+        return () => {
+            socket.off('fetch messages response');
+            socket.off('new message');
+        };
+    }, [idRemitente, user]);
+
     return (
         <section className="chatOpenContainer" style={{ width: chatIsOpen && '55vw' }}>
             <section className="ChatOpen">
@@ -38,7 +43,7 @@ const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, s
                     infoProfile={infoProfile}
                     user={user}
                     messageContainerHeight={messageContainerHeight}
-                    parasite={parasite} // Pasar parasite como prop
+                    messageList={messageList} 
                 />
                 <MessageEditor setMessageContainerHeight={setMessageContainerHeight} idReciveMessague={idRemitente} idSentMessage={user} />
             </section>
@@ -67,21 +72,19 @@ function ContactBar({ infoProfile, setChatIsOpen, setActualChat }) {
     );
 }
 
-function MessageContainer({ infoProfile, user, messageContainerHeight, parasite }) {
+function MessageContainer({ infoProfile, user, messageContainerHeight, messageList }) {
     const messagesEndRef = useRef(null);
-
-    // Efecto para hacer scroll al final de los mensajes
     useEffect(() => {
-        if (!parasite) return;
-
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [parasite]); // Dependencia: parasite
+        if (messageList.length > 0) {
+            messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messageList]);
 
     return (
         <div className="messageContainer" style={{ height: messageContainerHeight, overflowY: 'auto' }}>
-            {parasite.map((info, index) => (
+            {messageList.map((info, index) => (
                 <MessageBox
-                    key={index}
+                    key={info.id || index} 
                     messages={info}
                     chatUserId={infoProfile?.id}
                     user={user}

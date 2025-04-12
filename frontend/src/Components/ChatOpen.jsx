@@ -4,62 +4,106 @@ import MessageBox from './MessageBox';
 import MessageEditor from './MessageEditor';
 import { getMessages } from '../templade/callback_chat_messges.js';
 
-const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, setActualChat }) => {
+const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, setActualChat, actualChatType}) => {
     const [messageContainerHeight, setMessageContainerHeight] = useState(window.innerHeight * 0.85);
-    const [mensajes, setMensajes] = useState([]); // Estado para los mensajes
-    const parasite = mensajes; // Alias para los mensajes
+    const [mensajes, setMensajes] = useState([]);
+    const parasite = mensajes;
 
-    // Función para obtener mensajes
     const fetchMessages = async () => {
         try {
-            const response = await getMessages(user, idRemitente); // Llamar a la función getMessages
-            setMensajes(response); // Actualizar el estado con los mensajes obtenidos
+            const response = await getMessages(user, idRemitente);
+            setMensajes(response);
             console.log('Mensajes obtenidos:', response);
         } catch (error) {
             console.error('Error al obtener los mensajes iniciales:', error);
         }
     };
 
-    // useEffect para actualizar los mensajes cada 1 segundo
     useEffect(() => {
-        fetchMessages(); // Llamar a la función inmediatamente al montar el componente
-
+        fetchMessages();
         const interval = setInterval(() => {
-            fetchMessages(); 
+            fetchMessages();
         }, 2000);
+        return () => clearInterval(interval);
+    }, [idRemitente, user]);
 
-        return () => clearInterval(interval); 
-    }, [idRemitente, user]); 
     return (
         <section className={`chatOpenContainer ${chatIsOpen && 'chatIsOpen'}`}>
-            <section className="ChatOpen">
-                <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat} />
-                <MessageContainer
+            {actualChatType == 'grupo' ? 
+                <ChatGroupOpen
                     infoProfile={infoProfile}
+                    setChatIsOpen={setChatIsOpen}
+                    setActualChat={setActualChat}
                     user={user}
                     messageContainerHeight={messageContainerHeight}
-                    parasite={parasite} // Pasar parasite como prop
+                    parasite={parasite}
+                    idRemitente={idRemitente}
+                    setMessageContainerHeight={setMessageContainerHeight}
+                /> :
+                <ChatContactOpen
+                    infoProfile={infoProfile}
+                    setChatIsOpen={setChatIsOpen}
+                    setActualChat={setActualChat}
+                    user={user}
+                    messageContainerHeight={messageContainerHeight}
+                    parasite={parasite}
+                    idRemitente={idRemitente}
+                    setMessageContainerHeight={setMessageContainerHeight}
                 />
-                <MessageEditor setMessageContainerHeight={setMessageContainerHeight} idReciveMessague={idRemitente} idSentMessage={user} />
-            </section>
+            }
         </section>
     );
 };
 
+function ChatContactOpen({ infoProfile, setChatIsOpen, setActualChat, user, messageContainerHeight, parasite, idRemitente, setMessageContainerHeight }) {
+    return (
+        <section className="ChatOpen">
+            <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat} />
+            <MessageContainer
+                infoProfile={infoProfile}
+                user={user}
+                messageContainerHeight={messageContainerHeight}
+                parasite={parasite}
+            />
+            <MessageEditor
+                setMessageContainerHeight={setMessageContainerHeight}
+                idReciveMessague={idRemitente}
+                idSentMessage={user}
+            />
+        </section>
+    );
+}
+function ChatGroupOpen({ infoProfile, setChatIsOpen, setActualChat, user, messageContainerHeight, parasite, idRemitente, setMessageContainerHeight }) {
+    return (
+        <section className="ChatOpen" style={{backgroundColor: '#F0F0F0'}}>
+            <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat} />
+            <MessageContainer
+                infoProfile={infoProfile}
+                user={user}
+                messageContainerHeight={messageContainerHeight}
+                parasite={parasite}
+            />
+            <MessageEditor
+                setMessageContainerHeight={setMessageContainerHeight}
+                idReciveMessague={idRemitente}
+                idSentMessage={user}
+            />
+        </section>
+    );
+}
+
 function ContactBar({ infoProfile, setChatIsOpen, setActualChat }) {
-    function close() {
+    const close = () => {
         setChatIsOpen(false);
         setTimeout(() => setActualChat(''), 400);
-    }
+    };
 
     return (
         <div className="contactBar">
             <div className="contactBarPhotoContainer">
                 <img src={`/PhotoProfiles/${infoProfile?.imagen}`} alt="" className="contactBarPhoto" />
             </div>
-
             <p className="profileName">{infoProfile?.nombre}</p>
-
             <button className="closeChat" onClick={close}>
                 <img src="/Graphics/Icons/close.png" alt="" style={{ width: '100%' }} />
             </button>
@@ -70,12 +114,10 @@ function ContactBar({ infoProfile, setChatIsOpen, setActualChat }) {
 function MessageContainer({ infoProfile, user, messageContainerHeight, parasite }) {
     const messagesEndRef = useRef(null);
 
-    // Efecto para hacer scroll al final de los mensajes
     useEffect(() => {
         if (!parasite) return;
-
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [parasite]); // Dependencia: parasite
+    }, [parasite]);
 
     return (
         <div className="messageContainer" style={{ height: messageContainerHeight, overflowY: 'auto' }}>

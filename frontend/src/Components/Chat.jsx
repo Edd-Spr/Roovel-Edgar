@@ -8,6 +8,7 @@ import { getPorfiles } from '../templade/callback_chat_messges.js';
 const Chat = () =>{
   const [chatIsOpen, setChatIsOpen] = useState(false);
   const [actualChat, setActualChat] = useState('');
+  const [actualChatType, setActualChatType] = useState(''); // Estado para almacenar el tipo de chat
   const [barChatOpen, setBarChatOpen] = useState(true);
   const [leftBarButtonPressed, setLeftBarButtonPressed] = useState(false);
   const [activeSection, setActiveSection] = useState('chats');
@@ -118,6 +119,7 @@ const grupos = [
 
   const remitente = [...perfiles, ...grupos].find((perfil) => perfil.id === actualChat)?.idRemitente;
 
+  console.log('actualChatType:', actualChatType);
   return (
     <article className={`chatContainer ${chatIsOpen ? 'chatContainerOpen' : ''}`}>
       <section style={{ zIndex: '1000', display: 'flex' }}>
@@ -132,6 +134,7 @@ const grupos = [
           setActiveSection={setActiveSection}
           leftBarButtonPressed={leftBarButtonPressed}
           setLeftBarButtonPressed={setLeftBarButtonPressed}
+          setActualChatType={setActualChatType}
         />
 
         {activeSection === 'chats' ? (
@@ -142,6 +145,7 @@ const grupos = [
             perfiles={perfiles}
             barChatOpen={barChatOpen}
             setBarChatOpen={setBarChatOpen}
+            setActualChatType={setActualChatType}
           />
         ) : (
           <FriendsRequest />
@@ -155,22 +159,25 @@ const grupos = [
         idRemitente={remitente}
         user={user}
         setActualChat={setActualChat}
+        actualChatType={actualChatType}
+        setActualChatType={setActualChatType}
       />
     </article>
   );
 }
 
 const LeftBarChat = ({
-  grupos,
-  barChatOpen,
-  setBarChatOpen,
-  actualChat,
-  setActualChat,
-  setChatIsOpen,
-  activeSection,
-  setActiveSection,
-  leftBarButtonPressed,
-  setLeftBarButtonPressed,
+    grupos,
+    barChatOpen,
+    setBarChatOpen,
+    actualChat,
+    setActualChat,
+    setChatIsOpen,
+    activeSection,
+    setActiveSection,
+    leftBarButtonPressed,
+    setLeftBarButtonPressed,
+    setActualChatType,
 }) => {
   function chatClick() {
     setLeftBarButtonPressed(false);
@@ -230,6 +237,7 @@ const LeftBarChat = ({
           {grupos.map((perfil) => (
             <ChatBox
               key={perfil.id}
+              chatType={perfil.chatType}
               chatKey={perfil.id}
               image={perfil.imagen}
               name={perfil.nombre}
@@ -240,6 +248,7 @@ const LeftBarChat = ({
               barChatOpen={barChatOpen}
               setBarChatOpen={setBarChatOpen}
               barChatType={false}
+              setActualChatType={setActualChatType}
             />
           ))}
           <ToggleChatButton barChatOpen={barChatOpen} setBarChatOpen={setBarChatOpen} />

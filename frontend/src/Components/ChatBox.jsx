@@ -1,6 +1,6 @@
 import '../Styles/ChatBox.css'
 
-const ChatBox = ({image, name, actualChat, setActualChat, setChatIsOpen, infoProfile, barChatOpen, setBarChatOpen, barChatType, chatKey}) =>{
+const ChatBox = ({image, name, actualChat, setActualChat, setChatIsOpen, infoProfile, barChatOpen, setBarChatOpen, barChatType, chatKey, chatType, setActualChatType}) =>{
 
     const barChatOpenComparation = (barChatOpen == barChatType);
     function click(){
@@ -8,6 +8,7 @@ const ChatBox = ({image, name, actualChat, setActualChat, setChatIsOpen, infoPro
         setActualChat(infoProfile.id);
         setChatIsOpen(true);
         setBarChatOpen(barChatOpen=barChatType);
+        setActualChatType(chatType);
 
     }
 

@@ -3,7 +3,7 @@ import SearchInput from '../Components/SearchInput.jsx';
 import '../Styles/chatsContainer.css';
 import { useState } from 'react';
 
-const ContactsContainer = ({actualChat, setActualChat, setChatIsOpen, perfiles, barChatOpen, setBarChatOpen}) => {
+const ContactsContainer = ({actualChat, setActualChat, setChatIsOpen, perfiles, barChatOpen, setBarChatOpen, setActualChatType}) => {
 
   return (
     <div 
@@ -28,6 +28,7 @@ const ContactsContainer = ({actualChat, setActualChat, setChatIsOpen, perfiles, 
         {perfiles.map((perfil) => 
           <ChatBox
             key={perfil.id}
+            chatType={perfil.tipo}
             chatKey={perfil.id}
             actualChat={actualChat}
             image={perfil.imagen}
@@ -38,6 +39,7 @@ const ContactsContainer = ({actualChat, setActualChat, setChatIsOpen, perfiles, 
             barChatOpen={barChatOpen}
             setBarChatOpen={setBarChatOpen}
             barChatType={true}
+            setActualChatType={setActualChatType}
           />
           )}
       </div>

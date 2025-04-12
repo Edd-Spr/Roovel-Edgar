@@ -75,7 +75,7 @@ const grupos = [
            { idRemitente: 222, remitente: "Tú", contenido: "Me gusta la idea, el jazz siempre da un toque especial.", timestamp: "2024-07-11 02:10 PM" },
            { idRemitente: 11, remitente: "Fernando", contenido: "Sí, estoy pensando en mezclar jazz con electrónica.", timestamp: "2024-07-11 02:15 PM" },
            { idRemitente: 222, remitente: "Tú", contenido: "Eso suena interesante, ¿tienes algún avance?", timestamp: "2024-07-11 02:20 PM" },
-           { idRemitente: 12, remitente: "Valeria", contenido: "Me encantaría escucharlo cuando esté listo.", timestamp: "2024-07-11 02:25 PM" },
+           { idRemitente: 12, remitente: "Valeria", contenido: "Me encantaría escucharlo cuando esté listoZ.", timestamp: "2024-07-11 02:25 PM" },
            { idRemitente: 11, remitente: "Fernando", contenido: "Claro, les comparto un avance en unos días.", timestamp: "2024-07-11 02:30 PM" },
            { idRemitente: 222, remitente: "Tú", contenido: "Genial, estoy ansioso por escucharlo.", timestamp: "2024-07-11 02:35 PM" }
        ]
@@ -117,148 +117,159 @@ const grupos = [
 ];
 
   const remitente = [...perfiles, ...grupos].find((perfil) => perfil.id === actualChat)?.idRemitente;
-    return (
 
-      <article className="chatContainer">
-        <section style={{zIndex: '1000', display: 'flex'}}>
-            <LeftBarChat
-                grupos={grupos}
-                barChatOpen={barChatOpen}
-                setBarChatOpen={setBarChatOpen}
-                actualChat={actualChat}
-                setActualChat={setActualChat}
-                setChatIsOpen={setChatIsOpen}
-                activeSection={activeSection}
-                setActiveSection={setActiveSection}
-                leftBarButtonPressed={leftBarButtonPressed}
-                setLeftBarButtonPressed={setLeftBarButtonPressed}
-            />
-
-
-            {activeSection == 'chats' ? <ContactsContainer
-                actualChat={actualChat}
-                setActualChat={setActualChat}
-                setChatIsOpen={setChatIsOpen}
-                perfiles={perfiles}
-                barChatOpen={barChatOpen}
-                setBarChatOpen={setBarChatOpen}
-            /> : 
-            <FriendsRequest/>
-            }
-
-        </section>
-    
-        <ChatOpen
-            chatIsOpen={chatIsOpen}
-            setChatIsOpen={setChatIsOpen}
-            infoProfile={[...perfiles, ...grupos].find((perfil) => perfil.id === actualChat)}
-            idRemitente={remitente} 
-            user={user}
-            setActualChat={setActualChat}
+  return (
+    <article className={`chatContainer ${chatIsOpen ? 'chatContainerOpen' : ''}`}>
+      <section style={{ zIndex: '1000', display: 'flex' }}>
+        <LeftBarChat
+          grupos={grupos}
+          barChatOpen={barChatOpen}
+          setBarChatOpen={setBarChatOpen}
+          actualChat={actualChat}
+          setActualChat={setActualChat}
+          setChatIsOpen={setChatIsOpen}
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+          leftBarButtonPressed={leftBarButtonPressed}
+          setLeftBarButtonPressed={setLeftBarButtonPressed}
         />
 
-      </article>
+        {activeSection === 'chats' ? (
+          <ContactsContainer
+            actualChat={actualChat}
+            setActualChat={setActualChat}
+            setChatIsOpen={setChatIsOpen}
+            perfiles={perfiles}
+            barChatOpen={barChatOpen}
+            setBarChatOpen={setBarChatOpen}
+          />
+        ) : (
+          <FriendsRequest />
+        )}
+      </section>
 
-    );
-
+      <ChatOpen
+        chatIsOpen={chatIsOpen}
+        setChatIsOpen={setChatIsOpen}
+        infoProfile={[...perfiles, ...grupos].find((perfil) => perfil.id === actualChat)}
+        idRemitente={remitente}
+        user={user}
+        setActualChat={setActualChat}
+      />
+    </article>
+  );
 }
 
-const LeftBarChat = ({grupos, barChatOpen, setBarChatOpen, actualChat, setActualChat, setChatIsOpen, activeSection, setActiveSection, leftBarButtonPressed, setLeftBarButtonPressed}) => {
+const LeftBarChat = ({
+  grupos,
+  barChatOpen,
+  setBarChatOpen,
+  actualChat,
+  setActualChat,
+  setChatIsOpen,
+  activeSection,
+  setActiveSection,
+  leftBarButtonPressed,
+  setLeftBarButtonPressed,
+}) => {
+  function chatClick() {
+    setLeftBarButtonPressed(false);
+    setActiveSection('chats');
+  }
 
-    function chatClick(){
-        setLeftBarButtonPressed(false);
-        setActiveSection('chats');
-    }
-    function friendsClick(){
-        setLeftBarButtonPressed(true)
-        setActiveSection('friends')
-        setBarChatOpen(true)
-    }
-    return (
+  function friendsClick() {
+    setLeftBarButtonPressed(true);
+    setActiveSection('friends');
+    setBarChatOpen(true);
+  }
 
-        <div className='leftBarChat' style={barChatOpen ? {} : {width: '20vw'}} >
-
-            <button className="leftBarButtonAction" 
-                style={{ 
-                    width: barChatOpen === false ? '20vw' : '9vh',
-                    background: leftBarButtonPressed == false ? 'gray' : 'transparent',
-                }}
-                onClick={chatClick}
-            >
-                <img 
-                    src="/Graphics/Icons/chat_bubble.png" 
-                    alt="" 
-                    draggable='false'
-                    style={{height: '60%'}}
-                    className='iconLeftBarButtonAction'
-                    />
-            </button>
-
-            <button className="leftBarButtonAction" 
-                style={{ 
-                    width: barChatOpen == false ? '20vw' : '9vh', 
-                    background: leftBarButtonPressed == true ? 'gray' : 'transparent' }}
-                onClick={friendsClick}
-            >
-                <img 
-                    src="/Graphics/Icons/friend_request.png" 
-                    alt="" 
-                    draggable='false'
-                    style={{height: '60%'}}
-                    className='iconLeftBarButtonAction'
-                    />
-            </button>
-        
-            {activeSection == 'chats' &&
-            <>
-            {grupos.map((perfil) => 
-                <ChatBox
-                    key={perfil.id}
-                    chatKey={perfil.id}
-                    image={perfil.imagen}
-                    name={perfil.nombre}
-                    actualChat={actualChat}
-                    setActualChat={setActualChat}
-                    setChatIsOpen={setChatIsOpen}
-                    infoProfile={perfil}
-                    barChatOpen={barChatOpen}
-                    setBarChatOpen={setBarChatOpen}
-                    barChatType={false}
-                />
-            )}
-            <ToggleChatButton
-                barChatOpen={barChatOpen}
-                setBarChatOpen={setBarChatOpen}
-            />
-            </>
-        }
+  return (
+    <div
+      className="leftBarChat"
+      style={{
+        width: barChatOpen === false ? '25vw' : '4rem',
+        minWidth: barChatOpen === false ? '18rem' : '4rem',
+      }}
+    >
+      <button
+        className="leftBarButtonAction"
+        style={{
+          background: leftBarButtonPressed === false ? 'gray' : 'transparent',
+        }}
+        onClick={chatClick}
+      >
+        <div className="iconLeftBarContainer">
+          <img
+            src="/Graphics/Icons/chat_bubble.png"
+            alt=""
+            draggable="false"
+            className="iconLeftBarButtonAction"
+          />
         </div>
+      </button>
 
-    );
-}
+      <button
+        className={`leftBarButtonAction ${!barChatOpen ? 'barChatOpen' : ''}`}
+        style={{
+          background: leftBarButtonPressed === true ? 'gray' : 'transparent',
+        }}
+        onClick={friendsClick}
+      >
+        <div className="iconLeftBarContainer">
+          <img
+            src="/Graphics/Icons/friend_request.png"
+            alt=""
+            draggable="false"
+            className="iconLeftBarButtonAction"
+          />
+        </div>
+      </button>
+
+      {activeSection === 'chats' && (
+        <>
+          {grupos.map((perfil) => (
+            <ChatBox
+              key={perfil.id}
+              chatKey={perfil.id}
+              image={perfil.imagen}
+              name={perfil.nombre}
+              actualChat={actualChat}
+              setActualChat={setActualChat}
+              setChatIsOpen={setChatIsOpen}
+              infoProfile={perfil}
+              barChatOpen={barChatOpen}
+              setBarChatOpen={setBarChatOpen}
+              barChatType={false}
+            />
+          ))}
+          <ToggleChatButton barChatOpen={barChatOpen} setBarChatOpen={setBarChatOpen} />
+        </>
+      )}
+    </div>
+  );
+};
 
 const FriendsRequest = () => {
-    return (
-        <div className="friendsRequestContainer">
+  return (
+    <div className="friendsRequestContainer">
 
-        </div>
-    );
+    </div>
+  );
 }
 
-const ToggleChatButton = ({setBarChatOpen, barChatOpen}) =>{
+const ToggleChatButton = ({ setBarChatOpen, barChatOpen }) => {
+  return (
+    <button className="leftBarButtonAction" onClick={() => setBarChatOpen(!barChatOpen)}>
+      <div className="iconLeftBarContainer">
+        <img
+          src="/Graphics/Icons/flechas.png"
+          alt=""
+          draggable="false"
+          className="iconLeftBarButtonAction"
+        />
+      </div>
+    </button>
+  );
+};
 
-    return(
-
-        <button className='toggleChatButton' onClick={()=>setBarChatOpen(!barChatOpen)}>
-            <img 
-                src="/Graphics/Icons/flechas.png" 
-                alt="" 
-                style={{width: '100%'}}
-                draggable='false'
-                />
-        </button>
-
-    );
-}
-
-  export default Chat;
+export default Chat;

@@ -31,7 +31,7 @@ const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, s
         return () => clearInterval(interval); 
     }, [idRemitente, user]); 
     return (
-        <section className="chatOpenContainer" style={{ width: chatIsOpen && '55vw' }}>
+        <section className={`chatOpenContainer ${chatIsOpen && 'chatIsOpen'}`}>
             <section className="ChatOpen">
                 <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat} />
                 <MessageContainer

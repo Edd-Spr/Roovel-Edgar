@@ -6,7 +6,7 @@ import MessageEditor from './MessageEditor';
 
 const socket = io('http://localhost:3000');
 
-const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, setActualChat }) => {
+const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, setActualChat, actualChatType }) => {
     const [messageContainerHeight, setMessageContainerHeight] = useState(window.innerHeight * 0.85);
     const [messageList, setMessageList] = useState([]); // Renombrado de menssgeContainer a messageList
 
@@ -36,20 +36,69 @@ const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, s
     }, [idRemitente, user]);
 
     return (
-        <section className="chatOpenContainer" style={{ width: chatIsOpen && '55vw' }}>
-            <section className="ChatOpen">
-                <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat} />
-                <MessageContainer
+        <section className={`chatOpenContainer ${chatIsOpen && 'chatIsOpen'}`}>
+            {actualChatType === 'grupo' ?
+                <ChatGroupOpen
                     infoProfile={infoProfile}
+                    chatIsOpen={chatIsOpen}
+                    setChatIsOpen={setChatIsOpen}
+                    idRemitente={idRemitente}
                     user={user}
+                    setActualChat={setActualChat}
                     messageContainerHeight={messageContainerHeight}
-                    messageList={messageList} 
-                />
-                <MessageEditor setMessageContainerHeight={setMessageContainerHeight} idReciveMessague={idRemitente} idSentMessage={user} />
-            </section>
+                    setMessageContainerHeight={setMessageContainerHeight}
+                    messageList={messageList}
+                />:
+                <ChatContactOpen
+                    infoProfile={infoProfile}
+                    chatIsOpen={chatIsOpen}
+                    setChatIsOpen={setChatIsOpen}
+                    idRemitente={idRemitente}
+                    user={user}
+                    setActualChat={setActualChat}
+                    messageContainerHeight={messageContainerHeight}
+                    setMessageContainerHeight={setMessageContainerHeight}
+                    messageList={messageList}
+                />}
         </section>
     );
 };
+
+
+const ChatContactOpen = ({setChatIsOpen, infoProfile, idRemitente, user, setActualChat, messageContainerHeight, setMessageContainerHeight, messageList }) => {
+    return (
+        <section className="ChatOpen">
+            <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat} />
+            <MessageContainer
+                infoProfile={infoProfile}
+                user={user}
+                messageContainerHeight={messageContainerHeight}
+                messageList={messageList} 
+            />
+            <MessageEditor 
+                setMessageContainerHeight={setMessageContainerHeight} 
+                idReciveMessague={idRemitente} 
+                idSentMessage={user} />
+        </section>
+    )
+}
+const ChatGroupOpen = ({setChatIsOpen, infoProfile, idRemitente, user, setActualChat, messageContainerHeight, setMessageContainerHeight, messageList }) => {
+    return (
+        <section className="ChatOpen" style={{backgroundColor: '#f0f0f0'}}>
+            <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat} />
+            <MessageContainer
+                infoProfile={infoProfile}
+                user={user}
+                messageContainerHeight={messageContainerHeight}
+                messageList={messageList} 
+            />
+            <MessageEditor 
+                setMessageContainerHeight={setMessageContainerHeight} 
+                idReciveMessague={idRemitente} 
+                idSentMessage={user} />
+        </section>
+    )
+}
 
 function ContactBar({ infoProfile, setChatIsOpen, setActualChat }) {
     function close() {

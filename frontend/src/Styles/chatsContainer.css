@@ -1,54 +1,70 @@
 .chatContainer{
+    width: calc(25vw + 4rem);
+    min-width: 22rem;
     display: flex;
-    position: absolute;
+    flex-shrink: 0;
+    transition: .5s;
+}
+.chatContainerOpen{
+    width: 100%;
 }
 .chatContactsSection{
-    width: 20vw;
+    width: 4rem;
     height: 92vh;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: flex-start;
     overflow: scroll;
     background-color: #E2DAD0;
+    transition: .3s;
+    position: relative;
 }
 .chatSearchContainer{
     width: 100%;
-    height: 12vh;
+    height: 5rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: fixed;
+    background-color: #E2DAD0;
+    border-bottom: 1px solid #D3C0B5;
+    transition: .3s;
+}
+.contactsContainer{
+    margin-top: 5rem;
 }
 .leftBarChat{
-    width: 4vw;
+    width: 4rem;
     height: 92vh;
     background-color: #D3C0B5;
     transition: .3s;
 }
 .toggleChatButton{
-    width: 6vh;
-    height: 6vh;
+    width: 100%;
+    height: 4rem;
     background: none;
     border: none;
     transition: .3s;
     position: absolute;
     bottom: 0;
-    margin: 1vh;
-}
-.toggleChatButton:hover{
-
-    width: 6.5vh;
-    height: 6.5vh;
 }
 
 .leftBarButtonAction{
-    height: 8vh;
-    transition: .3s;
+    width: 100%;
+    min-width: 4rem;
+    height: 4rem;
     border: none;
     background: none;
     text-align: left;
+    display: flex;
+    padding: 0;
+}
+.iconLeftBarContainer{
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .iconLeftBarButtonAction{
-margin-left: 1vh;
+    height: 55%;
 }
 .leftBarButtonAction:hover{
     background: #b5a296;
@@ -58,5 +74,8 @@ margin-left: 1vh;
     height: 92vh;
     background-color: white;
     border-right: 1px solid #b5a296;
-    transition: .3s;
+}
+.barChatOpen{
+    width: 25vw;
+    min-width: 18rem;
 }

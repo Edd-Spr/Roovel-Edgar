@@ -1,6 +1,6 @@
 import '../Styles/ChatBox.css'
 
-const ChatBox = ({image, name, actualChat, setActualChat, setChatIsOpen, infoProfile, barChatOpen, setBarChatOpen, barChatType, chatKey}) =>{
+const ChatBox = ({image, name, actualChat, setActualChat, setChatIsOpen, infoProfile, barChatOpen, setBarChatOpen, barChatType, chatKey, chatType, setActualChatType}) =>{
 
     const barChatOpenComparation = (barChatOpen == barChatType);
     function click(){
@@ -8,29 +8,30 @@ const ChatBox = ({image, name, actualChat, setActualChat, setChatIsOpen, infoPro
         setActualChat(infoProfile.id);
         setChatIsOpen(true);
         setBarChatOpen(barChatOpen=barChatType);
+        setActualChatType(chatType);
 
     }
 
     return (
         <button 
-            className="chatBox" 
+            className={`chatBox`}
             onClick={() => click()} 
             style={{
                 ...(actualChat == chatKey && { backgroundColor: '#FFFFFF' }),
-                width: barChatOpenComparation ? '20vw' : '9vh'
+                width: barChatOpenComparation ? '25vw' : '4rem',
+                minWidth: barChatOpenComparation ? '18rem' : '4rem',
               }}
         >
 
             <ProfilePhoto
                 image={image}
             />
+        
+            <ContentChatBox
+                name={name}
+                barChatOpen={barChatOpen}
+            />
             
-            {barChatOpen == barChatType &&
-                <ContentChatBox
-                    name={name}
-                    barChatOpen={barChatOpen}
-                />
-            }
         </button>
     );
 }
@@ -39,7 +40,7 @@ const ProfilePhoto = ({image, barChatOpen}) => {
 
     return (
         <div className="photoSectionContainer">
-            <div className="photoContainer"   style={barChatOpen ? {marginLeft: '2vh', marginRight: '3vh'} : {margin: '0'}}>
+            <div className="photoContainer">
                 <img 
                     src = {`/PhotoProfiles/${image}`} 
                     alt="" 

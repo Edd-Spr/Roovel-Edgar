@@ -3,16 +3,20 @@
  font-family: Arial, Helvetica, sans-serif;
 }
 .chatOpenContainer{
-    width: 0;
     position: relative;
     transition: .5s;
     background-color: white;
     z-index: 999;
 }
+.chatIsOpen{
+    flex-grow: 1;
+    transition: .5s;
+}
 .ChatOpen{
-    width: 55vw;
+    width: 100%;
+    min-width: 40vw;
     height: 92vh;
-    transition: .3s;
+    transition: .5s;
     position: absolute;
     right: 0;
 }

@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 import axios from 'axios';
 
+import { API_URL_MAP__NEAREST_PLACES, API_URL_MAP__HOME } from "../../../env";
+
 import { useMap as useMapLeaflet, useMapEvents } from 'react-leaflet';
 
 export default function useMap() {
@@ -8,15 +10,59 @@ export default function useMap() {
   const [ readableDirection, setReadableDirection ] = useState('');
   const [ displayCard, setDisplayCard ] = useState(0);
   const [ places, setPlaces ] = useState([]);
-  const [ home, setHome ] = useState({
-    home_name: '',
-    home_address: '',
-    home_img: '',
-    home_description: '',
-    home_price: '',
-    home_id: '',
-    rooms: [],
-  });
+  const [ home, setHome ] = useState({});
+  const [ searched, setSearched ] = useState(false);
+
+  const [ dirTyped, setDirTyped ] = useState('');
+  const [ possiblePlaces, setPossiblePlaces ] = useState([]);
+
+  async function getNearestPlaces({ params }) {
+    if ( !params ) return
+    return await axios.get( API_URL_MAP__NEAREST_PLACES, { params } );
+  }
+
+  async function getPlace({ params }) {
+    if ( !params ) return
+    return await axios.get( API_URL_MAP__HOME, { params } );
+  }
+
+  async function getReadableDirection( position ) {
+    const url = `https://nominatim.openstreetmap.org/reverse`;
+    const params = `format=json&lat=${position[0]}&lon=${position[1]}&zoom=18&addressdetails=1`;
+    const response = await axios.get( `${ url }?${ params }` );
+
+    if ( response && response.data ) return response.data.display_name;
+  }
+
+  async function getSimilarPlaces( readable_location ) {
+    const url = `https://nominatim.openstreetmap.org/search`;
+    const params = `q=${readable_location}&format=json&addressdetails=1`;
+    const response = await axios.get( `${ url }?${ params }` );
+
+    if ( response && response.data ) return response.data;
+  }
+
+  async function getLatLng( readable_location ) {
+    const url = `https://nominatim.openstreetmap.org/search`;
+    const params = `q=${readable_location}&format=json`;
+    const response = await axios.get( `${ url }?${ params }` );
+
+    if ( response && response.data[ 0 ] ) return [ response.data[ 0 ].lat, response.data[ 0 ].lon, response.data[ 0 ].display_name ];
+  }
+
+  async function getPlaces( latlng ) {
+    // If the response is empty, do nothing
+    // Should give feedback to the user
+    if ( !latlng ) return
+    const [ lat, lng ] = latlng;
+
+    // Get nearest places
+    const res = await getNearestPlaces( { params: { currentLat: lat, currentLon: lng } });
+
+    // it the places response is empty, do nothing
+    if ( !res || !res.data ) return
+    setPlaces( res.data.homes ); // instead, update
+  }
 
   const eventHandlers = {
     click: (e) => {
@@ -26,7 +72,7 @@ export default function useMap() {
 
       (async () => {
         const display_name = await getReadableDirection([lat, lng]);
-        const res2 = await axios.get(`http://127.0.0.1:3000/api/home`, { params:{ lat, lon : lng } });
+        const res2 = await getPlace({ params:{ lat, lon: lng } });
 
         if ( !display_name || !res2 ) return
 
@@ -51,7 +97,7 @@ export default function useMap() {
         const { lat, lng } = e.latlng;
         map.setView([lat, lng], map.getZoom());
         setPosition([lat, lng]);
-        setReadableDirection( getReadableDirection([lat, lng]) );
+        setReadableDirection( readableDirection );
       },
     });
   
@@ -70,44 +116,65 @@ export default function useMap() {
   }
 
   function onPositionUpdate( e ) {
-    e.preventDefault();	
-    const formData = new FormData(e.target);	
-    const readable_location = formData.get('map-form__place');
-  
-    (async () => {
-      const url = `https://nominatim.openstreetmap.org/search`;
-      const params = `q=${readable_location}&format=json`;
-      const response = await axios.get( `${ url }?${ params }` );
-
-      if ( response?.data[0]?.lat === position[0] && response?.data[1]?.lat === position[1] ) return
-
-      const res = await axios.get( `http://127.0.0.1:3000/api/homes`, {
-        params: {
-          currentLat: position[0],
-          currentLon: position[1],
-        }
-      });
-      if ( response?.data[0]?.lat && response?.data[0]?.lon ) setPosition([response.data[0].lat, response.data[0].lon]);
-      if ( response?.data[0]?.display_name ) setReadableDirection(response.data[0].display_name);
-
-      if ( !res || !res.data ) return
-      setPlaces(res.data.homes);
-    })()
+    const userDirectionTyped = e.target.value;
+    setSearched(false);
+    setDirTyped( userDirectionTyped );
   };
 
-  async function getReadableDirection( position ) {
-    const url = `https://nominatim.openstreetmap.org/reverse`;
-    const params = `format=json&lat=${position[0]}&lon=${position[1]}&zoom=18&addressdetails=1`;
-    const response = await axios.get( `${ url }?${ params }` );
+  function onOptionSelected( e ) {
+    const selectedOption = e.target.textContent;
 
-    if ( response && response.data ) return response.data.display_name;
+    const { ubication } = possiblePlaces.find( place => place.display_name === selectedOption );
+    if ( !ubication ) return
+
+    setPosition( ubication );//So the map can be updated
+    setReadableDirection( selectedOption );
+
+    setDirTyped( selectedOption );//Update the input value
+    getPlaces( ubication );//Look for the nearest places
+    setPossiblePlaces([]);//Clean the options, so the user can see the map
+    setSearched(true);
   }
+
+  function cleanPlaces( places ) {
+    return places.map( place => {
+      return {
+        ubication: [ place.lat, place.lon ],
+        display_name: place.display_name,
+      }
+    })
+  }
+
+  function onSubmit( e ) {
+    e.preventDefault();
+    
+    getPlaces( position );
+    setSearched(true);
+  }
+
+  useEffect(() => {
+    if ( dirTyped ) {
+      const timeout = setTimeout(async () => {
+        const res = await getSimilarPlaces(dirTyped)
+        if ( !res ) return
+
+        if ( res.length > 0 ) {
+          setPossiblePlaces( cleanPlaces( res ) );
+        }
+
+      }, 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [ dirTyped ]);
 
   // Get current position
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setPosition([position.coords.latitude, position.coords.longitude]);
-    });
+    // This start to botter me, so I will comment it out for now
+    // at the end, we'll focus on CUCEI location for now
+
+    // navigator.geolocation.getCurrentPosition((position) => {
+    //   setPosition([position.coords.latitude, position.coords.longitude]);
+    // });
   }, []);
 
   // Get readable direction
@@ -124,9 +191,15 @@ export default function useMap() {
     home,
     places,
     displayCard,
+    dirTyped,
+    possiblePlaces,
+    searched,
     SetViewOnUpdate,
     MapLocator,
     onPositionUpdate,
+    onOptionSelected,
+    onSubmit,
+    getPlaces,
     showMoreHandler,
     showLessHandler,
     eventHandlers,

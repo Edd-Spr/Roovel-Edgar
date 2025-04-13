@@ -2,7 +2,7 @@ import styles from './CardImageSlider.module.css';
 import rightArrow from '../../../../../public/Graphics/Icons/arrow_forward.png';
 import leftArrow from '../../../../../public/Graphics/Icons/arrow_back.png';
 
-export default function index({ Title, img, onPrevious, onNext }) {
+export default function CardImageSlider({ Title, img, onPrevious, onNext, currentImgIndex }) {
   return (
     <figure className={ styles[`card-figure`] }>
 			<button 
@@ -16,9 +16,9 @@ export default function index({ Title, img, onPrevious, onNext }) {
 				/>
 			</button>
 			<img 
-				className=''
+				className={ styles[`card-image`] }
 				src={ img } 
-				alt={`${ Title } : Imagen {i}`} 
+				alt={`${ Title } : Imagen ${ currentImgIndex + 1 }`} 
 			/>
 			<button 
 				className={ `${ styles[`card-button`] } ${ styles[`card-forward`] }` }

@@ -11,6 +11,7 @@ import CustomMap from './Components/CustomMap';
 import useCustomMap from './hooks/useMap.js';
 
 import { Marker } from 'react-leaflet'
+import { latLng } from 'leaflet';
 
 export default function Map() {
   const { 
@@ -19,9 +20,14 @@ export default function Map() {
     home,
     places,
     displayCard,
+    dirTyped,
+    possiblePlaces,
+    searched,
     SetViewOnUpdate, 
     MapLocator,
     onPositionUpdate,
+    onOptionSelected,
+    onSubmit,
     showMoreHandler, 
     showLessHandler,
     eventHandlers,
@@ -36,17 +42,23 @@ export default function Map() {
   return (
     <Layout>
       <MapForm 
-        onSubmit={ onPositionUpdate } 
+        onSubmit={ onSubmit } 
+        searchBarValue={ dirTyped }
+        onSearchBarUpdate={ onPositionUpdate }
+        options={ possiblePlaces }
+        alreadySelected={ searched }
+        onOptionSelected={ onOptionSelected }
         inputPlaceholder={ ( typeof( readableDirection ) === 'string' ) ? readableDirection : inputPlaceholder } 
         submitMessage={ submitMessage }
       />
       
       <CustomMap className={ styles[`map`] }	position={ position } MapLocator={ MapLocator } SetViewOnUpdate={ SetViewOnUpdate } >
-        { places && places.map((place) => { return (
+        { places && places.map((place) => { 
+          return (
           <Marker 
-            id={ `${ place.ubication[ 0 ] } --- ${ place.ubication[ 1 ] }` }
-            key={ `${ place.ubication[ 0 ] } --- ${ place.ubication[ 1 ] }` } 
-            position={ place.ubication }
+            id={ `${ place.home_ubication[ 0 ] } --- ${ place.home_ubication[ 1 ] }` }
+            key={ `${ place.home_ubication[ 0 ] } --- ${ place.home_ubication[ 1 ] }` } 
+            position={ latLng( place.home_ubication ) }
             eventHandlers={ eventHandlers }
             >
           </Marker>
@@ -56,13 +68,9 @@ export default function Map() {
       { displayCard ? (
         <>
           <Card 
-            title={ home.home_name }
-            address={ home.home_address }
+            { ...home }
             roomsNumber={ occupiedRoomsCount }
-            showingState={ displayCard } 
-            tags={ home.tags }
-            rooms={ home.rooms }
-            onSale={ home.home_all_in }
+            showingState={ displayCard }
             showLessHandler={ () => showLessHandler( displayCard ) } 
             showMoreHandler={ () => showMoreHandler( displayCard ) }
           />

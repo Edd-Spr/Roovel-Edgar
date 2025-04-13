@@ -3,28 +3,38 @@ import CardImageSlider from '../CardImageSlider/index.jsx'
 import CardHeader from '../CardHeader/index.jsx'
 import CardButton from '../CardButton/index.jsx'
 
+import useCard from './useCard.js'
+
 import Tag from '../Tag/index.jsx'
 import likeImage from '../../../../../public/Graphics/Icons/like.png'
 import chatBubble from '../../../../../public/Graphics/Icons/chat_bubble.png'
 
 export default function Card({ 
-  title, 
-  address, 
-  img, 
+  home_name, 
+  home_address, 
+  imgs, 
   showingState, 
   showMoreHandler, 
   showLessHandler, 
   roomsNumber, 
-  onSale,
+  home_all_in: onSale,
   tags, 
   rooms 
 }) {
+  const { currentImg, currentImgIndex, onPrevious, onNext } = useCard( imgs )
+  
 	return (
 		<article className={ `${ styles[`card-article`] } ${ ( showingState >= 2) ? styles[`card-article--full`] : '' }` }>
-      <CardImageSlider Title={ title } img={ img } />
+      <CardImageSlider 
+        Title={ home_name }
+        img={ currentImg } 
+        currentImgIndex={ currentImgIndex }
+        onPrevious={ onPrevious }
+        onNext={ onNext }
+      />
 
 			<section className={ styles[`card-description`] }>
-        <CardHeader title={ title } address={ address } roomsNumber={ roomsNumber } onSale={ onSale } />
+        <CardHeader title={ home_name } address={ home_address } roomsNumber={ roomsNumber } onSale={ onSale } />
         {
           showingState >= 2 &&
           ( 

@@ -94,7 +94,8 @@
 .card__room {
   border-radius: .5rem;
   min-width: 15rem;
-  flex-grow: 0;
+
+  flex-basis: 0 0 15rem;
   aspect-ratio: 16/9;
   position: relative;
   margin: 0;

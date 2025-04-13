@@ -23,11 +23,9 @@
 }
 
 .card-header__location p {
-	font-size: 1rem;
-	margin: 0;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	color: #5EA0F5;
+  font-size: 1rem;
+  margin: 0;
+  color: #5EA0F5;
 
   display: -webkit-box;
   -webkit-line-clamp: 2; /* Limit to 2 lines */

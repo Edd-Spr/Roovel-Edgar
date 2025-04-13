@@ -1,29 +1,29 @@
-import './RoomSlider.css';
+import Styles from './RoomSlider.module.css';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
 
 const CustomLeftArrow = ({ onClick }) => (
-    <button className="custom-arrow custom-left-arrow" onClick={onClick}>
+    <button className={`${Styles["custom-arrow"]} ${Styles["custom-left-arrow"]}`} onClick={onClick}>
         <span>
             <img 
                 src="/Graphics/Icons/arrow_back.png" 
                 alt="" 
                 draggable="false"
-                style={{height: '70%'}}
+                style={{ height: '70%' }}
             />
         </span>
     </button>
 );
 
 const CustomRightArrow = ({ onClick }) => (
-    <button className="custom-arrow custom-right-arrow" onClick={onClick}>
+    <button className={`${Styles["custom-arrow"]} ${Styles["custom-right-arrow"]}`} onClick={onClick}>
         <span>
             <img 
                 src="/Graphics/Icons/arrow_forward.png" 
                 alt="" 
                 draggable="false"
-                style={{height: '70%'}}
+                style={{ height: '70%' }}
             />
         </span>
     </button>
@@ -38,9 +38,9 @@ const RoomSlider = ({roomSliderTitle, rooms}) => {
     };
 
     return (
-        <article className="roomSliderSectionContainer">
-            <h1 className="roomSliderTitle">{roomSliderTitle}</h1>
-            <div className="roomSliderContainer">
+        <article className={Styles.roomSliderSectionContainer}>
+            <h1 className={Styles.roomSliderTitle}>{roomSliderTitle}</h1>
+            <div className={Styles.roomSliderContainer}>
                 <Carousel
                     responsive={responsive}
                     customLeftArrow={<CustomLeftArrow />}
@@ -55,8 +55,8 @@ const RoomSlider = ({roomSliderTitle, rooms}) => {
 
 const RoomBox = ({room}) =>{
     return (
-        <div className='roomBox'>
-            <div className="imageContainer">
+        <div className={Styles.roomBox}>
+            <div className={Styles.imageContainer}>
                 <img 
                     src={room.image} 
                     alt="" 
@@ -64,9 +64,9 @@ const RoomBox = ({room}) =>{
                     draggable="false"
                 />
             </div>
-            <div className='roomBoxInfo'>
-                <p className="roomName">{room.name}</p>
-                <p className="roomAdress">{room.address}</p>
+            <div className={Styles.roomBoxInfo}>
+                <p className={Styles.roomName}>{room.name}</p>
+                <p className={Styles.roomAdress}>{room.address}</p>
             </div>
         </div>
     );

@@ -1,0 +1,1 @@
+export {httpClientePlugin, ClientPlugin_perfiles_chat} from './request-chat.js';

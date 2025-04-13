@@ -1,29 +1,111 @@
 import { useState, useEffect, useRef } from 'react';
+import { io } from 'socket.io-client';
 import '../Styles/ChatOpen.css';
 import MessageBox from './MessageBox';
 import MessageEditor from './MessageEditor';
 
-const ChatOpen = ({ infoProfile, chatIsOpen, setChatIsOpen, user, setActualChat }) => {
+const socket = io('http://localhost:3000');
+
+const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, setActualChat, actualChatType }) => {
     const [messageContainerHeight, setMessageContainerHeight] = useState(window.innerHeight * 0.85);
+    const [messageList, setMessageList] = useState([]); // Renombrado de menssgeContainer a messageList
+
+    useEffect(() => {
+        if (!idRemitente || !user) return;
+
+        socket.emit('fetch messages', { idReciveMessague: idRemitente, idSentMessage: user });
+
+        socket.on('fetch messages response', (messages) => {
+            console.log('Mensajes históricos:', messages);
+            setMessageList(messages); 
+        });
+
+        socket.on('new message', (newMessage) => {
+            console.log('Nuevo mensaje recibido:', newMessage);
+            if (!newMessage || !newMessage.id || !newMessage.idReciveMessague || !newMessage.idSentMessage || !newMessage.message) {
+                console.error('Formato de mensaje inválido:', newMessage);
+                return;
+            }
+            socket.emit('fetch messages', { idReciveMessague: idRemitente, idSentMessage: user });
+        });
+
+        return () => {
+            socket.off('fetch messages response');
+            socket.off('new message');
+        };
+    }, [idRemitente, user]);
 
     return (
-        <section className="chatOpenContainer" style={{ width: chatIsOpen && '55vw'}}>
-            <section className="ChatOpen" >
-                <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat}/>
-                <MessageContainer infoProfile={infoProfile} user={user} messageContainerHeight={messageContainerHeight} />
-                <MessageEditor setMessageContainerHeight={setMessageContainerHeight} />
-            </section>
+        <section className={`chatOpenContainer ${chatIsOpen && 'chatIsOpen'}`}>
+            {actualChatType === 'grupo' ?
+                <ChatGroupOpen
+                    infoProfile={infoProfile}
+                    chatIsOpen={chatIsOpen}
+                    setChatIsOpen={setChatIsOpen}
+                    idRemitente={idRemitente}
+                    user={user}
+                    setActualChat={setActualChat}
+                    messageContainerHeight={messageContainerHeight}
+                    setMessageContainerHeight={setMessageContainerHeight}
+                    messageList={messageList}
+                />:
+                <ChatContactOpen
+                    infoProfile={infoProfile}
+                    chatIsOpen={chatIsOpen}
+                    setChatIsOpen={setChatIsOpen}
+                    idRemitente={idRemitente}
+                    user={user}
+                    setActualChat={setActualChat}
+                    messageContainerHeight={messageContainerHeight}
+                    setMessageContainerHeight={setMessageContainerHeight}
+                    messageList={messageList}
+                />}
         </section>
     );
 };
 
-function ContactBar({ infoProfile, setChatIsOpen, setActualChat }) {
 
-    function close(){
-        setChatIsOpen(false) 
-        setTimeout(() => setActualChat(''), 400)
-        
+const ChatContactOpen = ({setChatIsOpen, infoProfile, idRemitente, user, setActualChat, messageContainerHeight, setMessageContainerHeight, messageList }) => {
+    return (
+        <section className="ChatOpen">
+            <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat} />
+            <MessageContainer
+                infoProfile={infoProfile}
+                user={user}
+                messageContainerHeight={messageContainerHeight}
+                messageList={messageList} 
+            />
+            <MessageEditor 
+                setMessageContainerHeight={setMessageContainerHeight} 
+                idReciveMessague={idRemitente} 
+                idSentMessage={user} />
+        </section>
+    )
+}
+const ChatGroupOpen = ({setChatIsOpen, infoProfile, idRemitente, user, setActualChat, messageContainerHeight, setMessageContainerHeight, messageList }) => {
+    return (
+        <section className="ChatOpen" style={{backgroundColor: '#f0f0f0'}}>
+            <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat} />
+            <MessageContainer
+                infoProfile={infoProfile}
+                user={user}
+                messageContainerHeight={messageContainerHeight}
+                messageList={messageList} 
+            />
+            <MessageEditor 
+                setMessageContainerHeight={setMessageContainerHeight} 
+                idReciveMessague={idRemitente} 
+                idSentMessage={user} />
+        </section>
+    )
+}
+
+function ContactBar({ infoProfile, setChatIsOpen, setActualChat }) {
+    function close() {
+        setChatIsOpen(false);
+        setTimeout(() => setActualChat(''), 400);
     }
+
     return (
         <div className="contactBar">
             <div className="contactBarPhotoContainer">
@@ -31,44 +113,27 @@ function ContactBar({ infoProfile, setChatIsOpen, setActualChat }) {
             </div>
 
             <p className="profileName">{infoProfile?.nombre}</p>
-    
+
             <button className="closeChat" onClick={close}>
-                <img 
-                    src="/Graphics/Icons/close.png" 
-                    alt="" 
-                    style={{width: '100%'}}
-                    />
+                <img src="/Graphics/Icons/close.png" alt="" style={{ width: '100%' }} />
             </button>
         </div>
     );
 }
 
-function InfoChatSection({ infoProfile }) {
-    return (
-        <div className="infoChatSection">
-            <div className="InfoPhotoContainer">
-                <img src={`/PhotoProfiles/${infoProfile?.imagen}`} alt="" className='contactBarPhoto' />
-            </div>
-            <p className="infoName">{infoProfile?.nombre}</p>
-            <p className="infoDescription">{infoProfile?.descripcion}</p>
-        </div>
-    );
-}
-
-function MessageContainer({ infoProfile, user, messageContainerHeight }) {
+function MessageContainer({ infoProfile, user, messageContainerHeight, messageList }) {
     const messagesEndRef = useRef(null);
-
     useEffect(() => {
-        if (!infoProfile?.mensajes) return;
-
-        messagesEndRef.current?.scrollIntoView();
-    }, [infoProfile?.mensajes]);
+        if (messageList.length > 0) {
+            messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [messageList]);
 
     return (
-        <div className='messageContainer' style={{ height: messageContainerHeight, overflowY: 'auto' }}>
-            {infoProfile?.mensajes?.map((info, index) => (
+        <div className="messageContainer" style={{ height: messageContainerHeight, overflowY: 'auto' }}>
+            {messageList.map((info, index) => (
                 <MessageBox
-                    key={index}
+                    key={info.id || index} 
                     messages={info}
                     chatUserId={infoProfile?.id}
                     user={user}

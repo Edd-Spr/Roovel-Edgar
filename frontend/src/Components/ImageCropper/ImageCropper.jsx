@@ -17,7 +17,6 @@ const ImageCropper = ({ imageSrc, onCropComplete, onClose }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h2>Recortar Imagen</h2>
         <div className="cropper-container">
           <Cropper
             image={imageSrc}

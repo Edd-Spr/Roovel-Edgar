@@ -1,21 +1,21 @@
 .matchRoommateContainer{
-    width: 76vw;
+    flex-grow: 1;
     height: 92vh;
 }
 .matchCardContainer{
-    width: 55vw;
+    width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: rgb(245, 245, 245);
     border-right: 1px solid rgb(160, 160, 160);
-    margin-left: 24vw;
 }
 .cardContainer{
     display: flex;
     border-radius: 10px;
     overflow: hidden;
+    background-color: yellow;
     border: 1px solid rgb(217, 217, 217);
 }
 .matchCard{

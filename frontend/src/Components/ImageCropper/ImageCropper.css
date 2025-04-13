@@ -18,6 +18,11 @@
   text-align: center;
   width: 400px;
 }
+.modal-content h2{
+  color: #4A617F;
+  font-family: 'poppins';
+  font-size: x-large;
+}
 
 .cropper-container {
   position: relative;
@@ -30,6 +35,8 @@
 .modal-buttons button {
   margin: 5px;
   padding: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -38,10 +45,17 @@
 .modal-buttons button:first-child {
   background: #8ba2a8;
   color: white;
+  transition: .3s;
 }
-
+.modal-buttons button:first-child:hover{
+  background: #72858a;
+}
 .modal-buttons button:last-child {
   background: none;
   color: #8ba2a8;
   border: 1px solid #8ba2a8;
+  transition: .3s;
+}
+.modal-buttons button:last-child:hover{
+  background-color: rgb(230, 230, 230);
 }

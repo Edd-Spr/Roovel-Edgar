@@ -1,4 +1,4 @@
-import './Authentication.css'
+import Styles from './Authentication.module.css'
 import InputForm from '../../Components/InputForm/InputForm';
 import BounceLoader from "react-spinners/BounceLoader";
 import ProfileCustomization from '../../Components/ProfileCustomization/ProfileCustomization';
@@ -12,8 +12,8 @@ const Authentication = () => {
     const [customizationStep, setCustomizationStep] = useState(false);
 
     return (
-        <main className='authentication'>
-            <article className='mainBoxContainer'>
+        <main className={Styles.authentication}>
+            <article className={Styles.mainBoxContainer}>
                 <AnimatePresence exitBeforeEnter>
                     {customizationStep === false ? (
                         <>
@@ -37,17 +37,17 @@ const Authentication = () => {
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: 1 }}
-                                className="photoTitleAuthenticationContainer"
+                                className={Styles.photoTitleAuthenticationContainer}
                             >
                                 <img 
                                     src="/Graphics/authentication-photo.png" 
                                     alt="" 
                                     draggable="false"
-                                    className='photoTitleAuthentication'
+                                    className={Styles.photoTitleAuthentication}
                                 />
-                                <div className="blurphotoTitleAuthentication"></div>
-                                <p className="titleImageAuthentication">
-                                    <span className='logoTitle'>Roovel</span><br />
+                                <div className={Styles.blurphotoTitleAuthentication}></div>
+                                <p className={Styles.titleImageAuthentication}>
+                                    <span className={Styles.logoTitle}>Roovel</span><br />
                                     Tu próximo roomie a un click de distancia
                                 </p>
                             </motion.section>
@@ -84,16 +84,16 @@ const SignIn = ({signInSignUp, setSignInSignUp, authenticationIsLoading, setAuth
         setAuthenticationIsLoading(!authenticationIsLoading)
     }
     return (
-        <section className="signInContainer" style={{ width: signInSignUp ? '35vw' : '' }}>
-        <section className="signInSignUp" style={{ right: '0' }}>
-            <p className="signInSignUpTitle">Iniciar Sesión</p>
+        <section className={Styles.signInContainer} style={{ width: signInSignUp ? '35vw' : '' }}>
+        <section className={Styles.signInSignUp} style={{ right: '0' }}>
+            <p className={Styles.signInSignUpTitle}>Iniciar Sesión</p>
 
             <InputForm title="Correo electrónico" type="email" />
             <InputForm title="Contraseña" type="password" />
 
-            <button className="firstLogButton" onClick={signIn}>Iniciar Sesión</button>
+            <button className={Styles.firstLogButton} onClick={signIn}>Iniciar Sesión</button>
             <p style={{ margin: '0', fontSize: '2vh', color: 'gray' }}>¿No tienes cuenta?</p>
-            <button className="secondLogButton" onClick={() => setSignInSignUp(false)}>Registrarse</button>
+            <button className={Styles.secondLogButton} onClick={() => setSignInSignUp(false)}>Registrarse</button>
         </section>
 
         {authenticationIsLoading && (
@@ -118,22 +118,22 @@ const SignUp = ({signInSignUp, setSignInSignUp, authenticationIsLoading, setAuth
         },8000)
     }
     return (
-        <section className="signUpContainer" style={{ width: signInSignUp === false ? '35vw' : '' }}>
-        <section className="signInSignUp">
-            <p className="signInSignUpTitle">Registrarse</p>
+        <section className={Styles.signUpContainer} style={{ width: signInSignUp === false ? '35vw' : '' }}>
+        <section className={Styles.signInSignUp}>
+            <p className={Styles.signInSignUpTitle}>Registrarse</p>
             <InputForm title="Correo electronico" type="email" />
             <InputForm title="Crea una contraseña" type="password" />
             <InputForm title="Confirmar contraseña" type="password" />
-            <button className="firstLogButton" onClick={signUp}>Registrarse</button>
+            <button className={Styles.firstLogButton} onClick={signUp}>Registrarse</button>
             <p style={{ margin: '0', fontSize: '2vh', color: 'gray' }}>¿Ya tienes cuenta?</p>
-            <button className="secondLogButton" onClick={() => setSignInSignUp(true)}>Iniciar Sesión</button>
+            <button className={Styles.secondLogButton} onClick={() => setSignInSignUp(true)}>Iniciar Sesión</button>
         </section>
         {authenticationIsLoading && (
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="signInSignUpLoaderContainer"
+                className={Styles.signInSignUpLoaderContainer}
             >
                 <SignInSignUpLoader />
             </motion.div>
@@ -144,7 +144,7 @@ const SignUp = ({signInSignUp, setSignInSignUp, authenticationIsLoading, setAuth
 
 const SignInSignUpLoader = () => {
     return(
-        <section className="signInSignUpLoaderContainer">
+        <section className={Styles.signInSignUpLoaderContainer}>
             <BounceLoader  size='100' color='#4A617F'/>
         </section>
     )

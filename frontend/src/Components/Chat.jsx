@@ -31,7 +31,7 @@ const Chat = () =>{
 
 const grupos = [
    {
-       id: 'g-1',
+       id: '1',
        chatType: 'grupo',
        nombre: "Grupo de Tecnología",
        imagen: "grupo1.jpeg",
@@ -48,7 +48,7 @@ const grupos = [
        ]
    },
    {
-       id: 'g-2',
+       id: '2',
        chatType: 'grupo',
        nombre: "Grupo de Cine y Series",
        imagen: "grupo2.jpeg",
@@ -65,7 +65,7 @@ const grupos = [
        ]
    },
    {
-       id: 'g-3',
+       id: '3',
        chatType: 'grupo',
        nombre: "Grupo de Música",
        imagen: "grupo3.jpeg",
@@ -82,7 +82,7 @@ const grupos = [
        ]
    },
    {
-       id: 'g-4',
+       id: '4',
        chatType: 'grupo',
        nombre: "Grupo de Viajes",
        imagen: "grupo4.jpeg",
@@ -99,7 +99,7 @@ const grupos = [
        ]
    },
    {
-       id: 'g-5',
+       id: '5',
        chatType: 'grupo',
        nombre: "Grupo de Videojuegos",
        imagen: "grupo5.jpeg",
@@ -118,8 +118,7 @@ const grupos = [
 ];
 
   const remitente = [...perfiles, ...grupos].find((perfil) => perfil.id === actualChat)?.idRemitente;
-
-  console.log('actualChatType:', actualChatType);
+  const idGroup = [...grupos].find((perfil) => perfil.id === actualChat)?.id;
   return (
     <article className={`chatContainer ${chatIsOpen ? 'chatContainerOpen' : ''}`}>
       <section style={{ zIndex: '1000', display: 'flex' }}>
@@ -161,6 +160,7 @@ const grupos = [
         setActualChat={setActualChat}
         actualChatType={actualChatType}
         setActualChatType={setActualChatType}
+        idGroup={idGroup}
       />
     </article>
   );

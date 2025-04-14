@@ -1,0 +1,14 @@
+.card-button {
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
+  border: none;
+  background-color: #B2C9CE;
+  color: #fff;
+  cursor: pointer;
+}
+
+.card-button img {
+  height: 2rem;
+  width: 2rem;
+}

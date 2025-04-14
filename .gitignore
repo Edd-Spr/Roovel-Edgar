@@ -1,11 +1,14 @@
-#should it occur...
-
+# Ignorar node_modules
 frontend/node_modules
 /frontend/node_modules
+./frontend/node_modules
 /node_modules
 node_modules
+./node_modules
 
+# Ignorar dist
 frontend/dist
 /frontend/dist
+./frontend/dist
 /dist
 dist

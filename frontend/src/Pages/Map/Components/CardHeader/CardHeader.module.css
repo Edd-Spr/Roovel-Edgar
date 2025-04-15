@@ -1,0 +1,58 @@
+.card-header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	max-width: 100%;
+}
+ 
+.card-header__location {
+	min-width: 75%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	margin-right: 1rem;
+}
+
+.card-header__location h3 {
+	margin: 0;
+	font-size: 1.5rem;
+	margin-bottom: .5rem;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.card-header__location p {
+  font-size: 1rem;
+  margin: 0;
+  color: #5EA0F5;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+.card-header__logistics {
+	width: 20%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: .5rem;
+}
+
+.card-header__logistics h4 {
+	margin: 0;
+	font-size: 1.85rem;
+	font-weight: 500;
+	color: #5EA0F5;
+}
+
+.card-header__logistics p {
+	margin: 0;
+	font-size: 1rem;
+	text-align: center;
+}

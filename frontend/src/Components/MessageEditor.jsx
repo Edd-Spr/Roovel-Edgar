@@ -10,7 +10,10 @@ function sendMessage(idSentMessage, idReciveMessague, message) {
     socket.emit('chat message', { idSentMessage, idReciveMessague, message });
     console.log('Mensaje enviado a través de WebSocket:', { idSentMessage, idReciveMessague, message });
 }
-
+function sendMessageGroup(idSentMessage, idGruop, message) {
+    socket.emit('chat message group', { idSentMessage, idGruop, message });
+    console.log('Mensaje enviado a través de WebSocket:', { idSentMessage, idGruop, message });
+}
 export const MessageEditor = ({ setMessageContainerHeight, idReciveMessague, idSentMessage }) => {
   const textAreaRef = useRef(null);
   const [actualSizaMessage, setActualSizaMessage] = useState(45); 
@@ -63,7 +66,7 @@ export const MessageEditor = ({ setMessageContainerHeight, idReciveMessague, idS
   );
 };
 
-export const MessageEditorGroup = ({ setMessageContainerHeight, idReciveMessague, idSentMessage }) => {
+export const MessageEditorGroup = ({ setMessageContainerHeight, idGroup, idSentMessage }) => {
   const textAreaRef = useRef(null);
   const [actualSizaMessage, setActualSizaMessage] = useState(45); 
   const [message, setMessage] = useState('');
@@ -90,7 +93,7 @@ export const MessageEditorGroup = ({ setMessageContainerHeight, idReciveMessague
     if (message.trim() !== '') {
       try {
         //TODO: AQUI ESTABA MANDO EL MENSAJE PERO CON LA ANTIGUA FUNCION HTTP XDDD
-        sendMessage( idSentMessage, idReciveMessague, message);
+        sendMessageGroup( idSentMessage, idGroup, message);
         setMessage('');
         textAreaRef.current.style.height = '45px'; 
       } catch (error) {

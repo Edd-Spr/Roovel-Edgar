@@ -25,14 +25,14 @@ export const MessageBoxGroup = ({ messages, chatUserId, user }) => {
         <div
             className="messageBoxContainer"
             style={
-                messages.msg_for === user
+                messages.msg_from === user
                     ? { justifyContent: 'flex-end' }
                     : { justifyContent: 'flex-start' }
             }
         >
             <div
                 className={`messageBox ${
-                    messages.msg_for === user ? 'sentMessageBox' : 'receivedMessageBox'
+                    messages.msg_from === user ? 'sentMessageBox' : 'receivedMessageBox'
                 }`}
             >
                 <p className="messageText">{messages.msg_content}</p>

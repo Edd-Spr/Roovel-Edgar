@@ -9,109 +9,8 @@ const socket = io('http://localhost:3000');
 const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, setActualChat, actualChatType, idGroup}) => {
     const [messageContainerHeight, setMessageContainerHeight] = useState(window.innerHeight * 0.85);
     const [messageList, setMessageList] = useState([]); 
-    const mensajesGrops= [
-        {
-          "id_message": 18,
-          "msg_from": 3,
-          "msg_for": 1,
-          "msg_for_group": 0,
-          "msg_seen": 1,
-          "msg_received": 1,
-          "msg_content": "¿Ya terminaste lo de la base de datos?",
-          "msg_datetime": "2025-03-30T10:15:12.000Z"
-        },
-        {
-          "id_message": 19,
-          "msg_from": 4,
-          "msg_for": 2,
-          "msg_for_group": 0,
-          "msg_seen": 0,
-          "msg_received": 0,
-          "msg_content": "Mañana nos vemos a las 9, ¿va?",
-          "msg_datetime": "2025-03-30T10:17:44.000Z"
-        },
-        {
-          "id_message": 20,
-          "msg_from": 1,
-          "msg_for": 3,
-          "msg_for_group": 0,
-          "msg_seen": 1,
-          "msg_received": 1,
-          "msg_content": "Ya subí los cambios al repo :)",
-          "msg_datetime": "2025-03-30T10:21:09.000Z"
-        },
-        {
-          "id_message": 21,
-          "msg_from": 5,
-          "msg_for": 1,
-          "msg_for_group": 0,
-          "msg_seen": 0,
-          "msg_received": 0,
-          "msg_content": "Ey, revisa lo del servidor cuando puedas",
-          "msg_datetime": "2025-03-30T10:25:34.000Z"
-        },
-        {
-          "id_message": 22,
-          "msg_from": 1,
-          "msg_for": 5,
-          "msg_for_group": 0,
-          "msg_seen": 0,
-          "msg_received": 1,
-          "msg_content": "Sí, ya quedó configurado el puerto",
-          "msg_datetime": "2025-03-30T10:27:41.000Z"
-        },
-        {
-          "id_message": 23,
-          "msg_from": 2,
-          "msg_for": 0,
-          "msg_for_group": 1,
-          "msg_seen": 1,
-          "msg_received": 1,
-          "msg_content": "Gente, ¿quién se apunta para la expo?",
-          "msg_datetime": "2025-03-30T10:30:55.000Z"
-        },
-        {
-          "id_message": 24,
-          "msg_from": 4,
-          "msg_for": 0,
-          "msg_for_group": 1,
-          "msg_seen": 0,
-          "msg_received": 1,
-          "msg_content": "Yo puedo hacer la presentación",
-          "msg_datetime": "2025-03-30T10:32:02.000Z"
-        },
-        {
-          "id_message": 25,
-          "msg_from": 5,
-          "msg_for": 0,
-          "msg_for_group": 1,
-          "msg_seen": 1,
-          "msg_received": 1,
-          "msg_content": "Acuérdense de usar el nuevo template",
-          "msg_datetime": "2025-03-30T10:33:18.000Z"
-        },
-        {
-          "id_message": 26,
-          "msg_from": 3,
-          "msg_for": 0,
-          "msg_for_group": 1,
-          "msg_seen": 0,
-          "msg_received": 0,
-          "msg_content": "¿Alguien tiene la rúbrica?",
-          "msg_datetime": "2025-03-30T10:34:20.000Z"
-        },
-        {
-          "id_message": 27,
-          "msg_from": 2,
-          "msg_for": 4,
-          "msg_for_group": 0,
-          "msg_seen": 1,
-          "msg_received": 1,
-          "msg_content": "Subí las capturas al drive",
-          "msg_datetime": "2025-03-30T10:36:11.000Z"
-        }
-      ]
-    console.log('Mensajes de grupo:', mensajesGrops);
+    const [mensajesGrops, setMensajesGrops] = useState([]);
+
     useEffect(() => {
         if (!idRemitente || !user) return;
 
@@ -137,6 +36,31 @@ const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, s
         };
     }, [idRemitente, user]);
 
+    useEffect(() => {
+        if (!idGroup || !user) return;
+    
+        socket.emit('fecth messagueGruop', { idGruopchat: idGroup });
+
+        socket.on('fecth messagueGruop response', (messagesGruops) => {
+            console.log('Mensajes históricos del grupo:', messagesGruops);
+            setMensajesGrops(messagesGruops); 
+        });
+    
+        socket.on('new message group', (newMessage) => {
+            console.log('Nuevo mensaje de grupo recibido:', newMessage);
+            if (!newMessage || !newMessage.idSentMessage || !newMessage.idGruop || !newMessage.message) {
+                console.error('Formato de mensaje inválido:', newMessage);
+                return;
+            }
+            socket.emit('fecth messagueGruop', { idGruopchat: idGroup });
+        });
+    
+        return () => {
+            socket.off('fecth messagueGruop response');
+            socket.off('new message group');
+        };
+    }, [idGroup, user]);
+
     return (
         <section className={`chatOpenContainer ${chatIsOpen && 'chatIsOpen'}`}>
             {actualChatType === 'grupo' ?
@@ -148,6 +72,7 @@ const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, s
                     setActualChat={setActualChat}
                     messageContainerHeight={messageContainerHeight}
                     setMessageContainerHeight={setMessageContainerHeight}
+                    idGroup={idGroup}
                     messageList={mensajesGrops}
                 />:
                 <ChatContactOpen
@@ -183,8 +108,9 @@ const ChatContactOpen = ({setChatIsOpen, infoProfile, idRemitente, user, setActu
         </section>
     )
 }
-const ChatGroupOpen = ({ setChatIsOpen, infoProfile, user, setActualChat, messageContainerHeight, setMessageContainerHeight, idGruop, messageList}) => {
 
+const ChatGroupOpen = ({ setChatIsOpen, infoProfile, user, setActualChat, messageContainerHeight, setMessageContainerHeight, idGroup, messageList}) => {
+    console.log('Mensajes de grupo:', idGroup);
     return (
         <section className="ChatOpen" style={{ backgroundColor: '#f0f0f0' }}>
             <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat} />
@@ -194,9 +120,10 @@ const ChatGroupOpen = ({ setChatIsOpen, infoProfile, user, setActualChat, messag
                 messageContainerHeight={messageContainerHeight}
                 mensajesGrops={messageList} 
             />
+
             <MessageEditorGroup 
                 setMessageContainerHeight={setMessageContainerHeight}
-                idGruop={idGruop}
+                idGroup={idGroup}
                 idSentMessage={user}
             />
         </section>

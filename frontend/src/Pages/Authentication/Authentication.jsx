@@ -1,13 +1,17 @@
 import Styles from './Authentication.module.css'
 import InputForm from '../../Components/InputForm/InputForm';
-import BounceLoader from "react-spinners/BounceLoader";
+import AuthLoader from './Components/AuthLoader';
+import SignIn from './Components/SignIn';
 import ProfileCustomization from '../../Components/ProfileCustomization/ProfileCustomization';
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from 'react';
-
+import { useSearchParams } from 'react-router-dom';
 
 const Authentication = () => {
-    const [signInSignUp, setSignInSignUp] = useState(false);
+    const [searchParams] = useSearchParams();
+    const signup = searchParams.get('signup');
+
+    const [signInSignUp, setSignInSignUp] = useState( signup === 'true' ? false : true);
     const [authenticationIsLoading, setAuthenticationIsLoading] = useState(false);
     const [customizationStep, setCustomizationStep] = useState(false);
 
@@ -77,37 +81,6 @@ const Authentication = () => {
     );
 };
 
-
-const SignIn = ({signInSignUp, setSignInSignUp, authenticationIsLoading, setAuthenticationIsLoading}) => {
-
-    function signIn(){
-        setAuthenticationIsLoading(!authenticationIsLoading)
-    }
-    return (
-        <section className={Styles.signInContainer} style={{ width: signInSignUp ? '35vw' : '' }}>
-        <section className={Styles.signInSignUp} style={{ right: '0' }}>
-            <p className={Styles.signInSignUpTitle}>Iniciar Sesión</p>
-
-            <InputForm title="Correo electrónico" type="email" />
-            <InputForm title="Contraseña" type="password" />
-
-            <button className={Styles.firstLogButton} onClick={signIn}>Iniciar Sesión</button>
-            <p style={{ margin: '0', fontSize: '2vh', color: 'gray' }}>¿No tienes cuenta?</p>
-            <button className={Styles.secondLogButton} onClick={() => setSignInSignUp(false)}>Registrarse</button>
-        </section>
-
-        {authenticationIsLoading && (
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-            >
-                <SignInSignUpLoader />
-            </motion.div>
-        )}
-    </section>
-    )
-}
 const SignUp = ({signInSignUp, setSignInSignUp, authenticationIsLoading, setAuthenticationIsLoading, setCustomizationStep}) => {
 
     function signUp(){
@@ -135,18 +108,10 @@ const SignUp = ({signInSignUp, setSignInSignUp, authenticationIsLoading, setAuth
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 className={Styles.signInSignUpLoaderContainer}
             >
-                <SignInSignUpLoader />
+                <AuthLoader />
             </motion.div>
         )}
     </section>
-    )
-}
-
-const SignInSignUpLoader = () => {
-    return(
-        <section className={Styles.signInSignUpLoaderContainer}>
-            <BounceLoader  size='100' color='#4A617F'/>
-        </section>
     )
 }
 export default Authentication;

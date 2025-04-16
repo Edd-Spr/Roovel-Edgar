@@ -1,6 +1,8 @@
 import Authentication from './Pages/Authentication/Authentication.jsx';
 import Home from './Pages/Home/Home.jsx';
+import Profile from './Pages/Prof/Profile.jsx';
 import MatchingPage from './Pages/RoommateMatchingPage.jsx';
+import Profile from './Pages/Prof/Profile.jsx'
 
 
 import Map from './Pages/Map';
@@ -18,6 +20,7 @@ function App() {
         <Route path="/matching" element={ <MatchingPage/>} />
         <Route path="/auth" element={<Authentication/>} />
         <Route path='/map' element={<Map />} />
+        <Route path='/profile' element={<Profile />} />
       </Routes>
     </Router>
   )

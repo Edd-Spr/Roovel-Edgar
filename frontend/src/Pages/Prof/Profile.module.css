@@ -1,0 +1,173 @@
+html, body{
+    background-color: #E5DCD0;
+}
+
+.all{
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    flex-direction:row; 
+    gap: 12px;
+    /* background-color: palevioletred; */
+}
+
+/* ------------------------------------------------------------------------ */
+
+.left{
+    width: 5%;
+    padding-top: 100px;
+}
+
+/* ------------------------------------------------------------------------ */
+
+.center{
+    width: 80%;
+    /* background-color: blue; */
+    display: flex;
+    padding-top: 20px;
+    justify-content: center;
+}
+
+.info{
+    width: 85%;
+    height: 95%;
+    background-color: #FFFFFF;
+    /* flex-direction: ro; */
+    display: flex;
+    border-radius: 15px;
+    padding: 4px;
+}
+
+.photos{
+    width: 35%;
+    /* background-color: blue; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5px;
+}
+.contCircle{
+    width: 100%;
+    height: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: aquamarine; */
+}
+.circle{
+    width: 15vw;
+    height: 15vw;
+    border-radius: 100%;
+    background-color: burlywood;
+}
+
+.rectangle{
+    width: 100%;
+    height: 55%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #E5DCD0; */
+}
+
+.rectPhoto{
+    width: 50%;
+    height: 95%;
+    background-color: violet;
+}
+
+.descrip{
+    width: 65%;
+    padding-top: 30px;
+    /* background-color: rosybrown; */
+}
+
+.descName{
+    width: 90%;
+    height: 23vh;
+    border-bottom: 2px solid #00000031;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* background-color: aqua; */
+}
+
+.name{
+    font-size: 30px;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 5px;
+}
+
+.email{
+    font-size: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+.number{
+    font-size: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+button {
+    background-color: #FFFFFF;
+    color: #4A617F;
+    border: 1px solid #4A617F;
+    cursor: pointer;
+    border-radius: 10px;
+    width: 110px;
+    transition: 0.3s;
+  }
+  
+  button:hover {
+    background-color: #4A617F;
+    box-shadow: 0 0 0 2px #4a617f56;
+    color: #fff;
+  }
+  
+
+.descInfo{
+    width: 90%;
+    height: 32vh;
+    border-bottom: 2px solid #00000031;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* background-color: blue; */
+}
+
+.descMain{
+    color: #0063DC;
+    padding-bottom: 15px;
+    font-size: large;
+}
+
+.descAge{
+    font-size: medium;
+    padding-bottom: 10px;
+}
+
+.descAll{
+    font-size: medium;
+}
+
+.descLabel{
+    width: 90%;
+    height: 20vh;
+    padding-top: 15px;
+    /* background-color: purple; */
+}
+
+/* ------------------------------------------------------------------------ */
+.right{
+    width: 25%;
+    background-color: blueviolet;
+}

@@ -1,0 +1,61 @@
+:root{
+    --hause-editor-terracotta: #C98765;
+    --white-button-hover: #eaeaeaab;
+    --house-editor-primary-blue: #4A617F;
+}
+
+.house-editor__overlay{
+    top: -8vh;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.174);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.house-editor__card-container{
+    width: 70vw;
+    height: 90vh;
+    border-radius: 20px;
+    background-color: #ffffff;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+}
+
+.house-editor__progress{
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+}
+.house-editor__progress-circle{
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 1px solid var(--house-editor-primary-blue);
+    color: var(--house-editor-primary-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1rem;
+    pointer-events: none;
+}
+.house-editor__progress-circle--active{
+    background-color: var(--house-editor-primary-blue);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 1px solid ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1rem;
+    pointer-events: none;
+}

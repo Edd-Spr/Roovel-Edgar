@@ -1,6 +1,7 @@
 import Authentication from './Pages/Authentication/Authentication.jsx';
 import Home from './Pages/Home/Home.jsx';
 import MatchingPage from './Pages/RoommateMatchingPage.jsx';
+import PropertyManager from './Pages/PropertyManager';
 
 
 import Map from './Pages/Map';
@@ -13,11 +14,12 @@ function App() {
 
   return (
     <Router>
-      <Routes>
+      <Routes> 
         <Route path="/" element={ <Home/>} />
         <Route path="/matching" element={ <MatchingPage/>} />
         <Route path="/auth" element={<Authentication/>} />
         <Route path='/map' element={<Map />} />
+        <Route path='/propertyManager' element={<PropertyManager />} />
       </Routes>
     </Router>
   )

@@ -1,5 +1,5 @@
 :root{
-    --hause-editor-terracotta: #C98765;
+    --room-editor-blue-bg: #ABC3D0;
     --white-button-hover: #eaeaeaab;
     --house-editor-primary-blue: #4A617F;
     --house-editor-secondary-blue: #B2C9CE;
@@ -10,7 +10,7 @@
 
     width: 2rem;
     height: 2rem;
-    background-color: var(--hause-editor-terracotta);
+    background-color: var(--room-editor-blue-bg);
     border-radius: 100%;
     justify-content: center;
     align-items: center;
@@ -27,7 +27,6 @@
     position: absolute;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.174);
     z-index: 10;
     display: flex;
     align-items: center;

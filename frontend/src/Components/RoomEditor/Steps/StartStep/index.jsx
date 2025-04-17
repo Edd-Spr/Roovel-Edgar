@@ -9,7 +9,7 @@ const StartStep = ({setHouseEditorProgress}) => {
                 width: '100%',
                 height: '100%',
                 display: 'flex',
-                backgroundColor: '#C98765',
+                backgroundColor: '#ABC3D0',
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -18,7 +18,7 @@ const StartStep = ({setHouseEditorProgress}) => {
         >
             <div className={ Styles['start-Step__image-container'] }>
                 <img 
-                    src="/Graphics/advertising-image-div.jpeg" 
+                    src="/Graphics/room-editor-image.jpeg" 
                     alt="" 
                     draggable="false"
                     style={{ height: '100%'}}
@@ -26,7 +26,7 @@ const StartStep = ({setHouseEditorProgress}) => {
             </div>
 
             <div className={ Styles['start-Step__text-container'] }>
-                <h1 className={ Styles['start-Step__title'] }>Personaliza tu casa</h1>
+                <h1 className={ Styles['start-Step__title'] }>Personalizar Habitación</h1>
                 <p className={ Styles['start-Step__subtitle'] }>Agrega fotos, detalles y habitaciones para atraer a más personas</p>
                 <button 
                     onClick={() => setHouseEditorProgress(1)}

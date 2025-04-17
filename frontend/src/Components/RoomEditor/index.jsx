@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import Styles from './HouseEditor.module.css';
+import Styles from './RoomEditor.module.css';
 
 //Steps ------------------------------------------------
 import StartStep from './Steps/StartStep';
@@ -10,32 +10,13 @@ import ThirdStep from './Steps/ThirdStep';
 import FourthStep from './Steps/FourthStep';
 // -----------------------------------------------------
 
-const HouseEditor = ({setRoomEditorIsOpen}) => {
+const RoomEditor = ({setRoomEditorIsOpen}) => {
 
-    const [houseEditorProgress, setHouseEditorProgress] = useState(4);
+    const [houseEditorProgress, setHouseEditorProgress] = useState(0);
     const [images, setImages] = useState([]);
     const [imageFiles, setImageFiles] = useState([]);
     const [imageFile, setImageFile] = useState(null);
     const [croppedMainImage, setCroppedMainImage] = useState(null);
-
-
-    const rooms = [
-        {
-           id: 1,
-           name: 'Habitación Principal',
-           price: 100,
-           address: 'Calle Principal 123',
-           coordinates: {
-               lat: 10.123456,
-               lng: -84.123456,
-           },
-           description: 'Habitación principal con cama king size y baño privado.',
-           tags: ['Habitación', 'Principal'],
-           images: [], 
-
-        }
-    ]
-    const [roomEditorProgress, setRoomEditorProgress] = useState(0);
 
     const allImageFiles = {
         images,
@@ -65,7 +46,7 @@ const HouseEditor = ({setRoomEditorIsOpen}) => {
         {houseEditorProgress === 1 && <FirstStep allImageFiles={allImageFiles}/>}
         {houseEditorProgress === 2 && <SecondStep/>}
         {houseEditorProgress === 3 && <ThirdStep/>}
-        {houseEditorProgress === 4 && <FourthStep setRoomEditorIsOpen={setRoomEditorIsOpen}/>}
+        {houseEditorProgress === 4 && <FourthStep/>}
 
         {houseEditorProgress > 0 &&
         <div className={Styles['house-editor__progress']}>
@@ -93,7 +74,7 @@ const HouseEditor = ({setRoomEditorIsOpen}) => {
                 draggable="false"
                 style={{ width: '80%', height: '80%' }}
                 onClick={() => {
-                    setHouseEditorProgress(0);
+                    setRoomEditorIsOpen(false);
                 }}
             />
         </div>
@@ -101,4 +82,4 @@ const HouseEditor = ({setRoomEditorIsOpen}) => {
     </article>
   );
 }
-export default HouseEditor;
+export default RoomEditor;

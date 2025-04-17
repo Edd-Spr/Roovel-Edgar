@@ -3,7 +3,6 @@ import Home from './Pages/Home/Home.jsx';
 import Profile from './Pages/Prof/Profile.jsx';
 import MatchingPage from './Pages/RoommateMatchingPage.jsx';
 import PropertyManager from './Pages/PropertyManager';
-import Profile from './Pages/Prof/Profile.jsx'
 
 
 import Map from './Pages/Map';

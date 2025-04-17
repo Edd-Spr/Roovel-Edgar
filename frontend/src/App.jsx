@@ -9,7 +9,8 @@ import Map from './Pages/Map';
 
 import './main.css'
 
-import { BrowserRouter as Router, Route, Routes } from 'react-router';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 
 function App() {
 

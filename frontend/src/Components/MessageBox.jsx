@@ -1,6 +1,6 @@
 import '../Styles/MessageBox.css';
 
-const MessageBox = ({ messages, chatUserId, user }) => {
+export const MessageBox = ({ messages, chatUserId, user }) => {
     return (
         <div
             className="messageBoxContainer"
@@ -20,5 +20,24 @@ const MessageBox = ({ messages, chatUserId, user }) => {
         </div>
     );
 };
+export const MessageBoxGroup = ({ messages, chatUserId, user }) => {
+    return (
+        <div
+            className="messageBoxContainer"
+            style={
+                messages.msg_from === user
+                    ? { justifyContent: 'flex-end' }
+                    : { justifyContent: 'flex-start' }
+            }
+        >
+            <div
+                className={`messageBox ${
+                    messages.msg_from === user ? 'sentMessageBox' : 'receivedMessageBox'
+                }`}
+            >
+                <p className="messageText">{messages.msg_content}</p>
+            </div>
+        </div>
+    );
+}
 
-export default MessageBox;

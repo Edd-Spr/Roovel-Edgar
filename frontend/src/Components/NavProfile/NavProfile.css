@@ -1,5 +1,5 @@
 .menu {
-  padding: 6px;
+  /* padding: 6px; */
   background-color: #fff;
   position: relative;
   display: flex;
@@ -31,6 +31,7 @@
   color: inherit;
   padding: 0 2px;
   gap: 8px;
+  box-sizing: border-box;
 }
 
 .link-icon {
@@ -56,11 +57,22 @@
 }
 
 .active {
-  background-color: #1E90FF; /* Fondo azul cuando está activo */
+  background-color: #B2C9CE;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 6px;
+  border-radius: 0;
 }
 
 .active-icon,
 .active .link-title {
-  color: white; /* Texto e icono blancos cuando está activo */
+  color: white;
+}
+
+.link:hover {
+  background-color: #a9abab;
+  color: #fff;
+  border-radius: 0;
 }
 

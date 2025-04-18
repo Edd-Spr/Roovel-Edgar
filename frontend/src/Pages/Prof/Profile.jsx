@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'; 
 import Menu from '../../Components/NavProfile/NavProfile'
-// import Etiqueta from '../../Components/TagsProfile/TagsProfile'
+import TagsProfile from '../../Components/TagsProfile/TagsProfile'
 import NavBar from '../../Components/NavBar';
 import { GoPencil } from "react-icons/go";
 import prof from './Profile.module.css';
@@ -84,7 +84,7 @@ const Profile = () => {
               </article>
 
               <article className={prof.descLabel}>
-              {/* <TagsProfile /> */}
+              <TagsProfile currentUser={8}/>
               </article>
 
             </div>

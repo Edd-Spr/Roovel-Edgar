@@ -7,7 +7,6 @@ const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentUser = '8'; // ID del usuario
 
-  // Cargar imágenes desde el backend
   useEffect(() => {
     const fetchImages = async () => {
       try {
@@ -22,19 +21,16 @@ const Carousel = () => {
     fetchImages();
   }, []);
 
-  // Función para ir a la siguiente imagen
   const nextImage = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length); // Si llega al final, regresa a la primera imagen
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
-  // Función para ir a la imagen anterior
   const prevImage = () => {
     setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + images.length) % images.length // Si está en la primera, va a la última imagen
+      (prevIndex) => (prevIndex - 1 + images.length) % images.length
     );
   };
 
-  // Calcular el progreso
   const progress = ((currentIndex + 1) / images.length) * 100;
 
   return (
@@ -43,8 +39,8 @@ const Carousel = () => {
         <div
           className="carousel-content"
           style={{
-            transform: `translateX(-${currentIndex * 100}%)`, // Mueve el carrusel para mostrar la imagen actual
-            transition: 'transform 0.5s ease', // Transición suave al cambio de imagen
+            transform: `translateX(-${currentIndex * 100}%)`,
+            transition: 'transform 0.5s ease', 
           }}
         >
           {images.map((image, index) => (
@@ -63,11 +59,10 @@ const Carousel = () => {
         &#10095;
       </button>
 
-      {/* Barra de progreso */}
       <div className="progress-bar">
         <div
           className="progress-fill"
-          style={{ width: `${progress}%` }} // Asigna el progreso basado en currentIndex
+          style={{ width: `${progress}%` }}
         ></div>
       </div>
     </div>

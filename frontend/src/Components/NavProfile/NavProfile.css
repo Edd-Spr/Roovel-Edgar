@@ -31,9 +31,10 @@
   transition: background 0.2s ease-in, color 0.3s ease-in-out;
   text-decoration: none;
   color: inherit;
-  padding: 0 2px;
+  /* padding: 0 2px; */
   gap: 8px;
   box-sizing: border-box;
+  padding-right: 10px;
 }
 
 .link-icon {
@@ -65,6 +66,8 @@
   margin: 0;
   padding: 6px;
   border-radius: 0;
+  padding-right: 10px;
+
 }
 
 .active-icon,

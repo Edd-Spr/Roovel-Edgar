@@ -1,8 +1,6 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { FaRegHeart } from "react-icons/fa";
-import { AiOutlineHome } from "react-icons/ai";
-import { IoSettingsOutline, IoPersonOutline } from "react-icons/io5";
+import { FiHeart, FiUser, FiHome, FiSettings } from "react-icons/fi";
 
 import './NavProfile.css';
 
@@ -10,10 +8,10 @@ const Menu = () => {
   const location = useLocation();
 
   const navItems = [
-    { label: 'Profile', icon: <IoPersonOutline size={28} />, path: '/profile' },
-    { label: 'Favoritos', icon: <FaRegHeart size={28} />, path: '/favoritos' },
-    { label: 'Mis Cuartos', icon: <AiOutlineHome size={28} />, path: '/cuartos' },
-    { label: 'Configuración', icon: <IoSettingsOutline size={28} />, path: '/configuracion' },
+    { label: 'Profile', icon: <FiUser size={28} />, path: '/profile' },
+    { label: 'Favoritos', icon: <FiHeart size={28} />, path: '/favoritos' },
+    { label: 'Mis Cuartos', icon: <FiHome  size={28} />, path: '/cuartos' },
+    { label: 'Configuración', icon: <FiSettings size={28} />, path: '/configuracion' },
   ];
 
   return (

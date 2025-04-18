@@ -30,7 +30,6 @@ const AmigosList = () => {
 
   return (
     <div className="amigos-container" ref={containerRef}>
-      <h2 className="amigos">Amigos</h2>
       <ul className="amigos-list">
         {friends.map((friend, index) => (
           <li key={index} className={`amigos-item ${activeIndex === index ? 'active' : ''}`}>
@@ -66,6 +65,7 @@ const AmigosList = () => {
         ))}
       </ul>
     </div>
+    
   );
 };
 

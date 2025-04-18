@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'; 
-import Menu from '../../Components/NavProfile/NavProfile'
-import TagsProfile from '../../Components/TagsProfile/TagsProfile'
+import Menu from '../../Components/NavProfile/NavProfile';
+import TagsProfile from '../../Components/TagsProfile/TagsProfile';
 import NavBar from '../../Components/NavBar';
 import { GoPencil } from "react-icons/go";
 import prof from './Profile.module.css';
-import AmigosList from '../../Components/Friends/Friends'
+import AmigosList from '../../Components/Friends/Friends';
 import Carousel from '../../Components/Carousel/Carousel';
-
-
+import axios from 'axios'; // Asegúrate de tener axios para la petición
 
 const Profile = () => {
   const [profile, setProfile] = useState({
@@ -20,13 +19,33 @@ const Profile = () => {
     description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit.',
   });
 
-  const currentUser = '8'; // id del user 
+  const [profileImage, setProfileImage] = useState(null);
+  const currentUser = '8'; // 💥 Esta línea la subimos arriba
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/images?id_user=${currentUser}`);
+        const data = await response.json();
+        console.log("Imágenes recibidas para foto de perfil:", data);
+
+        if (Array.isArray(data) && data.length > 0) {
+          setProfileImage(data[0].image_content); // Usamos la primera imagen
+        }
+      } catch (error) {
+        console.error("Error al obtener imagen de perfil:", error);
+      }
+    };
+
+    fetchProfileImage();
+  }, [currentUser]);
 
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
         const response = await fetch(`http://localhost:3000/profile?currentUser=${currentUser}`);
         const data = await response.json();
+        console.log("Imagen de perfil recibida:", data);
         setProfile({
           user_name: data.user_name || 'No se encontro nombre',
           user_last_name: data.user_last_name,
@@ -58,7 +77,17 @@ const Profile = () => {
           <div className={prof.info}>
             <div className={prof.photos}> 
               <article className={prof.contCircle}>
-                <div className={prof.circle}></div>
+                <div className={prof.circle}>
+                  {profileImage ? (
+                    <img
+                      src={profileImage}
+                      alt="Foto de perfil"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+                    />
+                  ) : (
+                    <div style={{ width: '100%', height: '100%', borderRadius: '50%', backgroundColor: '#ccc' }} />
+                  )}
+                </div>
               </article>
 
               <article className={prof.rectangle}>
@@ -84,7 +113,7 @@ const Profile = () => {
               </article>
 
               <article className={prof.descLabel}>
-              <TagsProfile currentUser={8}/>
+                <TagsProfile currentUser={8}/>
               </article>
 
             </div>

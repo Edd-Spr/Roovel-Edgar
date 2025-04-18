@@ -3,7 +3,7 @@ import { FiTrash2, FiSlash, FiAlertCircle, FiMoreVertical } from 'react-icons/fi
 import './Friends.css';
 
 const friends = [
-  { name: 'Debora Melo', avatar: 'https://i.pravatar.cc/100?img=3' },
+  { name: 'Debora ', avatar: 'https://i.pravatar.cc/100?img=3' },
   { name: 'Mujer Seleccionada', avatar: 'https://i.pravatar.cc/100?img=4' },
 ];
 

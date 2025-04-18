@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'; // Para manejar efectos y estado
+import { useEffect, useState } from 'react'; 
 import Menu from '../../Components/NavProfile/NavProfile'
-import Etiqueta from '../../Components/TagsProfile/TagsProfile'
+// import Etiqueta from '../../Components/TagsProfile/TagsProfile'
 import NavBar from '../../Components/NavBar';
 import { GoPencil } from "react-icons/go";
 import prof from './Profile.module.css';
@@ -84,7 +84,7 @@ const Profile = () => {
               </article>
 
               <article className={prof.descLabel}>
-              {/* <TagsProfile currentUser="8" /> */}
+              {/* <TagsProfile /> */}
               </article>
 
             </div>

@@ -1,19 +1,19 @@
 html, body{
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-wrap: wrap;
+    /* display: flex;
+    flex-wrap: wrap; */
     background-color: #E5DCD0;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
 }
 
 .all {
-    width: 100%;
+    width: 100vw;
     height: 100%;
     display: flex;
     flex-direction: row;
-    gap: 12px;
+    gap: 2px;
   }
   
   /* -------------------------------- Left Sidebar ------------------------------ */
@@ -21,6 +21,7 @@ html, body{
   .left {
     width: 5%;
     padding-top: 100px;
+    z-index: 1;
   }
   
   /* -------------------------------- Center Content ---------------------------- */
@@ -33,8 +34,8 @@ html, body{
   }
   
   .info {
-    width: 90%;
-    height: 80vh;
+    width: 100%;
+    height: 85vh;
     background-color: #ffffff;
     display: flex;
     border-radius: 10px;
@@ -52,31 +53,31 @@ html, body{
   
   .contCircle {
     width: 100%;
-    height: 45%;
+    height: 43%;
     display: flex;
     justify-content: center;
     align-items: center;
   }
   
   .circle {
-    width: 15vw;
-    height: 15vw;
+    width: 13vw;
+    height: 13vw;
     border-radius: 100%;
     background-color: burlywood;
   }
   
   .rectangle {
-    width: 100%;
-    height: 55%;
+    width: 93%;
+    height: 59%;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-bottom: 15px;
   }
   
   .rectPhoto {
-    width: 70%;
-    height: 95%;
-    background-color: violet;
+    width: 75%;
+    height: 100%;
   }
   
   .descrip {
@@ -163,7 +164,7 @@ html, body{
   .right {
     width: 30%;
     display: flex;
+    padding-top: 20px;
     justify-content: center;
-    align-items: center;
   }
   

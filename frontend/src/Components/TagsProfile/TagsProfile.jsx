@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./TagsProfile.css";
 
 const Etiqueta = ({ text }) => {
@@ -11,25 +12,23 @@ const TagsProfile = ({ currentUser }) => {
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/tags?id_user=${currentUser}`);
-        const data = await response.json();
-        console.log("Etiquetas recibidas del backend:", data.tags);
-        setTags(data.tags || []);
+        const response = await axios.get(`http://localhost:3000/tags?id_user=${currentUser}`);
+        console.log("Respuesta cruda:", response.data);
+
+        // Validamos si viene en objeto o directamente como arreglo
+        const data = Array.isArray(response.data) ? response.data : response.data.tags;
+        setTags(data || []);
       } catch (error) {
         console.error("Error al obtener las etiquetas:", error);
       }
     };
 
-    if (currentUser) {
-      fetchTags();
-    } else {
-      console.warn("currentUser está vacío o undefined"); 
-    }
+    if (currentUser) fetchTags();
   }, [currentUser]);
 
   return (
     <div className="tag-container">
-      {tags && tags.length > 0 ? (
+      {tags.length > 0 ? (
         tags.map((tag) => (
           <Etiqueta key={tag.id_tag} text={tag.tag_content} />
         ))

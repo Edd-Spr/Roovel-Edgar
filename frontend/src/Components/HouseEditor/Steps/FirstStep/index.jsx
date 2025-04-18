@@ -151,7 +151,11 @@ const FirstStep = ({ allImageFiles }) => {
                     className={Styles['first-step__button-add-image']}
                     onClick={handleImageClick}
                 >
-                    <img src="/Graphics/Icons/add-icon_gray.png" alt="Agregar imagen" />
+                    <img 
+                        src="/Graphics/Icons/add-icon_gray.png" 
+                        alt="Agregar imagen" 
+                        draggable="false"
+                        />
                 </button>
 
                 <input

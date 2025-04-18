@@ -63,9 +63,12 @@
 .first-step__button-add-image{
     width: 9rem;
     height: 6.5rem;
+    border-radius: 5px;
+    border: 2px solid rgb(181, 181, 181);
     margin: 0;
     background: none;
     position: relative;
+    transition: .3s;
 }
 .first-step__button-add-image:hover{
     background-color: var(--white-button-hover);

@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import ImageCropperRectangleHorizontal from '../../../ImageCropper/ImageCropperRectangleHorizontal';
 import ImageCropperRect from '../../../ImageCropper/ImageCropperRectH';
 
-const FirstStep = ({ allImageFiles }) => {
+const FirstStep = ({ allImageFiles, room }) => {
     const fileInputRef = useRef(null);
     const [errorMessage, setErrorMessage] = useState("");
     const { images, 
@@ -93,7 +93,7 @@ const FirstStep = ({ allImageFiles }) => {
                 boxSizing: 'border-box',
                 padding: '3rem',
                 paddingBottom: '4rem',
-                overflowY: 'scroll',
+                overflowY: 'auto',
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

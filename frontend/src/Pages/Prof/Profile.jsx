@@ -5,6 +5,8 @@ import NavBar from '../../Components/NavBar';
 import { GoPencil } from "react-icons/go";
 import prof from './Profile.module.css';
 import AmigosList from '../../Components/Friends/Friends'
+import Carousel from '../../Components/Carousel/Carousel';
+
 
 
 const Profile = () => {
@@ -26,13 +28,14 @@ const Profile = () => {
         const response = await fetch(`http://localhost:3000/profile?currentUser=${currentUser}`);
         const data = await response.json();
         setProfile({
-          user_name: data.user_name,
+          user_name: data.user_name || 'No se encontro nombre',
           user_last_name: data.user_last_name,
           user_parent_name: data.user_parent_name,
-          email: data.user_email, 
-          number: '123-456-7890',
-          age: 26, 
-          description: 'No hay descripción disponible',
+          email: data.user_email || 'No se encontro correo', 
+          number: data.user_tel || 'No se encontro número',
+          age: data.user_age || 'No se encontro edad', 
+          statement: data.user_personal_statement || 'No se encontro statement',
+          description: data.user_description || 'No hay descripción disponible',
         });
       } catch (error) {
         console.error('Error al obtener los datos del perfil:', error);
@@ -59,7 +62,9 @@ const Profile = () => {
               </article>
 
               <article className={prof.rectangle}>
-                <div className={prof.rectPhoto}></div>
+                <div className={prof.rectPhoto}>
+                  <Carousel />
+                </div>
               </article>
             </div>
 
@@ -73,15 +78,13 @@ const Profile = () => {
               </article>
 
               <article className={prof.descInfo}>
-                <span className={prof.descMain}>Busco compañero</span>
-                <span className={prof.descAge}>{profile.age} años</span>
+                <span className={prof.descMain}>{profile.statement}</span>
+                <span className={prof.descAge}> {profile.age} años</span>
                 <span className={prof.descAll}>{profile.description}</span>
               </article>
 
               <article className={prof.descLabel}>
-                <Etiqueta /> 
-                <Etiqueta /> 
-                <Etiqueta /> 
+              {/* <TagsProfile currentUser="8" /> */}
               </article>
 
             </div>

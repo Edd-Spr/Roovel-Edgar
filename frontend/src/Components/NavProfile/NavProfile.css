@@ -45,6 +45,7 @@
   justify-content: center;
   flex-shrink: 0;
   transition: color 0.3s ease-in-out;
+  color: #a9abab;
 }
 
 .link-title {
@@ -53,6 +54,7 @@
   white-space: nowrap;
   text-align: left;
   flex-grow: 1;
+  color: #000000;
 }
 
 .menu:hover .link-title {
@@ -79,5 +81,10 @@
   background-color: #a9abab;
   color: #fff;
   border-radius: 0;
+}
+
+.link:hover > .link-icon, .link-title {
+  color: #e0dede;
+  padding-left: 10px;
 }
 

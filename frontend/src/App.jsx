@@ -7,6 +7,8 @@ import PropertyManager from './Pages/PropertyManager';
 
 import Map from './Pages/Map';
 
+import { AuthProvider } from './hooks/auth';
+
 import './main.css'
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -16,14 +18,16 @@ function App() {
 
   return (
     <Router>
-      <Routes> 
-        <Route path="/" element={ <Home/>} />
-        <Route path="/matching" element={ <MatchingPage/>} />
-        <Route path="/auth" element={<Authentication/>} />
-        <Route path='/map' element={<Map />} />
-        <Route path='/propertyManager' element={<PropertyManager />} />
-        <Route path='/profile' element={<Profile />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={ <Home/>} />
+          <Route path="/matching" element={ <MatchingPage/>} />
+          <Route path="/auth" element={<Authentication/>} />
+          <Route path='/map' element={<Map />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/propertyManager' element={<PropertyManager />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   )
 }

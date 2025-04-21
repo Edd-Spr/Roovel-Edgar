@@ -6,6 +6,7 @@ import RoomSlider from '../../Components/RoomSlider/RoomSlider.jsx';
 import MultiRange from '../../Components/MultiRangeSlider/MultiRangeSlider.jsx';
 import FilterButton from '../../Components/FilterButton/FilterButton.jsx';
 import AdvertisingSection from '../../Components/AdvertisingSection/AdvertisingSection.jsx';
+import NavBar from '../../Components/NavBar.jsx';
 
 
 const isLogged = false;
@@ -13,6 +14,7 @@ const isLogged = false;
 const Home = () => {
     return (
         <>
+            <NavBar/>
             <FeaturesCarousel/>
             <StayFinder/>
             {isLogged || <SignInBanner/>}

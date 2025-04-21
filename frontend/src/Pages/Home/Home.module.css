@@ -34,7 +34,7 @@ html, body {
 }
 
 .featuresCarouselContainer {
-    width: 100vw;
+    width: 100%;
     height: 60vh;
     background-color: var(--secondary-color);
     position: relative;

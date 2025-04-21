@@ -122,7 +122,7 @@ const Profile = () => {
         </article>
 
         <article className={prof.right}>
-          <AmigosList />
+          <AmigosList currentUser={8}/>
         </article>
       </div>
     </div>

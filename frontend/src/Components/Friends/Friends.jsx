@@ -3,6 +3,7 @@ import { FiTrash2, FiSlash, FiAlertCircle, FiMoreVertical } from 'react-icons/fi
 import axios from 'axios';
 import './Friends.css';
 
+
 const AmigosList = ({ currentUserId }) => {
   const [amigos, setAmigos] = useState([]);
   const [activeIndex, setActiveIndex] = useState(null);  // Se asegura que activeIndex esté definido

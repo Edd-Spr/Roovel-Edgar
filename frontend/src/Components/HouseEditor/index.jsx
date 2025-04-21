@@ -10,7 +10,7 @@ import FourthStep from './Steps/FourthStep';
 import FifthStep from './Steps/FifthStep';
 
 const HouseEditor = ({ openRoomEditor, pendingRooms, setPendingRooms }) => {
-    const [houseEditorProgress, setHouseEditorProgress] = useState(4);
+    const [houseEditorProgress, setHouseEditorProgress] = useState(0);
 
     const [images, setImages] = useState([]);
     const [imageFiles, setImageFiles] = useState([]);

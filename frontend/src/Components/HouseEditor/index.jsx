@@ -7,6 +7,7 @@ import FirstStep from './Steps/FirstStep';
 import SecondStep from './Steps/SecondStep';
 import ThirdStep from './Steps/ThirdStep';
 import FourthStep from './Steps/FourthStep';
+import FifthStep from './Steps/FifthStep';
 
 const HouseEditor = ({ openRoomEditor, pendingRooms, setPendingRooms }) => {
     const [houseEditorProgress, setHouseEditorProgress] = useState(4);
@@ -56,6 +57,7 @@ const HouseEditor = ({ openRoomEditor, pendingRooms, setPendingRooms }) => {
                         openRoomEditor={openRoomEditor} // Nueva prop para abrir el RoomEditor desde PropiedadesPage
                     />
                 )}
+                {houseEditorProgress === 5 && <FifthStep />}
 
                 {houseEditorProgress > 0 && (
                     <div className={Styles['house-editor__progress']}>
@@ -74,9 +76,10 @@ const HouseEditor = ({ openRoomEditor, pendingRooms, setPendingRooms }) => {
                                 {i + 1}
                             </p>
                         ))}
+                        {houseEditorProgress < 5 && 
                         <button className={Styles['pogress__button-next']} onClick={next}>
                             Siguiente
-                        </button>
+                        </button>}
                     </div>
                 )}
 

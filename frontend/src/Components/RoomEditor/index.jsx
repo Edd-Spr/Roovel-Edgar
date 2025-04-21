@@ -14,14 +14,15 @@ const RoomEditor = ({ room, closeModal, pendingRooms, setPendingRooms }) => {
   const [images, setImages] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const [imageFile, setImageFile] = useState(null);
-  const [croppedMainImage, setCroppedMainImage] = useState(room?.mainImage || null);
+  const [croppedMainImage, setCroppedMainImage] = useState(room?.mainImage[0].image_content || null);
 
   useEffect(() => {
     if (room?.images && room.images.length > 0) {
-      setImages(room.images);
-      setImageFiles(room.images); 
+        const imageUrls = room.images.map((image) => image.image_content);
+        setImages(imageUrls);
+        setImageFiles(room.images);
     }
-  }, [room]);
+}, [room]);
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);

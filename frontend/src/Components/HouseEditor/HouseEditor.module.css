@@ -23,8 +23,8 @@
 }
 
 .house-editor__overlay{
-    top: -8vh;
-    position: absolute;
+    top: 0;
+    position: fixed;
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.174);
@@ -32,6 +32,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 999;
 }
 
 .house-editor__card-container{
@@ -42,6 +43,7 @@
     display: flex;
     overflow: hidden;
     position: relative;
+    z-index: 11;
 }
 
 .house-editor__progress{

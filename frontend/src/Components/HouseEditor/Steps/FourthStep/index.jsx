@@ -62,7 +62,7 @@ const RoomCard = ({ room, onClick }) => {
             onClick={onClick}
         >
             <img
-                src={room.mainImage || '/placeholder-room.jpg'}
+                src={room.mainImage[0].image_content || '/placeholder-room.jpg'}
                 alt={room.name}
                 style={{
                     width: '100%',

@@ -1,16 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FiTrash2, FiSlash, FiAlertCircle, FiMoreVertical } from 'react-icons/fi';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import './Friends.css';
-
-// const currentUser = '8'; // este es el id del usuario logueado
 
 const AmigosList = ({ currentUser }) => {
   const [amigos, setAmigos] = useState([]);
   const [activeIndex, setActiveIndex] = useState(null);
   const containerRef = useRef(null);
 
-  // Obtener amigos
   useEffect(() => {
     const fetchAmigos = async () => {
       if (!currentUser) {
@@ -19,7 +17,6 @@ const AmigosList = ({ currentUser }) => {
       }
       try {
         const response = await axios.get(`http://localhost:3000/api/friends/${currentUser}`);
-        console.log('Amigos obtenidos:', response.data);
         if (Array.isArray(response.data)) {
           setAmigos(response.data);
         } else {
@@ -50,18 +47,36 @@ const AmigosList = ({ currentUser }) => {
     };
   }, []);
 
-  // Función para eliminar al amigo
-  const handleEliminarAmigo = async (friend) => {
-    try {
-      await axios.put('http://localhost:3000/api/friends/remove', {
-        id_user: currentUser,  // Este es el id del usuario logueado
-        friend: friend.id_user  // Deberías enviar friend.id_user, ya que friend es el objeto que contiene el id
-      });
-      // Filtrar al amigo eliminado de la lista
-      setAmigos((prevAmigos) => prevAmigos.filter(f => f.id_user !== friend.id_user)); // Filtra correctamente
-    } catch (error) {
-      console.error('Error al eliminar al amigo:', error);
-    }
+  const handleEliminarAmigo = (friend) => {
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.put('http://localhost:3000/api/friends/remove', {
+            id_user: currentUser,
+            friend: friend.id_user
+          });
+
+          setAmigos((prevAmigos) => prevAmigos.filter(f => f.id_user !== friend.id_user));
+
+          Swal.fire({
+            title: "Eliminado",
+            text: "El amigo ha sido eliminado.",
+            icon: "success"
+          });
+        } catch (error) {
+          console.error('Error al eliminar al amigo:', error);
+          Swal.fire("Error", "No se pudo eliminar el amigo.", "error");
+        }
+      }
+    });
   };
 
   return (

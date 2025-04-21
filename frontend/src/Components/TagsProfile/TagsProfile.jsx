@@ -15,7 +15,6 @@ const TagsProfile = ({ currentUser }) => {
         const response = await axios.get(`http://localhost:3000/tags?id_user=${currentUser}`);
         console.log("Respuesta cruda:", response.data);
 
-        // Validamos si viene en objeto o directamente como arreglo
         const data = Array.isArray(response.data) ? response.data : response.data.tags;
         setTags(data || []);
       } catch (error) {

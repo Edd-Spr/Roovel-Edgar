@@ -6,7 +6,7 @@ import { GoPencil } from "react-icons/go";
 import prof from './Profile.module.css';
 import AmigosList from '../../Components/Friends/Friends';
 import Carousel from '../../Components/Carousel/Carousel';
-import axios from 'axios'; // Asegúrate de tener axios para la petición
+import axios from 'axios';
 
 const Profile = () => {
   const [profile, setProfile] = useState({
@@ -20,7 +20,7 @@ const Profile = () => {
   });
 
   const [profileImage, setProfileImage] = useState(null);
-  const currentUser = '8'; // 💥 Esta línea la subimos arriba
+  const currentUser = '8'; 
 
   useEffect(() => {
     const fetchProfileImage = async () => {
@@ -30,7 +30,7 @@ const Profile = () => {
         console.log("Imágenes recibidas para foto de perfil:", data);
 
         if (Array.isArray(data) && data.length > 0) {
-          setProfileImage(data[0].image_content); // Usamos la primera imagen
+          setProfileImage(data[0].image_content); 
         }
       } catch (error) {
         console.error("Error al obtener imagen de perfil:", error);

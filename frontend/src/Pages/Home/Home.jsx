@@ -33,7 +33,7 @@ const Home = () => {
                 roomSliderTitle='Recomendados'
                 rooms={rooms}
             />
-            <AdvertisingSection
+            {/* <AdvertisingSection
                title='¿Problemas con los gastos compartidos?' 
                description='Evita malentendidos y disputas por los pagos. Usa nuestra app para dividir de forma precisa y justa lo que le toca a cada uno.'
                direction=''
@@ -41,7 +41,7 @@ const Home = () => {
                position={2}
                color='#CEB6A9'
                top='-100px'
-            />
+            /> */}
         </>
     );
 }
@@ -66,15 +66,15 @@ const CAROUSEL_CONTENT = [
         buttonContent: 'Explorar',
         direction: ''
     },
-    {
-        id: 3,
-        title: 'Organiza y divide tus gastos',
-        description: 'Lleva un control preciso de los gastos compartidos entre roomies con nuestra herramienta de división de gastos y responsabilidades de manerá fácil y justa.',
-        image: '/Graphics/carousel-money.jpeg',
-        buttonName: 'Finanzas',
-        buttonContent: 'Explorar',
-        direction: ''
-    },
+    // {
+    //     id: 3,
+    //     title: 'Organiza y divide tus gastos',
+    //     description: 'Lleva un control preciso de los gastos compartidos entre roomies con nuestra herramienta de división de gastos y responsabilidades de manerá fácil y justa.',
+    //     image: '/Graphics/carousel-money.jpeg',
+    //     buttonName: 'Finanzas',
+    //     buttonContent: 'Explorar',
+    //     direction: ''
+    // },
     {
         id: 4,
         title: 'Publica tu espacio para roomies',

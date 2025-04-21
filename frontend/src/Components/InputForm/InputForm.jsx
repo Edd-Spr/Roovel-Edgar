@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Styles from './InputForm.module.css';
 
-const InputForm = ({title, type, Width, Height, options}) => {
+const InputForm = ({title, type, Width, Height, options, onChange}) => {
 
     const [visiblePassword, setVisiblePassword] = useState(false);
 
@@ -14,6 +14,7 @@ const InputForm = ({title, type, Width, Height, options}) => {
                         className={Styles.inputForm} 
                         required
                         style={{width: Width, height: Height, paddingRight: type === 'password' && '2.5vw'}}
+                        onChange={onChange}
                     />
                     <label htmlFor="" className={Styles.labelInputForm}>{title}</label>
                     {type === 'password' && (
@@ -31,7 +32,7 @@ const InputForm = ({title, type, Width, Height, options}) => {
                 <div className={Styles.inputFormContainer}>
                     {type === 'select' && (
                         <>
-                            <select name="" id="" className={Styles.inputForm} required style={{width: Width, height: Height}}>
+                            <select name="" id="" className={Styles.inputForm} onChange={onChange} required style={{width: Width, height: Height}}>
                                 {options?.map((value) => <option value={value} key={value}>{value}</option>)}
                             </select>
                             <label htmlFor="" className={Styles.labelInputForm}>{title}</label>

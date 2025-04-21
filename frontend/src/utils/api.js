@@ -14,11 +14,14 @@ export async function apiRequest(method = 'get', url, data = {}, params = {}, is
       url,
       params,
       data,
+      body : JSON.stringify(data),
       headers: {},
     };
 
     if (isPrivate) {
-      config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
+      config.headers.authorization = `Bearer ${sessionStorage.getItem("jwt").replace(/"/g, "")}`;
+      config.headers["Content-Type"] = "application/json";
+      config.headers["Accept"] = "application/json";
     }
 
     const response = await axios(config);

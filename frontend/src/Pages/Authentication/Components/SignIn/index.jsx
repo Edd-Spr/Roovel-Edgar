@@ -4,13 +4,8 @@ import { motion } from "framer-motion";
 import AuthLoader from '../AuthLoader';
 import useSignIn from './useSignIn';
 
-export default function SignIn({signInSignUp, setSignInSignUp, authenticationIsLoading, setAuthenticationIsLoading}) {
+export default function SignIn({signInSignUp, signInUpHandler }) {
   const { loading, error, success, signIn } = useSignIn()
-
-    function signUp(e){
-      e.preventDefault()
-      setSignInSignUp(false)
-    }
 
     return (
       <section className={Styles.signInContainer} style={{ width: signInSignUp ? '35vw' : '' }}>
@@ -23,7 +18,7 @@ export default function SignIn({signInSignUp, setSignInSignUp, authenticationIsL
 
         <button className={Styles.firstLogButton}>Iniciar Sesión</button>
         <p style={{ margin: '0', fontSize: '2vh', color: 'gray' }}>¿No tienes cuenta?</p>
-        <button className={Styles.secondLogButton} onClick={ signUp }>Registrarse</button>
+        <button className={Styles.secondLogButton} onClick={ signInUpHandler }>Registrarse</button>
         
       </form>
 

@@ -1,20 +1,67 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import Styles from './ProfileCustomization.module.css';
 import InputForm from '../InputForm/InputForm.jsx';
 import BounceLoader from "react-spinners/BounceLoader";
 import ImageCropperModal from '../ImageCropper/ImageCropper.jsx';
 import ImageCropperRect from '../ImageCropper/ImageCropperRectangle.jsx';
 
-const ProfileCustomization = () => {
+const ProfileCustomization = ({ onFirstSubmit, onSecondSubmit, onThirdSubmit }) => {
     const [customProgress, setCustomProgress] = useState(1);
     const [customizationIsLoading, setCustomizationIsLoading] = useState(false)
+    const navigate = useNavigate();
+
+    const handleFirstSubmit = (e, data) => {
+        e.preventDefault();
+        onFirstSubmit(e, data);
+        setCustomProgress(customProgress + 1);
+    }
+    const handleSecondSubmit = ( option ) => {
+        onSecondSubmit( option );
+        setCustomProgress(customProgress + 1);
+    }
+    const handleThirdSubmit = async ( data ) => {
+        const res = await onThirdSubmit( data );
+        
+        setCustomizationIsLoading(false)
+        if ( res ) setCustomProgress(customProgress + 1);
+        else navigate('/');
+    }
+
+    const handleBack = () => {
+        if (customProgress > 1) {
+            setCustomProgress(customProgress - 1);
+        }
+    }
+
     return (
         <article className={Styles.profileCustomizationMainBox}>
-            {customProgress === 1 && <FirstStep customProgress={customProgress} setCustomProgress={setCustomProgress} />}
-            {customProgress === 2 && <SecondStep customProgress={customProgress} setCustomProgress={setCustomProgress} />}
-            {customProgress === 3 && <ThirdStep customProgress={customProgress} setCustomProgress={setCustomProgress} setCustomizationIsLoading={setCustomizationIsLoading} customizationIsLoading={customizationIsLoading}/>}
-            {customProgress === 4 && <ResultProfileCustomization customProgress={customProgress} setCustomProgress={setCustomProgress} />}
+            {customProgress === 1 && ( 
+                <FirstStep 
+                    customProgress={customProgress} 
+                    onSubmit={ handleFirstSubmit } 
+                />) }
+            {customProgress === 2 && ( 
+                <SecondStep 
+                    customProgress={customProgress} 
+                    onSubmit={ handleSecondSubmit } 
+                    onBack={ handleBack } 
+                />) }
+            {customProgress === 3 && ( 
+                <ThirdStep 
+                    customProgress={customProgress} 
+                    setCustomProgress={setCustomProgress} 
+                    setCustomizationIsLoading={setCustomizationIsLoading} 
+                    customizationIsLoading={customizationIsLoading}
+                    onBack={ handleBack }
+                    onSubmit={ handleThirdSubmit }
+                />) }
+            {customProgress === 4 && ( 
+                <ResultProfileCustomization 
+                    customProgress={customProgress} 
+                    setCustomProgress={setCustomProgress} 
+                />) }
 
             {customProgress < 4 && 
             <section className={Styles.customProgressContainer}>
@@ -45,24 +92,38 @@ const CustomizationLoader = () => {
     )
 }
  
-const FirstStep = ({ customProgress, setCustomProgress }) => {
+const FirstStep = ({ onSubmit }) => {
     const [selectedTags, setSelectedTags] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [imageFile, setImageFile] = useState(null);
     const [croppedImage, setCroppedImage] = useState(null);
 
-    function toggleTag(tag) {
+    const [ gender, setGender ] = useState('')
+    const [ pronouns, setPronouns ] = useState('')
+
+    function onGenderChange(e) {
+        setGender(e.target.value);
+    }
+    function onPronounsChange(e) {
+        setPronouns(e.target.value);
+    }
+
+    function onToggleTag(e) {
+        e.preventDefault();
+        const tag = e.target.value;
+
         setSelectedTags((prev) =>
             prev.includes(tag) ? prev.filter((n) => n !== tag) : [...prev, tag]
         );
     }
 
-    function handleFileChange(event) {
-        const file = event.target.files[0];
+    function handleFileChange(e) {
+        e.preventDefault();
+        const file = e.target.files[0];
         if (file) {
             setImageFile(URL.createObjectURL(file));
             setIsModalOpen(true);
-            event.target.value = "";
+            e.target.value = "";
         }
     }
 
@@ -74,12 +135,14 @@ const FirstStep = ({ customProgress, setCustomProgress }) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
         >
+            <form action="">
+
             <section className={Styles.inputsPersonalInfoContainer}>
                 <p className={Styles.titlePersonalInfo}>Personalizar Perfil</p>
                 <InputForm Width='30vw' title="Escribe tu nombre" type="text" />
                 <InputForm Width='8.5vw' title="Cumpleaños" type="date" />
-                <InputForm Width='11vw' title="Género" type="select" options={['', 'Masculino', 'Femenino']} />
-                <InputForm Width='8.5vw' title="Pronombres" type="select" options={['', 'Él/He', 'Ella/She', 'Elle/They']} />
+                <InputForm Width='11vw' title="Género" type="select" options={['', 'Masculino', 'Femenino']} onChange={ onGenderChange } />
+                <InputForm Width='8.5vw' title="Pronombres" type="select" options={['', 'Él/He', 'Ella/She', 'Elle/They']} onChange={ onPronounsChange } />
                 <InputForm Width='30vw' title="Lugar donde buscas compañero" type="text" />
                 <InputForm Height='29vh' Width='30vw' title="Añade una descripción" type="area" />
             </section>
@@ -106,7 +169,8 @@ const FirstStep = ({ customProgress, setCustomProgress }) => {
                     {tags.map((tag, i) => (
                         <button
                             key={i}
-                            onClick={() => toggleTag(tag)}
+                            value={tag}
+                            onClick={ onToggleTag }
                             className={selectedTags.includes(tag) ? Styles.activeTag : Styles.tagFirstStep}
                         >
                             {tag}
@@ -114,7 +178,7 @@ const FirstStep = ({ customProgress, setCustomProgress }) => {
                     ))}
                 </div>
 
-                <button className={Styles.nextStep} onClick={() => { console.log(selectedTags); setCustomProgress(customProgress + 1); }}>
+                <button className={Styles.nextStep} onClick={ (e) => onSubmit(e, { selectedTags, imageFile, pronouns, gender } ) }>
                     Siguiente
                 </button>
             </section>
@@ -130,15 +194,14 @@ const FirstStep = ({ customProgress, setCustomProgress }) => {
                     }}
                 />
             )}
+            </form>
         </motion.article>
     );
 };
 
-const SecondStep = ({ customProgress, setCustomProgress }) => {
-
-    function chooseCard(){
-        setCustomProgress(customProgress+1)
-    }
+const SecondStep = ({ onSubmit, onBack }) => {
+    function chooseCard( option ) { onSubmit( option ) }
+    
     return (
         <motion.article
             className={Styles.profileCustomizationMainBox}
@@ -148,18 +211,18 @@ const SecondStep = ({ customProgress, setCustomProgress }) => {
             transition={{ duration: 1 }}
         >
             <section className={Styles.choseBoxContainer}>
-                <p className={Styles.chooseBoxTitle}>¿Que estás buscando???</p>
-                <ChoseBox title='Roomie' image='/Graphics/choose-roomie.png'/>
-                <ChoseBox title='Habitación' image='/Graphics/choose-room.png'/>
-                <ChoseBox title='Ambos' image='/Graphics/choose-both.png'/>
-                <button className={Styles.goBack} onClick={()=>setCustomProgress(customProgress-1)}>Atrás</button>
+                <p className={Styles.chooseBoxTitle}>¿Que estás buscando?</p>
+                <ChoseBox title='Roomie' image='/Graphics/choose-roomie.png' onClick={() => chooseCard( 1 ) } />
+                <ChoseBox title='Habitación' image='/Graphics/choose-room.png' onClick={() => chooseCard( 2 ) } />
+                <ChoseBox title='Ambos' image='/Graphics/choose-both.png' onClick={() => chooseCard( 3 ) }/>
+                <button className={Styles.goBack} onClick={ onBack }>Atrás</button>
             </section>
         </motion.article>
     );
 
-    function ChoseBox({title, image}){
+    function ChoseBox({title, image, onClick}) {
         return(
-            <div className={Styles.chooseBox} onClick={()=>chooseCard()}>
+            <div className={Styles.chooseBox} onClick={ onClick }>
                 <p className={Styles.chooseBoxTitleCard}>{title}</p>
                 <img 
                     src={image} 
@@ -171,7 +234,7 @@ const SecondStep = ({ customProgress, setCustomProgress }) => {
     }
 };
 
-const ThirdStep = ({ customProgress, setCustomProgress, setCustomizationIsLoading, customizationIsLoading }) => {
+const ThirdStep = ({ onBack, onSubmit }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [imageFile, setImageFile] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(null); 
@@ -198,12 +261,8 @@ const ThirdStep = ({ customProgress, setCustomProgress, setCustomizationIsLoadin
         setIsModalOpen(false);
     }
 
-    function finish(){
-        setCustomizationIsLoading(!customizationIsLoading)
-        setTimeout(()=>{
-            setCustomizationIsLoading(false)
-            setCustomProgress(customProgress+1)
-        },5000)
+    function finish() {
+        onSubmit( images )
     }
 
     return (
@@ -227,8 +286,8 @@ const ThirdStep = ({ customProgress, setCustomProgress, setCustomizationIsLoadin
                     />
                 ))}
 
-                <button onClick={()=> setCustomProgress(customProgress-1)} className={Styles.backButtonThirdStep}>Atrás</button>
-                <button onClick={finish}>Terminar</button>
+                <button onClick={ onBack } className={Styles.backButtonThirdStep}>Atrás</button>
+                <button onClick={ finish }>Terminar</button>
             </section>
 
             {isModalOpen && imageFile && (

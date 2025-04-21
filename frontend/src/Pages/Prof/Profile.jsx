@@ -6,6 +6,7 @@ import { GoPencil } from "react-icons/go";
 import prof from './Profile.module.css';
 import AmigosList from '../../Components/Friends/Friends';
 import Carousel from '../../Components/Carousel/Carousel';
+import ProfileCustomization from '../../Components/ProfileCustomization/ProfileCustomization';
 import axios from 'axios';
 
 const Profile = () => {
@@ -15,11 +16,12 @@ const Profile = () => {
     user_parent_name: '',
     email: '',
     number: '',
-    age: 26,
-    description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit.',
+    age: '',
+    description: '',
   });
 
   const [profileImage, setProfileImage] = useState(null);
+  const [mostrarCustomization, setMostrarCustomization] = useState(false); 
   const currentUser = '8'; 
 
   useEffect(() => {
@@ -47,13 +49,13 @@ const Profile = () => {
         const data = await response.json();
         console.log("Imagen de perfil recibida:", data);
         setProfile({
-          user_name: data.user_name || 'No se encontro nombre',
+          user_name: data.user_name || 'No se encontró nombre',
           user_last_name: data.user_last_name,
           user_parent_name: data.user_parent_name,
-          email: data.user_email || 'No se encontro correo', 
-          number: data.user_tel || 'No se encontro número',
-          age: data.user_age || 'No se encontro edad', 
-          statement: data.user_personal_statement || 'No se encontro statement',
+          email: data.user_email || 'No se encontró correo', 
+          number: data.user_tel || 'No se encontró número',
+          age: data.user_age || 'No se encontró edad', 
+          statement: data.user_personal_statement || 'No se encontró statement',
           description: data.user_description || 'No hay descripción disponible',
         });
       } catch (error) {
@@ -64,11 +66,17 @@ const Profile = () => {
     fetchProfileData();
   }, [currentUser]);
 
+  // Cierra el modal cuando se hace clic fuera del modalContent
+  const handleModalClick = (e) => {
+    if (e.target === e.currentTarget) {
+      setMostrarCustomization(false);
+    }
+  };
+
   return (
     <div>
       <NavBar />
       <div className={prof.all}>
-        
         <article className={prof.left}>
           <Menu />        
         </article>
@@ -98,12 +106,13 @@ const Profile = () => {
             </div>
 
             <div className={prof.descrip}>
-
               <article className={prof.descName}>
                 <span className={prof.name}>{profile.user_name} {profile.user_last_name} {profile.user_parent_name}</span>
                 <span className={prof.email}>{profile.email}</span> 
                 <span className={prof.number}>{profile.number}</span>
-                <button className={prof.edit}>Editar Perfil  <GoPencil /></button>
+                <button className={prof.edit} onClick={() => setMostrarCustomization(true)}>
+                  Editar Perfil  <GoPencil />
+                </button>
               </article>
 
               <article className={prof.descInfo}>
@@ -116,8 +125,14 @@ const Profile = () => {
                 <TagsProfile currentUser={8}/>
               </article>
 
+              {mostrarCustomization && (
+                <div className={prof.modalOverlay} onClick={handleModalClick}>
+                  <div className={prof.modalContent}>
+                    <ProfileCustomization onClose={() => setMostrarCustomization(false)} />
+                  </div>
+                </div>
+              )}
             </div>
-            
           </div>
         </article>
 

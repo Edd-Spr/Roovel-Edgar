@@ -32,6 +32,7 @@ html, body {
     padding: 0;
     background-color: var(--background-color);
     overflowX: none;
+    width: 100%;
 }
 
 .featuresCarouselContainer {
@@ -43,6 +44,7 @@ html, body {
     justify-content: flex-end;
     align-items: center;
     overflow: hidden;
+    padding-top: 8vh;
 }
 
 /* 1380px o 93w */
@@ -71,6 +73,9 @@ html, body {
     flex-direction: column;
     justify-content: flex-start;
     align-content: center;
+}
+.carouselInfo button{
+    cursor: pointer;
 }
 
 @font-face {
@@ -222,4 +227,9 @@ html, body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+
+.barraNav{
+    position: fixed;
+    z-index: 1000;
 }

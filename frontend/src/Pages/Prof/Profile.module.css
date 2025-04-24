@@ -1,214 +1,207 @@
 html, body{
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    background-color: #E5DCD0;
-    width: 100%;
-    height: 100vh;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .all {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-  }
-  
-  /* -------------------------------- Left Sidebar ------------------------------ */
-  
-  .left {
-    width: 5%;
-    padding-top: 100px;
-    z-index: 1;
-  }
-  
-  /* -------------------------------- Center Content ---------------------------- */
-  
-  .center {
-    width: 80%;
-    display: flex;
-    padding-top: 20px;
-    justify-content: center;
-  }
-  
-  .info {
-    width: 90%;
-    height: 80vh;
-    background-color: #ffffff;
-    display: flex;
-    border-radius: 10px;
-    padding: 4px;
-  }
-  
-  .photos {
-    width: 35%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 5px;
-  }
-  
-  .contCircle {
-    width: 100%;
-    height: 43%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .circle {
-    width: 15vw;
-    height: 15vw;
-    border-radius: 100%;
-    background-color: burlywood;
-  }
-  
-  .rectangle {
-    width: 100%;
-    height: 55%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .rectPhoto {
-    width: 70%;
-  }
-  
-  .rectPhoto {
-    width: 70%;
-    height: 95%;
-    background-color: violet;
-  }
-  
-  .descrip {
-    width: 65%;
-    padding-top: 30px;
-  }
-  
-  .descName {
-    width: 90%;
-    height: 23vh;
-    border-bottom: 2px solid #00000031;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  
-  .name {
-    font-size: 30px;
-    display: flex;
-    gap: 5px;
-  }
-  
-  .email,
-  .number {
-    font-size: 15px;
-    padding-left: 10px;
-    padding-top: 5px;
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .number {
-    padding-bottom: 10px;
-  }
-  
-  .edit {
-    background-color: #ffffff;
-    color: #4a617f;
-    border: 1px solid #4a617f;
-    cursor: pointer;
-    border-radius: 10px;
-    width: 110px;
-    transition: 0.3s;
-  }
-  
-  .edit:hover {
-    background-color: #4a617f;
-    box-shadow: 0 0 0 2px #4a617f56;
-    color: #fff;
-  }
-  
-  .descInfo {
-    width: 90%;
-    height: 32vh;
-    border-bottom: 2px solid #00000031;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  
-  .descMain {
-    color: #0063dc;
-    padding-bottom: 15px;
-    font-size: large;
-  }
-  
-  .descAge {
-    font-size: medium;
-    padding-bottom: 10px;
-  }
-  
-  .descAll {
-    font-size: medium;
-  }
-  
-  .descLabel {
-    width: 90%;
-    height: 20vh;
-    padding-top: 15px;
-  }
-  
-  /* ---------------------- Right Sidebar ---------------------- */
-  
-  .right {
-    width: 30%;
-    display: flex;
-    padding-top: 20px;
-    justify-content: center;
-  }
+  width: 100%;
+  height: 92vh;
+  display: flex;
+  flex-direction: row;
+  background-color: #E5DCD0;
+
+}
+
+/* -------------------------------- Left Sidebar ------------------------------ */
+
+.left {
+  width: 5%;
+  padding-top: 100px;
+  z-index: 1;
+}
+
+/* -------------------------------- Center Content ---------------------------- */
+
+.center {
+  width: 80%;
+  display: flex;
+  padding-top: 20px;
+  justify-content: center;
+}
+
+.info {
+  width: 100%;
+  height: 85vh;
+  background-color: #ffffff;
+  display: flex;
+  border-radius: 10px;
+  padding: 4px;
+}
+
+.photos {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5px;
+}
+
+.contCircle {
+  width: 100%;
+  height: 43%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle {
+  width: 13vw;
+  height: 13vw;
+  border-radius: 100%;
+  background-color: burlywood;
+}
+
+.rectangle {
+  width: 93%;
+  height: 59%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 15px;
+}
+
+.rectPhoto {
+  width: 75%;
+  height: 100%;
+}
+
+.descrip {
+  width: 65%;
+  padding-top: 30px;
+}
+
+.descName {
+  width: 90%;
+  height: 23vh;
+  border-bottom: 2px solid #00000031;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.name {
+  font-size: 30px;
+  display: flex;
+  gap: 5px;
+}
+
+.email,
+.number {
+  font-size: 15px;
+  padding-left: 10px;
+  padding-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.number {
+  padding-bottom: 10px;
+}
+
+.edit {
+  background-color: #ffffff;
+  color: #4A617F;
+  border: 1px solid #4A617F;
+  cursor: pointer;
+  border-radius: 10px;
+  width: 110px;
+  transition: 0.3s;
+}
+
+.edit:hover {
+  background-color: #4a617f;
+  box-shadow: 0 0 0 2px #4a617f56;
+  color: #fff;
+}
+
+.descInfo {
+  width: 90%;
+  height: 32vh;
+  border-bottom: 2px solid #00000031;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.descMain {
+  color: #0063dc;
+  padding-bottom: 15px;
+  font-size: large;
+}
+
+.descAge {
+  font-size: medium;
+  padding-bottom: 10px;
+}
+
+.descAll {
+  font-size: medium;
+}
+
+.descLabel {
+  width: 90%;
+  height: 20vh;
+  padding-top: 15px;
+}
+
+/* ---------------------- Right Sidebar ---------------------- */
+
+.right {
+  width: 30%;
+  display: flex;
+  padding-top: 20px;
+  justify-content: center;
+}
 
 /* ---------------------- Modal ---------------------- */
 
-  .modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
-    display: flex;
-    justify-content: center;
-    /* align-items: center; */
-    z-index: 9999;
-    backdrop-filter: blur(3px);
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  z-index: 9999;
+  backdrop-filter: blur(3px);
+}
+
+.modalContent {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 80%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  width: 100%; /* Asegura que no se corte */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
   }
-  
-  .modalContent {
-    background-color: #fff;
-    border-radius: 16px;
-    padding: 2rem;
-    max-width: 80%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-    width: 100%; /* Asegura que no se corte */
-    animation: fadeIn 0.3s ease-in-out;
+
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-  
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  
+}

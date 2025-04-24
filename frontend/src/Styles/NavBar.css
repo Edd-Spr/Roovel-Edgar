@@ -13,6 +13,7 @@
     background-color: #4A617F;
     display: flex;
     align-items: center;
+   
 }
 @font-face {
     font-family: 'Poppins';
@@ -27,6 +28,11 @@
     font-size: 30px;
     font-family: 'Poppins', sans-serif;
 }
+
+.barraNav a {
+    text-decoration: none;
+}
+
 .barNavRigthContainer{
     display: flex;
     justify-content: flex-end;
@@ -39,6 +45,7 @@
     background-color: rgb(255, 255, 255);
     margin-left: auto;
     margin-right: 20px;
+    cursor: pointer;
 }
 .actionButtons{
     background: none;
@@ -46,7 +53,11 @@
     color: white;
     margin-left: auto;
     margin-right: 20px;
-    
+    padding-top: 14px;
+}
+.actionButtons:hover{
+    cursor: pointer;
+    color: #A0AEC0;
 }
 .notificationButton{
     width: 6vh;
@@ -57,3 +68,9 @@
     align-items: center;
     margin-right: 10px;
 }
+
+.barraNavFixed {
+    position: fixed;
+    z-index: 1000;
+  }
+  

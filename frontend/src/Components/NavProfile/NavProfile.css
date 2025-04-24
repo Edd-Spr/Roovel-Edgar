@@ -1,7 +1,10 @@
 .menu {
   /* padding: 6px; */
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   /* padding: 6px; */
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   background-color: #fff;
@@ -39,7 +42,10 @@
   gap: 8px;
   box-sizing: border-box;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   padding-right: 10px;
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 }
@@ -76,8 +82,11 @@
   padding: 6px;
   border-radius: 0;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   padding-right: 10px;
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 }
@@ -92,11 +101,14 @@
   color: #fff;
   border-radius: 0;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 }
 
 .link:hover > .link-icon, .link-title {
   color: #e0dede;
   padding-left: 10px;
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 }

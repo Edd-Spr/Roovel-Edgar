@@ -13,7 +13,10 @@ html, body{
     height: 100%;
     display: flex;
     flex-direction: row;
+<<<<<<< Updated upstream
     flex-direction: row;
+=======
+>>>>>>> Stashed changes
     gap: 12px;
   }
   
@@ -22,7 +25,10 @@ html, body{
   .left {
     width: 5%;
     padding-top: 100px;
+<<<<<<< Updated upstream
     z-index: 1;
+=======
+>>>>>>> Stashed changes
   }
   
   /* -------------------------------- Center Content ---------------------------- */
@@ -77,10 +83,13 @@ html, body{
   
   .rectPhoto {
     width: 70%;
+<<<<<<< Updated upstream
   }
   
   .rectPhoto {
     width: 70%;
+=======
+>>>>>>> Stashed changes
     height: 95%;
     background-color: violet;
   }
@@ -169,6 +178,7 @@ html, body{
   .right {
     width: 30%;
     display: flex;
+<<<<<<< Updated upstream
     padding-top: 20px;
     justify-content: center;
   }
@@ -211,5 +221,9 @@ html, body{
       opacity: 1;
       transform: scale(1);
     }
+=======
+    justify-content: center;
+    align-items: center;
+>>>>>>> Stashed changes
   }
   

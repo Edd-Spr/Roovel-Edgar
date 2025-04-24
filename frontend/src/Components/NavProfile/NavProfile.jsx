@@ -1,8 +1,11 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import { FiHeart, FiUser, FiHome, FiSettings } from "react-icons/fi";
 =======
+=======
+>>>>>>> Stashed changes
 import { FaRegHeart } from "react-icons/fa";
 import { AiOutlineHome } from "react-icons/ai";
 import { IoSettingsOutline, IoPersonOutline } from "react-icons/io5";
@@ -15,15 +18,21 @@ const Menu = () => {
 
   const navItems = [
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     { label: 'Profile', icon: <FiUser size={28} />, path: '/profile' },
     { label: 'Favoritos', icon: <FiHeart size={28} />, path: '/favoritos' },
     { label: 'Mis Cuartos', icon: <FiHome  size={28} />, path: '/cuartos' },
     { label: 'Configuración', icon: <FiSettings size={28} />, path: '/configuracion' },
 =======
+=======
+>>>>>>> Stashed changes
     { label: 'Profile', icon: <IoPersonOutline size={28} />, path: '/profile' },
     { label: 'Favoritos', icon: <FaRegHeart size={28} />, path: '/favoritos' },
     { label: 'Mis Cuartos', icon: <AiOutlineHome size={28} />, path: '/cuartos' },
     { label: 'Configuración', icon: <IoSettingsOutline size={28} />, path: '/configuracion' },
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   ];
 
@@ -42,6 +51,7 @@ const Menu = () => {
         </Link>
       ))}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       {navItems.map((item) => (
         <Link
           to={item.path}
@@ -57,6 +67,10 @@ const Menu = () => {
     </div>
   );
   );
+=======
+    </div>
+  );
+>>>>>>> Stashed changes
 =======
     </div>
   );

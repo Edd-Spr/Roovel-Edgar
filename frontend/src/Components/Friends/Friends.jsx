@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FiTrash2, FiSlash, FiAlertCircle, FiMoreVertical } from 'react-icons/fi';
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import './Friends.css';
@@ -32,6 +33,8 @@ const AmigosList = ({ currentUser }) => {
   }, [currentUser]);
 
 =======
+=======
+>>>>>>> Stashed changes
 import './Friends.css';
 
 const friends = [
@@ -43,12 +46,19 @@ const AmigosList = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const containerRef = useRef(null);
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   const toggleIcons = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+  // Cierra el menú si se hace clic fuera
+>>>>>>> Stashed changes
 =======
   // Cierra el menú si se hace clic fuera
 >>>>>>> Stashed changes
@@ -64,6 +74,7 @@ const AmigosList = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 
   const handleEliminarAmigo = (friend) => {
@@ -99,10 +110,13 @@ const AmigosList = () => {
   };
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 
   return (
     <div className="amigos-container" ref={containerRef}>
       <ul className="amigos-list">
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
         {amigos.length === 0 ? (
           <p>No tienes amigos todavía 🥲</p>
@@ -141,6 +155,8 @@ const AmigosList = () => {
           ))
         )}
 =======
+=======
+>>>>>>> Stashed changes
         {friends.map((friend, index) => (
           <li key={index} className={`amigos-item ${activeIndex === index ? 'active' : ''}`}>
             {activeIndex !== index && (
@@ -173,6 +189,9 @@ const AmigosList = () => {
             )}
           </li>
         ))}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
       </ul>
     </div>
@@ -181,6 +200,9 @@ const AmigosList = () => {
 
 export default AmigosList;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 export default AmigosList;
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes

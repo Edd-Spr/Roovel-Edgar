@@ -124,3 +124,4 @@ const AmigosList = ({ currentUser }) => {
 };
 
 export default AmigosList;
+export default AmigosList;

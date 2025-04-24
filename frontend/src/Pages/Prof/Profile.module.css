@@ -38,7 +38,11 @@ html, body{
     background-color: #ffffff;
     display: flex;
     border-radius: 10px;
+    border-radius: 10px;
     padding: 4px;
+  }
+  
+  .photos {
   }
   
   .photos {
@@ -48,6 +52,9 @@ html, body{
     justify-content: center;
     align-items: center;
     padding-top: 5px;
+  }
+  
+  .contCircle {
   }
   
   .contCircle {
@@ -85,12 +92,18 @@ html, body{
   }
   
   .descName {
+  }
+  
+  .descName {
     width: 90%;
     height: 23vh;
     border-bottom: 2px solid #00000031;
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+  
+  .name {
   }
   
   .name {
@@ -101,11 +114,18 @@ html, body{
   
   .email,
   .number {
+  }
+  
+  .email,
+  .number {
     font-size: 15px;
     padding-left: 10px;
     padding-top: 5px;
     display: flex;
     flex-wrap: wrap;
+  }
+  
+  .number {
   }
   
   .number {
@@ -124,10 +144,14 @@ html, body{
   
   .edit:hover {
     background-color: #4a617f;
+  .edit:hover {
+    background-color: #4a617f;
     box-shadow: 0 0 0 2px #4a617f56;
     color: #fff;
   }
-  
+}
+
+  .descInfo {
   .descInfo {
     width: 90%;
     height: 32vh;
@@ -135,6 +159,10 @@ html, body{
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+}
+  .descMain {
+    color: #0063dc;
   }
   
   .descMain {
@@ -144,12 +172,21 @@ html, body{
   }
   
   .descAge {
+  }
+  
+  .descAge {
     font-size: medium;
     padding-bottom: 10px;
   }
   
   .descAll {
+  }
+  
+  .descAll {
     font-size: medium;
+  }
+  
+  .descLabel {
   }
   
   .descLabel {

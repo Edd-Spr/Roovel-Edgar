@@ -28,7 +28,20 @@ const Menu = () => {
           <span className="link-title">{item.label}</span>
         </Link>
       ))}
+      {navItems.map((item) => (
+        <Link
+          to={item.path}
+          key={item.path}
+          className={`link ${location.pathname === item.path ? 'active' : ''}`}
+        >
+          <span className={`link-icon ${location.pathname === item.path ? 'active-icon' : ''}`}>
+            {item.icon}
+          </span>
+          <span className="link-title">{item.label}</span>
+        </Link>
+      ))}
     </div>
+  );
   );
 };
 

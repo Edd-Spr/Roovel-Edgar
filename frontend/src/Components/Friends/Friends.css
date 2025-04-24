@@ -1,5 +1,6 @@
 .amigos-container {
     width: 100%;
+<<<<<<< Updated upstream
     height: 85vh;
     max-width: 360px;
     background: white;
@@ -23,10 +24,31 @@
 }
   
 .amigos-main {
+=======
+    max-width: 360px;
+    background: white;
+    padding: 0;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .amigos-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .amigos-item {
+    border-bottom: 1px solid #eee;
+  }
+  
+  .amigos-main {
+>>>>>>> Stashed changes
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 12px;
+<<<<<<< Updated upstream
 }
 
 .amigos-main:hover{
@@ -42,10 +64,22 @@
 }
   
 .amigos-avatar {
+=======
+  }
+  
+  .amigo-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .amigos-avatar {
+>>>>>>> Stashed changes
     width: 45px;
     height: 45px;
     border-radius: 50%;
     object-fit: cover;
+<<<<<<< Updated upstream
 }
   
 .amigos-name {
@@ -55,19 +89,37 @@
 }
   
 .dots-button {
+=======
+  }
+  
+  .amigos-name {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #000;
+  }
+  
+  .dots-button {
+>>>>>>> Stashed changes
     background: none;
     border: none;
     cursor: pointer;
     padding: 5px;
     color: #333;
+<<<<<<< Updated upstream
 }
   
 .amigos-icons-row {
+=======
+  }
+  
+  .amigos-icons-row {
+>>>>>>> Stashed changes
     display: flex;
     align-items: center;
     background-color: #B2C9CE;
     padding: 12px;
     gap: 20px;
+<<<<<<< Updated upstream
 }
   
 .amigos-icons {
@@ -77,13 +129,28 @@
 }
   
 .amigos-icons .action {
+=======
+  }
+  
+  .amigos-icons {
+    display: flex;
+    gap: 25px;
+    margin-left: auto;
+  }
+  
+  .amigos-icons .action {
+>>>>>>> Stashed changes
     background: none;
     border: none;
     color: white;
     cursor: pointer;
     padding: 6px;
     font-size: 18px;
+<<<<<<< Updated upstream
 }
+=======
+  }
+>>>>>>> Stashed changes
 
   .action.red:hover{
     color: red;

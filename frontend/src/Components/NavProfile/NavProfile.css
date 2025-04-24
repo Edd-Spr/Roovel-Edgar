@@ -1,6 +1,9 @@
 .menu {
   /* padding: 6px; */
+<<<<<<< Updated upstream
   /* padding: 6px; */
+=======
+>>>>>>> Stashed changes
   background-color: #fff;
   position: relative;
   display: flex;
@@ -35,7 +38,10 @@
   /* padding: 0 2px; */
   gap: 8px;
   box-sizing: border-box;
+<<<<<<< Updated upstream
   padding-right: 10px;
+=======
+>>>>>>> Stashed changes
 }
 
 .link-icon {
@@ -69,8 +75,11 @@
   margin: 0;
   padding: 6px;
   border-radius: 0;
+<<<<<<< Updated upstream
   padding-right: 10px;
 
+=======
+>>>>>>> Stashed changes
 }
 
 .active-icon,
@@ -82,10 +91,13 @@
   background-color: #a9abab;
   color: #fff;
   border-radius: 0;
+<<<<<<< Updated upstream
 }
 
 .link:hover > .link-icon, .link-title {
   color: #e0dede;
   padding-left: 10px;
+=======
+>>>>>>> Stashed changes
 }
 

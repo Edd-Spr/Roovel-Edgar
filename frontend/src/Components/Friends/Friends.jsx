@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FiTrash2, FiSlash, FiAlertCircle, FiMoreVertical } from 'react-icons/fi';
+<<<<<<< Updated upstream
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import './Friends.css';
@@ -30,10 +31,27 @@ const AmigosList = ({ currentUser }) => {
     fetchAmigos();
   }, [currentUser]);
 
+=======
+import './Friends.css';
+
+const friends = [
+  { name: 'Debora Melo', avatar: 'https://i.pravatar.cc/100?img=3' },
+  { name: 'Mujer Seleccionada', avatar: 'https://i.pravatar.cc/100?img=4' },
+];
+
+const AmigosList = () => {
+  const [activeIndex, setActiveIndex] = useState(null);
+  const containerRef = useRef(null);
+
+>>>>>>> Stashed changes
   const toggleIcons = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
+<<<<<<< Updated upstream
+=======
+  // Cierra el menú si se hace clic fuera
+>>>>>>> Stashed changes
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
@@ -46,6 +64,7 @@ const AmigosList = ({ currentUser }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+<<<<<<< Updated upstream
 
   const handleEliminarAmigo = (friend) => {
     Swal.fire({
@@ -78,10 +97,13 @@ const AmigosList = ({ currentUser }) => {
       }
     });
   };
+=======
+>>>>>>> Stashed changes
 
   return (
     <div className="amigos-container" ref={containerRef}>
       <ul className="amigos-list">
+<<<<<<< Updated upstream
         {amigos.length === 0 ? (
           <p>No tienes amigos todavía 🥲</p>
         ) : (
@@ -118,10 +140,47 @@ const AmigosList = ({ currentUser }) => {
             </li>
           ))
         )}
+=======
+        {friends.map((friend, index) => (
+          <li key={index} className={`amigos-item ${activeIndex === index ? 'active' : ''}`}>
+            {activeIndex !== index && (
+              <div className="amigos-main">
+                <div className="amigo-info">
+                  <img src={friend.avatar} alt={friend.name} className="amigos-avatar" />
+                  <span className="amigos-name">{friend.name}</span>
+                </div>
+                <button className="dots-button" onClick={() => toggleIcons(index)}>
+                  <FiMoreVertical size={18} />
+                </button>
+              </div>
+            )}
+
+            {activeIndex === index && (
+              <div className="amigos-icons-row">
+                <img src={friend.avatar} alt={friend.name} className="amigos-avatar" />
+                <div className="amigos-icons">
+                  <button className="action red">
+                    <FiSlash size={20} />
+                  </button>
+                  <button className="action yellow">
+                    <FiAlertCircle size={20} />
+                  </button>
+                  <button className="action grey">
+                    <FiTrash2 size={20} />
+                  </button>
+                </div>
+              </div>
+            )}
+          </li>
+        ))}
+>>>>>>> Stashed changes
       </ul>
     </div>
   );
 };
 
 export default AmigosList;
+<<<<<<< Updated upstream
 export default AmigosList;
+=======
+>>>>>>> Stashed changes

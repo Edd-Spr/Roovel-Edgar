@@ -1,11 +1,19 @@
 html, body{
     padding: 0;
     margin: 0;
+<<<<<<< Updated upstream
     width: 100vw;
+=======
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #E5DCD0;
+    width: 100%;
+>>>>>>> Stashed changes
     height: 100vh;
 }
 
 .all {
+<<<<<<< Updated upstream
     width: 100vw;
     height: 100%;
     display: flex;
@@ -13,6 +21,13 @@ html, body{
     background-color: #E5DCD0;
 
     gap: 2px;
+=======
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+>>>>>>> Stashed changes
   }
   
   /* -------------------------------- Left Sidebar ------------------------------ */
@@ -20,7 +35,10 @@ html, body{
   .left {
     width: 5%;
     padding-top: 100px;
+<<<<<<< Updated upstream
     z-index: 1;
+=======
+>>>>>>> Stashed changes
   }
   
   /* -------------------------------- Center Content ---------------------------- */
@@ -33,19 +51,30 @@ html, body{
   }
   
   .info {
+<<<<<<< Updated upstream
     width: 100%;
     height: 85vh;
     background-color: #ffffff;
     display: flex;
     border-radius: 10px;
     border-radius: 10px;
+=======
+    width: 90%;
+    height: 80vh;
+    background-color: #ffffff;
+    display: flex;
+    border-radius: 10px;
+>>>>>>> Stashed changes
     padding: 4px;
   }
   
   .photos {
+<<<<<<< Updated upstream
   }
   
   .photos {
+=======
+>>>>>>> Stashed changes
     width: 35%;
     display: flex;
     flex-direction: column;
@@ -55,9 +84,12 @@ html, body{
   }
   
   .contCircle {
+<<<<<<< Updated upstream
   }
   
   .contCircle {
+=======
+>>>>>>> Stashed changes
     width: 100%;
     height: 43%;
     display: flex;
@@ -66,13 +98,19 @@ html, body{
   }
   
   .circle {
+<<<<<<< Updated upstream
     width: 13vw;
     height: 13vw;
+=======
+    width: 15vw;
+    height: 15vw;
+>>>>>>> Stashed changes
     border-radius: 100%;
     background-color: burlywood;
   }
   
   .rectangle {
+<<<<<<< Updated upstream
     width: 93%;
     height: 59%;
     display: flex;
@@ -84,6 +122,19 @@ html, body{
   .rectPhoto {
     width: 75%;
     height: 100%;
+=======
+    width: 100%;
+    height: 55%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .rectPhoto {
+    width: 70%;
+    height: 95%;
+    background-color: violet;
+>>>>>>> Stashed changes
   }
   
   .descrip {
@@ -92,9 +143,12 @@ html, body{
   }
   
   .descName {
+<<<<<<< Updated upstream
   }
   
   .descName {
+=======
+>>>>>>> Stashed changes
     width: 90%;
     height: 23vh;
     border-bottom: 2px solid #00000031;
@@ -104,9 +158,12 @@ html, body{
   }
   
   .name {
+<<<<<<< Updated upstream
   }
   
   .name {
+=======
+>>>>>>> Stashed changes
     font-size: 30px;
     display: flex;
     gap: 5px;
@@ -114,10 +171,13 @@ html, body{
   
   .email,
   .number {
+<<<<<<< Updated upstream
   }
   
   .email,
   .number {
+=======
+>>>>>>> Stashed changes
     font-size: 15px;
     padding-left: 10px;
     padding-top: 5px;
@@ -126,16 +186,24 @@ html, body{
   }
   
   .number {
+<<<<<<< Updated upstream
   }
   
   .number {
+=======
+>>>>>>> Stashed changes
     padding-bottom: 10px;
   }
   
   .edit {
     background-color: #ffffff;
+<<<<<<< Updated upstream
     color: #4A617F;
     border: 1px solid #4A617F;
+=======
+    color: #4a617f;
+    border: 1px solid #4a617f;
+>>>>>>> Stashed changes
     cursor: pointer;
     border-radius: 10px;
     width: 110px;
@@ -144,6 +212,7 @@ html, body{
   
   .edit:hover {
     background-color: #4a617f;
+<<<<<<< Updated upstream
   .edit:hover {
     background-color: #4a617f;
     box-shadow: 0 0 0 2px #4a617f56;
@@ -152,6 +221,12 @@ html, body{
 }
 
   .descInfo {
+=======
+    box-shadow: 0 0 0 2px #4a617f56;
+    color: #fff;
+  }
+  
+>>>>>>> Stashed changes
   .descInfo {
     width: 90%;
     height: 32vh;
@@ -160,10 +235,13 @@ html, body{
     flex-direction: column;
     justify-content: center;
   }
+<<<<<<< Updated upstream
 }
   .descMain {
     color: #0063dc;
   }
+=======
+>>>>>>> Stashed changes
   
   .descMain {
     color: #0063dc;
@@ -172,24 +250,33 @@ html, body{
   }
   
   .descAge {
+<<<<<<< Updated upstream
   }
   
   .descAge {
+=======
+>>>>>>> Stashed changes
     font-size: medium;
     padding-bottom: 10px;
   }
   
   .descAll {
+<<<<<<< Updated upstream
   }
   
   .descAll {
+=======
+>>>>>>> Stashed changes
     font-size: medium;
   }
   
   .descLabel {
+<<<<<<< Updated upstream
   }
   
   .descLabel {
+=======
+>>>>>>> Stashed changes
     width: 90%;
     height: 20vh;
     padding-top: 15px;
@@ -200,6 +287,7 @@ html, body{
   .right {
     width: 30%;
     display: flex;
+<<<<<<< Updated upstream
     padding-top: 20px;
     justify-content: center;
   }
@@ -242,5 +330,9 @@ html, body{
       opacity: 1;
       transform: scale(1);
     }
+=======
+    justify-content: center;
+    align-items: center;
+>>>>>>> Stashed changes
   }
   

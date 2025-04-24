@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import { useEffect, useState } from 'react'; 
 import Menu from '../../Components/NavProfile/NavProfile';
 import TagsProfile from '../../Components/TagsProfile/TagsProfile';
@@ -8,6 +9,15 @@ import AmigosList from '../../Components/Friends/Friends';
 import Carousel from '../../Components/Carousel/Carousel';
 import ProfileCustomization from '../../Components/ProfileCustomization/ProfileCustomization';
 import axios from 'axios';
+=======
+import Menu from '../../Components/NavProfile/NavProfile'
+import Etiqueta from '../../Components/TagsProfile/TagsProfile'
+import NavBar from '../../Components/NavBar';
+import { GoPencil } from "react-icons/go";
+import prof from './Profile.module.css';
+import AmigosList from '../../Components/Friends/Friends'
+
+>>>>>>> Stashed changes
 
 const Profile = () => {
   const [profile, setProfile] = useState({
@@ -77,15 +87,26 @@ const Profile = () => {
     <div>
       <NavBar />
       <div className={prof.all}>
+<<<<<<< Updated upstream
         <article className={prof.left}>
+=======
+        
+        <article className={prof.left}>
+          {/* <h2>left</h2> */}
+>>>>>>> Stashed changes
           <Menu />        
         </article>
 
         <article className={prof.center}>
+<<<<<<< Updated upstream
+=======
+          {/* <h2>center</h2> */}
+>>>>>>> Stashed changes
           <div className={prof.info}>
             <div className={prof.photos}> 
               <article className={prof.contCircle}>
                 <div className={prof.circle}>
+<<<<<<< Updated upstream
                   {profileImage ? (
                     <img
                       src={profileImage}
@@ -133,14 +154,56 @@ const Profile = () => {
                 </div>
               )}
             </div>
+=======
+
+                </div>
+              </article>
+
+              <article className={prof.rectangle}>
+                <div className={prof.rectPhoto}></div>
+              </article>
+            </div>
+
+            <div className={prof.descrip}>
+
+              <article className={prof.descName}>
+                <span className={prof.name}>Nombre de Usuario</span>
+                <span className={prof.email}>correo@correo.com</span> 
+                <span className={prof.number}>numero</span>
+                <button className={prof.edit}>Editar Perfil  <GoPencil /></button>
+              </article>
+
+              <article className={prof.descInfo}>
+                <span className={prof.descMain}>Busco compañero</span>
+                <span className={prof.descAge}>26 años</span>
+                <span className={prof.descAll}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit recusandae tempora labore, optio deserunt qui ullam quod minima assumenda cupiditate magnam facere ea, reprehenderit expedita? Dolor quos culpa dolores ab?Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus autem facere expedita, eius similique facilis adipisci tempore quae quam, repudiandae mollitia exercitationem blanditiis quo aperiam quidem laboriosam. Beatae, facere explicabo?</span>
+              </article>
+
+              <article className={prof.descLabel}>
+                <Etiqueta /> 
+                <Etiqueta /> 
+                <Etiqueta /> 
+              </article>
+
+            </div>
+            
+>>>>>>> Stashed changes
           </div>
         </article>
 
         <article className={prof.right}>
+<<<<<<< Updated upstream
           <AmigosList currentUser={8}/>
         </article>
       </div>
     </div>
+=======
+          {/* <h2>right</h2> */}
+          <AmigosList />
+        </article>
+      </div>
+      </div>
+>>>>>>> Stashed changes
   );
 };
 

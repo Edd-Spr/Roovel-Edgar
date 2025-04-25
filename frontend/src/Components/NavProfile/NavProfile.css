@@ -1,5 +1,4 @@
 .menu {
-  /* padding: 6px; */
   background-color: #fff;
   position: relative;
   display: flex;
@@ -11,6 +10,8 @@
   width: 60px;
   transition: width 0.3s ease-in-out;
   overflow: hidden;
+  Position: absolute;
+  Left: 0;
 }
 
 .menu:hover,
@@ -29,9 +30,10 @@
   transition: background 0.2s ease-in, color 0.3s ease-in-out;
   text-decoration: none;
   color: inherit;
-  padding: 0 2px;
+  /* padding: 0 2px; */
   gap: 8px;
   box-sizing: border-box;
+  padding-right: 10px;
 }
 
 .link-icon {
@@ -42,6 +44,7 @@
   justify-content: center;
   flex-shrink: 0;
   transition: color 0.3s ease-in-out;
+  color: #a9abab;
 }
 
 .link-title {
@@ -50,6 +53,7 @@
   white-space: nowrap;
   text-align: left;
   flex-grow: 1;
+  color: #000000;
 }
 
 .menu:hover .link-title {
@@ -63,6 +67,8 @@
   margin: 0;
   padding: 6px;
   border-radius: 0;
+  padding-right: 10px;
+
 }
 
 .active-icon,
@@ -74,5 +80,10 @@
   background-color: #a9abab;
   color: #fff;
   border-radius: 0;
+}
+
+.link:hover > .link-icon, .link-title {
+  color: #e0dede;
+  padding-left: 10px;
 }
 

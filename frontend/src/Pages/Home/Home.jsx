@@ -7,8 +7,10 @@ import RoomSlider from '../../Components/RoomSlider/RoomSlider.jsx';
 import MultiRange from '../../Components/MultiRangeSlider/MultiRangeSlider.jsx';
 import FilterButton from '../../Components/FilterButton/FilterButton.jsx';
 import AdvertisingSection from '../../Components/AdvertisingSection/AdvertisingSection.jsx';
+import NavBar from '../../Components/NavBar.jsx';
 import { getReadableDirection} from './hooks/useGeolocation';
 import{getRoomReview, getRoomAll} from '../../templade/callback_home.js'
+import { Link } from 'react-router-dom';
 
 const isLogged = false;
 
@@ -200,6 +202,7 @@ const Home = () => {
 
     return (
         <>
+        <NavBar />
             <FeaturesCarousel />
             <StayFinder />
             {isLogged || <SignInBanner />}
@@ -242,7 +245,7 @@ const CAROUSEL_CONTENT = [
         image: '/Graphics/carousel-rooms.jpeg',
         buttonName: 'Habitaciónes',
         buttonContent: 'Explorar',
-        direction: ''
+        direction: "/map"
     },
     {
         id: 2,
@@ -251,7 +254,7 @@ const CAROUSEL_CONTENT = [
         image: '/Graphics/carousel-roommates.jpeg',
         buttonName: 'Roomies',
         buttonContent: 'Explorar',
-        direction: ''
+        direction: '/map'
     },
     // {
     //     id: 3,
@@ -269,7 +272,7 @@ const CAROUSEL_CONTENT = [
         image: '/Graphics/carousel-publi.jpeg',
         buttonName: 'Publicar',
         buttonContent: 'Explorar',
-        direction: ''
+        direction: '/map'
     },
 ];
 
@@ -310,7 +313,9 @@ const CarouselInfo = ({actualCarouselBox}) => {
             <section className={Styles.carouselInfo}>
                 <h1 className={Styles.titleCarousel}>{actualCarouselBox.title}</h1>
                 <p className={Styles.carouselDescription}>{actualCarouselBox.description}</p>
-                <button className={Styles.infoCarouselButton}>{actualCarouselBox.buttonContent}</button>
+                <Link to={actualCarouselBox.direction}>
+                    <button className={Styles.infoCarouselButton}>{actualCarouselBox.buttonContent}</button>
+                </Link>
             </section>
         </>
     );

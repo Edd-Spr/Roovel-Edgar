@@ -1,0 +1,122 @@
+.first-step__title{
+    color: var(--house-editor-primary-blue);
+    font-size: clamp(2rem, 2.4vw, 2.4rem);
+    margin: 0;
+}
+.first-step__note{
+    width: 100%;
+    min-height: 4.5rem;
+    color: var(--house-editor-primary-blue);
+    background-color: antiquewhite;
+    box-sizing: border-box;
+    margin-top: 1rem;
+    position: relative;
+}
+.first-step__note-text{
+    color: var(--house-editor-primary-blue);
+    width: 95%;
+    height: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    margin: 0;
+}
+.first-step__image-container{
+    width: clamp(21rem, 30vw, 30rem);
+    height: clamp(15rem, 22vw, 20rem);
+    margin-top: 2rem;
+    border-radius: 10px;
+    background-color: rgb(187, 187, 187);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+    transition: .3s;
+}
+.first-step__image-container:hover{
+    background-color:  rgb(173, 173, 173);
+    transition: .3s;
+}
+.image-container__title{
+    width: 100%;
+    height: 2.5rem;
+    background-color: rgba(0, 0, 0, 0.382);
+    font-size: 1.2rem;
+    position: absolute;
+    top: 0;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding-left: 2rem;
+}
+.first-step__more-images-container{
+    max-width: 32vw;
+    margin-top: 2rem;
+    margin-left: 1rem;
+    height: 50vh;
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.first-step__button-add-image{
+    width: 9rem;
+    height: 6.5rem;
+    border-radius: 5px;
+    border: 2px solid rgb(181, 181, 181);
+    margin: 0;
+    background: none;
+    position: relative;
+    transition: .3s;
+}
+.first-step__button-add-image:hover{
+    background-color: var(--white-button-hover);
+}
+
+.first-step__image-image-container{
+    width: 9rem;
+    height: 6.5rem;
+    border-radius: 10px;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: .3s;
+}
+.image-container__button-delete{
+    display: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: var(--hause-editor-terracotta);
+    border-radius: 100%;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.first-step__image-image-container:hover .image-container__button-delete {
+    display: block;
+    transition: .3s;
+}
+.first-step__image-image-container:hover img{
+    opacity: 70%;
+    transition: .3s;
+}
+
+.first-step__error-message{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(223, 135, 120);
+    padding: .5rem;
+    position: absolute;
+    color: white;
+    box-sizing: border-box;
+    padding: 1rem;
+}

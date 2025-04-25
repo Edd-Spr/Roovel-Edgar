@@ -3,6 +3,7 @@ import Home from './Pages/Home/Home.jsx';
 import Profile from './Pages/Prof/Profile.jsx';
 import MatchingPage from './Pages/RoommateMatchingPage.jsx';
 import Map from './Pages/Map';
+import Favorite from './Pages/Favorite/Favorite.jsx';
 
 import { AuthProvider } from './hooks/auth';
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/auth" element={<Authentication/>} />
           <Route path='/map' element={<Map />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/favorite' element={<Favorite />} />
         </Routes>
       </AuthProvider>
     </Router>

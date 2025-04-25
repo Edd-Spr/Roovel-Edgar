@@ -6,6 +6,7 @@ import PropertyManager from './Pages/PropertyManager';
 
 
 import Map from './Pages/Map';
+import Favorite from './Pages/Favorite/Favorite.jsx';
 
 import { AuthProvider } from './hooks/auth';
 
@@ -25,7 +26,11 @@ function App() {
           <Route path="/auth" element={<Authentication/>} />
           <Route path='/map' element={<Map />} />
           <Route path='/profile' element={<Profile />} />
+
           <Route path='/propertyManager' element={<PropertyManager />} />
+
+          <Route path='/favorite' element={<Favorite />} />
+
         </Routes>
       </AuthProvider>
     </Router>

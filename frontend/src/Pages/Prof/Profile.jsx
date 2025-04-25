@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'; 
-import Menu from '../../Components/NavProfile/NavProfile'
-import TagsProfile from '../../Components/TagsProfile/TagsProfile'
+import Menu from '../../Components/NavProfile/NavProfile';
+import TagsProfile from '../../Components/TagsProfile/TagsProfile';
 import NavBar from '../../Components/NavBar';
 import { GoPencil } from "react-icons/go";
 import prof from './Profile.module.css';
-import AmigosList from '../../Components/Friends/Friends'
+import AmigosList from '../../Components/Friends/Friends';
 import Carousel from '../../Components/Carousel/Carousel';
-
-
+import ProfileCustomization from '../../Components/ProfileCustomization/ProfileCustomization';
+import axios from 'axios';
 
 const Profile = () => {
   const [profile, setProfile] = useState({
@@ -16,25 +16,46 @@ const Profile = () => {
     user_parent_name: '',
     email: '',
     number: '',
-    age: 26,
-    description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit.',
+    age: '',
+    description: '',
   });
 
-  const currentUser = '8'; // id del user 
+  const [profileImage, setProfileImage] = useState(null);
+  const [mostrarCustomization, setMostrarCustomization] = useState(false); 
+  const currentUser = '8'; 
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/images?id_user=${currentUser}`);
+        const data = await response.json();
+        console.log("Imágenes recibidas para foto de perfil:", data);
+
+        if (Array.isArray(data) && data.length > 0) {
+          setProfileImage(data[0].image_content); 
+        }
+      } catch (error) {
+        console.error("Error al obtener imagen de perfil:", error);
+      }
+    };
+
+    fetchProfileImage();
+  }, [currentUser]);
 
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
         const response = await fetch(`http://localhost:3000/profile?currentUser=${currentUser}`);
         const data = await response.json();
+        console.log("Imagen de perfil recibida:", data);
         setProfile({
-          user_name: data.user_name || 'No se encontro nombre',
+          user_name: data.user_name || 'No se encontró nombre',
           user_last_name: data.user_last_name,
           user_parent_name: data.user_parent_name,
-          email: data.user_email || 'No se encontro correo', 
-          number: data.user_tel || 'No se encontro número',
-          age: data.user_age || 'No se encontro edad', 
-          statement: data.user_personal_statement || 'No se encontro statement',
+          email: data.user_email || 'No se encontró correo', 
+          number: data.user_tel || 'No se encontró número',
+          age: data.user_age || 'No se encontró edad', 
+          statement: data.user_personal_statement || 'No se encontró statement',
           description: data.user_description || 'No hay descripción disponible',
         });
       } catch (error) {
@@ -45,11 +66,16 @@ const Profile = () => {
     fetchProfileData();
   }, [currentUser]);
 
+  const handleModalClick = (e) => {
+    if (e.target === e.currentTarget) {
+      setMostrarCustomization(false);
+    }
+  };
+
   return (
     <div>
       <NavBar />
       <div className={prof.all}>
-        
         <article className={prof.left}>
           <Menu />        
         </article>
@@ -58,7 +84,17 @@ const Profile = () => {
           <div className={prof.info}>
             <div className={prof.photos}> 
               <article className={prof.contCircle}>
-                <div className={prof.circle}></div>
+                <div className={prof.circle}>
+                  {profileImage ? (
+                    <img
+                      src={profileImage}
+                      alt="Foto de perfil"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+                    />
+                  ) : (
+                    <div style={{ width: '100%', height: '100%', borderRadius: '50%', backgroundColor: '#ccc' }} />
+                  )}
+                </div>
               </article>
 
               <article className={prof.rectangle}>
@@ -69,12 +105,13 @@ const Profile = () => {
             </div>
 
             <div className={prof.descrip}>
-
               <article className={prof.descName}>
                 <span className={prof.name}>{profile.user_name} {profile.user_last_name} {profile.user_parent_name}</span>
                 <span className={prof.email}>{profile.email}</span> 
                 <span className={prof.number}>{profile.number}</span>
-                <button className={prof.edit}>Editar Perfil  <GoPencil /></button>
+                <button className={prof.edit} onClick={() => setMostrarCustomization(true)}>
+                  Editar Perfil  <GoPencil />
+                </button>
               </article>
 
               <article className={prof.descInfo}>
@@ -84,16 +121,22 @@ const Profile = () => {
               </article>
 
               <article className={prof.descLabel}>
-              <TagsProfile currentUser={8}/>
+                <TagsProfile currentUser={8}/>
               </article>
 
+              {mostrarCustomization && (
+                <div className={prof.modalOverlay} onClick={handleModalClick}>
+                  <div className={prof.modalContent}>
+                    <ProfileCustomization onClose={() => setMostrarCustomization(false)} />
+                  </div>
+                </div>
+              )}
             </div>
-            
           </div>
         </article>
 
         <article className={prof.right}>
-          <AmigosList />
+          <AmigosList currentUser={8}/>
         </article>
       </div>
     </div>

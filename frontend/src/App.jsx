@@ -6,6 +6,7 @@ import Map from './Pages/Map';
 
 import { AuthProvider } from './hooks/auth';
 
+
 import './main.css'
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";

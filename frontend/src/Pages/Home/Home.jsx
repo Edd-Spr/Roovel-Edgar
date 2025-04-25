@@ -9,10 +9,30 @@ import FilterButton from '../../Components/FilterButton/FilterButton.jsx';
 import AdvertisingSection from '../../Components/AdvertisingSection/AdvertisingSection.jsx';
 import { getReadableDirection} from './hooks/useGeolocation';
 import{getRoomReview, getRoomAll} from '../../templade/callback_home.js'
+import { useAuth } from '../../hooks/auth/index.jsx';
+import jwtDecode from 'jwt-decode';
+
+
 
 const isLogged = false;
 
 const Home = () => {
+    const { usrToken, isAuthenticated } = useAuth();
+    useEffect(() => {
+        if (usrToken) {
+            try {
+                const decodedToken = jwtDecode(usrToken); 
+                console.log('Token decodificado:', decodedToken);
+                console.log('ID del Usuario:', decodedToken.userId); 
+                console.log('Estado de autenticación:', isAuthenticated);
+            } catch (error) {
+                console.error('Error al decodificar el token:', error);
+            }
+        } else {
+            console.log('No hay token disponible.');
+        }
+    }, [usrToken]);
+
     //!Manejo de cookies
     const getCookie = (name) => {
         const cookies = document.cookie.split('; ');
@@ -63,7 +83,7 @@ const Home = () => {
             this.address = readableDirection;
             this.image = "/Graphics/roomTr.jpeg";
             this.price = data.room_price;
-            this.description = data.romm_description;
+            this.description = data.room_description;
             this.isOccupied = data.room_ocupied === 1;
         }
     }
@@ -94,7 +114,8 @@ const Home = () => {
 
                     const transformedRooms = await Promise.all(
                         roomReviews.map(async (roomData) => {
-                            const position = JSON.parse(roomData.home_ubication);
+                            const position = [roomData.home_ubication.y, roomData.home_ubication.x]; // Accede directamente a las coordenadas
+                            console.log(position);
                             const readableDirection = await getReadableDirection(position);
                             return new Room(roomData, readableDirection);
                         })
@@ -124,7 +145,7 @@ const Home = () => {
                     // Transformar las habitaciones recomendadas utilizando la clase Room
                     const transformedRecommendations = await Promise.all(
                         recommendations.map(async (roomData) => {
-                            const position = JSON.parse(roomData.home_ubication);
+                            const position = [roomData.home_ubication.y, roomData.home_ubication.x]; // Accede directamente a las coordenadas
                             const readableDirection = await getReadableDirection(position);
                             return new Room(roomData, readableDirection);
                         })

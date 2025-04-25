@@ -8,7 +8,7 @@ const Etiqueta = ({ text }) => {
 
 const TagsProfile = ({ currentUser }) => {
   const [tags, setTags] = useState([]);
-
+  console.log("currentUser en TagsProfile:", currentUser);
   useEffect(() => {
     const fetchTags = async () => {
       try {

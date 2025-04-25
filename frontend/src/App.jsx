@@ -10,6 +10,7 @@ import Favorite from './Pages/Favorite/Favorite.jsx';
 
 import { AuthProvider } from './hooks/auth';
 
+
 import './main.css'
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";

@@ -6,5 +6,6 @@ export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
     exclude: ['@babel/runtime/helpers/extends', '@babel/runtime/helpers/inheritsLoose'],
+    include: ['jwt-decode'],
   },
 })

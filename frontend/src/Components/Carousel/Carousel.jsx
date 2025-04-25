@@ -5,7 +5,7 @@ import './Carousel.css';
 const Carousel = () => {
   const [images, setImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const currentUser = '8'; // ID del usuario
+  const currentUser = 41; // ID del usuario
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -20,7 +20,7 @@ const Carousel = () => {
 
     fetchImages();
   }, []);
-
+console.log('Imágenes en el estado:', images);
   const nextImage = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
@@ -45,7 +45,7 @@ const Carousel = () => {
         >
           {images.map((image, index) => (
             <div key={index} className="carousel-image">
-              <img src={image.image_content} alt={`carousel-img-${index}`} />
+              <img src={`http://localhost:3000/${image.image_src}`} alt={`carousel-img-${index}`} />
             </div>
           ))}
         </div>

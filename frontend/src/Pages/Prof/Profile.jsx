@@ -6,56 +6,38 @@ import { GoPencil } from "react-icons/go";
 import prof from './Profile.module.css';
 import AmigosList from '../../Components/Friends/Friends';
 import Carousel from '../../Components/Carousel/Carousel';
-import ProfileCustomization from '../../Components/ProfileCustomization/ProfileCustomization';
-import axios from 'axios';
+
+
 
 const Profile = () => {
+  const { usrToken, isAuthenticated } = useAuth();
+  const [IDUSER, setIDUSER] = useState(0); // Estado para almacenar el ID del usuario
+  const [currentUser, setCurrentUser] = useState(0); // Estado para sincronizar con IDUSER
   const [profile, setProfile] = useState({
     user_name: '',
     user_last_name: '',
     user_parent_name: '',
     email: '',
     number: '',
-    age: '',
-    description: '',
+    age: 26,
+    description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit.',
   });
 
-  const [profileImage, setProfileImage] = useState(null);
-  const [mostrarCustomization, setMostrarCustomization] = useState(false); 
-  const currentUser = '8'; 
-
-  useEffect(() => {
-    const fetchProfileImage = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/images?id_user=${currentUser}`);
-        const data = await response.json();
-        console.log("Imágenes recibidas para foto de perfil:", data);
-
-        if (Array.isArray(data) && data.length > 0) {
-          setProfileImage(data[0].image_content); 
-        }
-      } catch (error) {
-        console.error("Error al obtener imagen de perfil:", error);
-      }
-    };
-
-    fetchProfileImage();
-  }, [currentUser]);
+  const currentUser = '8'; // id del user 
 
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
         const response = await fetch(`http://localhost:3000/profile?currentUser=${currentUser}`);
         const data = await response.json();
-        console.log("Imagen de perfil recibida:", data);
         setProfile({
-          user_name: data.user_name || 'No se encontró nombre',
+          user_name: data.user_name || 'No se encontro nombre',
           user_last_name: data.user_last_name,
           user_parent_name: data.user_parent_name,
-          email: data.user_email || 'No se encontró correo', 
-          number: data.user_tel || 'No se encontró número',
-          age: data.user_age || 'No se encontró edad', 
-          statement: data.user_personal_statement || 'No se encontró statement',
+          email: data.user_email || 'No se encontro correo', 
+          number: data.user_tel || 'No se encontro número',
+          age: data.user_age || 'No se encontro edad', 
+          statement: data.user_personal_statement || 'No se encontro statement',
           description: data.user_description || 'No hay descripción disponible',
         });
       } catch (error) {
@@ -65,12 +47,6 @@ const Profile = () => {
 
     fetchProfileData();
   }, [currentUser]);
-
-  const handleModalClick = (e) => {
-    if (e.target === e.currentTarget) {
-      setMostrarCustomization(false);
-    }
-  };
 
   return (
     <div>
@@ -121,7 +97,7 @@ const Profile = () => {
               </article>
 
               <article className={prof.descLabel}>
-                <TagsProfile currentUser={8}/>
+              <TagsProfile currentUser={8}/>
               </article>
 
               {mostrarCustomization && (

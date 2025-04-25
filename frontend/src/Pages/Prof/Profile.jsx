@@ -66,7 +66,6 @@ const Profile = () => {
     fetchProfileData();
   }, [currentUser]);
 
-  // Cierra el modal cuando se hace clic fuera del modalContent
   const handleModalClick = (e) => {
     if (e.target === e.currentTarget) {
       setMostrarCustomization(false);

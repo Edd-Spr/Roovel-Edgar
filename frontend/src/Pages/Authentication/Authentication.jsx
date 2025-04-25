@@ -182,31 +182,37 @@ const Authentication = () => {
 
   async function onRegisterUser() {
     try {
-      const response = await apiRequest('post', `${ API_URL_AUTH }/register`, {
-        user_email: signUpEmail,
-        user_pass: signUpPassword,
-        user_name: fullName,
-        user_birthdate: birthdate
-      })
+        const response = await apiRequest('post', `${API_URL_AUTH}/register`, {
+            user_email: signUpEmail,
+            user_pass: signUpPassword,
+            user_name: fullName,
+            user_birthdate: birthdate,
+        });
 
-      if ( response.status === 201 ) {
-        const { token } = response.data
-        login({ token })
+        console.log('Respuesta del servidor:', response);
 
-        return true
-      } else {
-        alert('Algo salió mal, por favor intenta de nuevo')
-        // setAuthenticationIsLoading( false )
-        return
-      }
+        if (response.status === 201) {
+            const { token } = response.data; // Extrae el token del objeto
+            console.log('Token recibido:', token);
 
+            if (!token) {
+                console.error('El servidor no devolvió un token válido.');
+                alert('Algo salió mal, por favor intenta de nuevo.');
+                return false;
+            }
+
+            login({ token }); // Guarda el token en el contexto de autenticación
+            return true;
+        } else {
+            alert('Algo salió mal, por favor intenta de nuevo.');
+            return false;
+        }
     } catch (error) {
-      console.error(error)
-      // setAuthenticationIsLoading( false )
-      alert('Algo salió mal, por favor intenta de nuevo')
-      return
+        console.error('Error en onRegisterUser:', error);
+        alert('Algo salió mal, por favor intenta de nuevo.');
+        return false;
     }
-  }
+}
 
   async function onSaveProfile( data ) {
     const response = await apiRequest('post', `${ API_URL_AUTH }/profile`, {

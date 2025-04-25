@@ -28,7 +28,13 @@ export const AuthProvider = ({ children }) => {
         }
     }, []);
 
-    const login = (token) => {
+    const login = (data) => {
+        const token = data.token || data; // Extrae el token si viene como un objeto
+        if (!token) {
+            console.error('No se proporcionó un token válido.');
+            return;
+        }
+
         sessionStorage.setItem('jwt', token); // Guarda el token en sessionStorage
         setUsrToken(token);
         const decodedUser = jwtDecode(token);

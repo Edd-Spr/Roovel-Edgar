@@ -4,14 +4,14 @@ import { useState, useEffect } from 'react';
 import { RiHeartLine, RiHeartFill } from 'react-icons/ri';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const PropertyOverview = ({ property, rooms, setHouseEditorProgress }) => {
+const PropertyOverview = ({ property, rooms, setHouseEditorProgress, closePropertyOverview }) => {
     const [selectedImageIndex, setSelectedImageIndex] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [liked, setLiked] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const timer = setTimeout(() => setIsLoading(false), 2000);
+        const timer = setTimeout(() => setIsLoading(false), 3000);
         return () => clearTimeout(timer);
     }, []);
 
@@ -34,12 +34,18 @@ const PropertyOverview = ({ property, rooms, setHouseEditorProgress }) => {
     };
 
     return (
-        <article className={Styles['property-overview__overlay']}>
+        <article
+            className={Styles['property-overview__overlay']}
+            onClick={() => {
+                if (!isModalOpen) closePropertyOverview();
+            }}
+        >
             <motion.section
                 className={Styles['property-overview__box-container']}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6 }}
+                onClick={(event) => event.stopPropagation()}
             >
                 <motion.section
                     className={Styles['property-overview__images-container']}
@@ -158,6 +164,7 @@ const PropertyOverview = ({ property, rooms, setHouseEditorProgress }) => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
+                        onClick={(event) => event.stopPropagation()} // Evita que el clic cierre el modal principal
                     >
                         <motion.button
                             onClick={goToPrevImage}
@@ -179,7 +186,7 @@ const PropertyOverview = ({ property, rooms, setHouseEditorProgress }) => {
                                 className={Styles['modal__image']}
                             />
                             <button
-                                onClick={() => setIsModalOpen(false)}
+                                onClick={() => setIsModalOpen(false)} // Cierra solo el modal de imágenes
                                 className={Styles['modal__close']}
                             >
                                 ✕

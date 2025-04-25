@@ -9,7 +9,7 @@ import ThirdStep from './Steps/ThirdStep';
 import FourthStep from './Steps/FourthStep';
 import FifthStep from './Steps/FifthStep';
 
-const HouseEditor = ({ openRoomEditor, pendingRooms, setPendingRooms }) => {
+const HouseEditor = ({ openRoomEditor, pendingRooms, setPendingRooms, closeHouseEditor }) => {
     const [houseEditorProgress, setHouseEditorProgress] = useState(0);
 
     const [images, setImages] = useState([]);
@@ -89,9 +89,7 @@ const HouseEditor = ({ openRoomEditor, pendingRooms, setPendingRooms }) => {
                         alt=""
                         draggable="false"
                         style={{ width: '80%', height: '80%' }}
-                        onClick={() => {
-                            setHouseEditorProgress(0);
-                        }}
+                        onClick={closeHouseEditor}
                     />
                 </div>
             </section>

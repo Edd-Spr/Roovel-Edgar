@@ -1,0 +1,124 @@
+.property-card{
+    width: 100%;
+    height: 17rem;
+    background-color: white;
+    border: 2px solid #c3c3c3;
+    border-radius: 10px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+.property-card__main-image-container{
+    width: 23rem;
+    height: 100%;
+    background-color: #c3c3c3;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+.images-container{
+    width: 11.5rem;
+    height: 100%;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+.property-card__image-container{
+    width: 11.5rem;
+    height: 8.5rem;
+    overflow: hidden;
+    border: 1px solid white;
+    box-sizing: border-box;
+}
+.images-container__logo__container{
+    width: 100%;
+    background-color: #B2C9CE;
+    color: white;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.images-container__logo__container-1{
+    width: 100%;
+    height: 8.5rem;
+    background-color: #B2C9CE;
+    color: white;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+.property-card__info {
+    flex-grow: 1;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 1rem;
+    position: relative; /* necesario para posicionar el botón dentro */
+    padding-right: 3rem; /* deja espacio para el botón */
+}
+
+.property-card__info-name {
+    width: 100%;
+    font-family: Arial;
+    font-weight: 400;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin: 0;
+    margin-top: 0.5rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.property-card__info-address {
+    width: 100%;
+    font-family: Arial;
+    font-weight: 400;
+    color: #636363;
+    font-size: 1rem;
+    margin: 0;
+    margin-top: 8px;
+}
+
+.property-card__info-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.25rem;
+    z-index: 2;
+}
+
+.property-card__dropdown {
+    position: absolute;
+    top: 2.5rem;
+    right: 1rem;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    z-index: 10;
+}
+
+.property-card__dropdown ul {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0;
+}
+
+.property-card__dropdown li {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.property-card__dropdown li:hover {
+    background-color: #f2f2f2;
+}

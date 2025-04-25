@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 
 import Styles from './Home.module.css';
@@ -7,33 +7,222 @@ import RoomSlider from '../../Components/RoomSlider/RoomSlider.jsx';
 import MultiRange from '../../Components/MultiRangeSlider/MultiRangeSlider.jsx';
 import FilterButton from '../../Components/FilterButton/FilterButton.jsx';
 import AdvertisingSection from '../../Components/AdvertisingSection/AdvertisingSection.jsx';
-
+import NavBar from '../../Components/NavBar.jsx';
+import { getReadableDirection} from './hooks/useGeolocation';
+import{getRoomReview, getRoomAll} from '../../templade/callback_home.js'
+import { Link } from 'react-router-dom';
 
 const isLogged = false;
 
 const Home = () => {
+    //!Manejo de cookies
+    const getCookie = (name) => {
+        const cookies = document.cookie.split('; ');
+        const cookie = cookies.find(row => row.startsWith(name + '='));
+        return cookie ? decodeURIComponent(cookie.split('=')[1]) : null;
+    };
+
+    const setCookie = (name, value, days = 365) => {
+        const expires = new Date(Date.now() + days * 864e5).toUTCString();
+        document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+    };
+
+    const addRoomToCookie = (roomId) => {
+        let roomSeen = getCookie('RoomSeen');
+
+        let rooms = [];
+        if (roomSeen) {
+            try {
+                rooms = JSON.parse(roomSeen);
+            } catch (e) {
+                console.warn("Cookie estaba corrupta, reiniciando...");
+            }
+        }
+
+        if (!rooms.includes(roomId)) {
+            rooms.push(roomId);
+            setCookie('RoomSeen', JSON.stringify(rooms));
+            console.log(`Habitación ${roomId} añadida a RoomSeen.`);
+        } else {
+            console.log(`Habitación ${roomId} ya estaba en RoomSeen.`);
+        }
+    };
+
+    useEffect(() => {
+        addRoomToCookie(1);
+        addRoomToCookie(5);
+        addRoomToCookie(8);
+        addRoomToCookie(9);
+        addRoomToCookie(11);
+        addRoomToCookie(15);
+
+    }, []);
+
+    class Room {
+        constructor(data, readableDirection) {
+            this.id = data.id_room;
+            this.name = `Habitación en ${data.home_name}`;
+            this.address = readableDirection;
+            this.image = "/Graphics/roomTr.jpeg";
+            this.price = data.room_price;
+            this.description = data.romm_description;
+            this.isOccupied = data.room_ocupied === 1;
+        }
+    }
+    const [parsedViewRoom, setParsedViewRoom] = useState([]);
+    const [rooms, setRooms] = useState([]);
+    const [recommendedRooms, setRecommendedRooms] = useState([]);
+
+    useEffect(() => {
+        const ViewRoom = getCookie('RoomSeen');
+        if (ViewRoom) {
+            try {
+                setParsedViewRoom(JSON.parse(ViewRoom));
+            } catch (e) {
+                console.error('Error al parsear la cookie RoomSeen:', e);
+            }
+        }
+    }, []); 
+    useEffect(() => {
+        async function fetchAndTransformRooms() {
+            if (parsedViewRoom.length > 0) {
+                try {
+                    const roomReviews = await Promise.all(
+                        parsedViewRoom.map(async (roomId) => {
+                            const review = await getRoomReview(roomId);
+                            return review;
+                        })
+                    );
+
+                    const transformedRooms = await Promise.all(
+                        roomReviews.map(async (roomData) => {
+                            const position = JSON.parse(roomData.home_ubication);
+                            const readableDirection = await getReadableDirection(position);
+                            return new Room(roomData, readableDirection);
+                        })
+                    );
+
+                    setRooms(transformedRooms);
+                    console.log('Transformed Rooms:', transformedRooms);
+                } catch (error) {
+                    console.error('Error al obtener y transformar las habitaciones:', error);
+                }
+            }
+        }
+
+        fetchAndTransformRooms();
+    }, [parsedViewRoom]); 
+
+    useEffect(() => {
+        async function fetchRecommendations() {
+            const ViewRoom = getCookie('RoomSeen');
+            const parsedViewRoom = ViewRoom ? JSON.parse(ViewRoom) : [];
+
+            if (parsedViewRoom.length > 0) {
+                try {
+                    const allRooms = await getRoomAll(); // Obtener todas las habitaciones
+                    const recommendations = generateRecommendations(parsedViewRoom, allRooms);
+
+                    // Transformar las habitaciones recomendadas utilizando la clase Room
+                    const transformedRecommendations = await Promise.all(
+                        recommendations.map(async (roomData) => {
+                            const position = JSON.parse(roomData.home_ubication);
+                            const readableDirection = await getReadableDirection(position);
+                            return new Room(roomData, readableDirection);
+                        })
+                    );
+
+                    // Guardar las habitaciones transformadas en el estado
+                    setRecommendedRooms(transformedRecommendations);
+                    console.log('Recommended Rooms:', transformedRecommendations);
+                } catch (error) {
+                    console.error('Error al obtener y transformar las recomendaciones:', error);
+                }
+            }
+        }
+
+        fetchRecommendations();
+    }, []);
+    function calculateDistance(location1, location2) {
+        if (!Array.isArray(location1) || !Array.isArray(location2)) {
+            console.warn('Ubicación inválida:', location1, location2);
+            return Infinity;
+        }
+    
+        const toRadians = (degrees) => (degrees * Math.PI) / 180;
+    
+        const [lat1, lon1] = location1;
+        const [lat2, lon2] = location2;
+    
+        const R = 6371;
+        const dLat = toRadians(lat2 - lat1);
+        const dLon = toRadians(lon2 - lon1);
+    
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRadians(lat1)) *
+                Math.cos(toRadians(lat2)) *
+                Math.sin(dLon / 2) *
+                Math.sin(dLon / 2);
+    
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c;
+    
+        return distance;
+    }
+    function calculateSimilarity(room, viewedRoom) {
+        let score = 0;
+
+        if (Math.abs(room.price - viewedRoom.price) <= 1000) {
+            score += 3; 
+        }
+
+        return score;
+    }
+
+    function generateRecommendations(viewedRooms, allRooms) {
+        const recommendations = [];
+
+        allRooms.forEach((room) => {
+            let totalScore = 0;
+
+            viewedRooms.forEach((viewedRoom) => {
+                if (room.location && viewedRoom.location) {
+                    totalScore += calculateSimilarity(room, viewedRoom);
+                }
+            });
+
+            recommendations.push({ room, score: totalScore });
+        });
+
+        recommendations.sort((a, b) => b.score - a.score);
+
+        return recommendations.map((rec) => rec.room);
+    }
+
     return (
         <>
-            <FeaturesCarousel/>
-            <StayFinder/>
-            {isLogged || <SignInBanner/>}
+        <NavBar />
+            <FeaturesCarousel />
+            <StayFinder />
+            {isLogged || <SignInBanner />}
             <RoomSlider
-            roomSliderTitle='Vistos Recientemente'
-            rooms={rooms}
+                roomSliderTitle='Vistos Recientemente'
+                rooms={rooms}
             />
             <AdvertisingSection
-               title='¿Tienes Habitaciónes Vacías?' 
-               description='Convierte tu espacio en una oportunidad. Publica tu habitación o casa y encuentra al roomie o inquilino ideal.'
-               direction=''
-               image="/Graphics/carousel-rooms.jpeg" 
-               position={1}
+                title='¿Tienes Habitaciónes Vacías?'
+                description='Convierte tu espacio en una oportunidad. Publica tu habitación o casa y encuentra al roomie o inquilino ideal.'
+                direction=''
+                image="/Graphics/carousel-rooms.jpeg"
+                position={1}
             />
 
             <RoomSlider
                 roomSliderTitle='Recomendados'
-                rooms={rooms}
+                rooms={recommendedRooms}
             />
-            {/* <AdvertisingSection
+            <AdvertisingSection
                title='¿Problemas con los gastos compartidos?' 
                description='Evita malentendidos y disputas por los pagos. Usa nuestra app para dividir de forma precisa y justa lo que le toca a cada uno.'
                direction=''
@@ -41,10 +230,11 @@ const Home = () => {
                position={2}
                color='#CEB6A9'
                top='-100px'
-            /> */}
+            />
         </>
     );
-}
+};
+
 export default Home;
 
 const CAROUSEL_CONTENT = [
@@ -55,7 +245,7 @@ const CAROUSEL_CONTENT = [
         image: '/Graphics/carousel-rooms.jpeg',
         buttonName: 'Habitaciónes',
         buttonContent: 'Explorar',
-        direction: ''
+        direction: "/map"
     },
     {
         id: 2,
@@ -64,7 +254,7 @@ const CAROUSEL_CONTENT = [
         image: '/Graphics/carousel-roommates.jpeg',
         buttonName: 'Roomies',
         buttonContent: 'Explorar',
-        direction: ''
+        direction: '/map'
     },
     // {
     //     id: 3,
@@ -82,7 +272,7 @@ const CAROUSEL_CONTENT = [
         image: '/Graphics/carousel-publi.jpeg',
         buttonName: 'Publicar',
         buttonContent: 'Explorar',
-        direction: ''
+        direction: '/map'
     },
 ];
 
@@ -123,7 +313,9 @@ const CarouselInfo = ({actualCarouselBox}) => {
             <section className={Styles.carouselInfo}>
                 <h1 className={Styles.titleCarousel}>{actualCarouselBox.title}</h1>
                 <p className={Styles.carouselDescription}>{actualCarouselBox.description}</p>
-                <button className={Styles.infoCarouselButton}>{actualCarouselBox.buttonContent}</button>
+                <Link to={actualCarouselBox.direction}>
+                    <button className={Styles.infoCarouselButton}>{actualCarouselBox.buttonContent}</button>
+                </Link>
             </section>
         </>
     );
@@ -223,54 +415,3 @@ const StayFinder = () => {
     );
 }
 
-const rooms = [
-    { 
-      id: 1, 
-      name: "Habitación Centro", 
-      address: "Av. Juárez 102, Centro, Guadalajara, JAL", 
-      image: "/Graphics/roomTr.jpeg" 
-    },
-    { 
-      id: 2, 
-      name: "Habitación Chapultepec", 
-      address: "Calle Vidrio 320, Americana, Guadalajara, JAL", 
-      image: "/Graphics/roomTr.jpeg" 
-    },
-    { 
-      id: 3, 
-      name: "Habitación Providencia y muchas más mamadas nomás para checar esta madre de la app", 
-      address: "Av. Pablo Neruda 1500, Providencia, Guadalajara, JAL y muchas más mamadas nomás para checar esta madre de la app", 
-      image: "/Graphics/roomTr.jpeg" 
-    },
-    { 
-      id: 4, 
-      name: "Habitación Zapopan", 
-      address: "Calle Santa Rita 234, Zapopan, Guadalajara, JAL", 
-      image: "/Graphics/roomTr.jpeg" 
-    },
-    { 
-      id: 5, 
-      name: "Habitación Tlaquepaque", 
-      address: "Calle Juárez 45, Centro, Tlaquepaque, JAL", 
-      image: "/Graphics/roomTr.jpeg" 
-    },
-    { 
-      id: 6, 
-      name: "Habitación Tonalá", 
-      address: "Av. Tonaltecas 555, Tonalá, Guadalajara, JAL", 
-      image: "/Graphics/roomTr.jpeg" 
-    },
-    { 
-      id: 7, 
-      name: "Habitación Minerva", 
-      address: "Av. Vallarta 2800, Minerva, Guadalajara, JAL", 
-      image: "/Graphics/roomTr.jpeg" 
-    },
-    { 
-      id: 8, 
-      name: "Habitación Andares", 
-      address: "Blvd. Puerta de Hierro 5000, Andares, Guadalajara, JAL", 
-      image: "/Graphics/roomTr.jpeg" 
-    }
-  ];
-  

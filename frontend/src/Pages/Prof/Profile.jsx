@@ -6,8 +6,12 @@ import { GoPencil } from "react-icons/go";
 import prof from './Profile.module.css';
 import AmigosList from '../../Components/Friends/Friends';
 import Carousel from '../../Components/Carousel/Carousel';
+import { useAuth } from '../../hooks/auth/index.jsx';
+import jwtDecode from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
-
+import ProfileCustomization from '../../Components/ProfileCustomization/ProfileCustomization';
+import axios from 'axios';
 
 const Profile = () => {
   const { usrToken, isAuthenticated } = useAuth();
@@ -19,34 +23,85 @@ const Profile = () => {
     user_parent_name: '',
     email: '',
     number: '',
-    age: 26,
-    description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit.',
+    age: '',
+    description: '',
   });
-
-  const currentUser = '8'; // id del user 
-
   useEffect(() => {
+    if (usrToken) {
+        try {
+            const decodedToken = jwtDecode(usrToken);
+            console.log('Token decodificado:', decodedToken);
+            console.log('ID del Usuario:', decodedToken.userId);
+            console.log('Estado de autenticación:', isAuthenticated);
+            setIDUSER(decodedToken.userId);
+        } catch (error) {
+            console.error('Error al decodificar el token:', error);
+        }
+    } else {
+        console.log('No hay token disponible.');
+    }
+}, [usrToken]);
+
+useEffect(() => {
+    setCurrentUser(IDUSER);
+}, [IDUSER]);
+
+const [profileImage, setProfileImage] = useState(null);
+const [mostrarCustomization, setMostrarCustomization] = useState(false);
+
+useEffect(() => {
+    const fetchProfileImage = async () => {
+        try {
+            if (currentUser === 0) return;
+
+            const response = await fetch(`http://localhost:3000/images?id_user=${currentUser}`);
+            const data = await response.json();
+            console.log("Imágenes recibidas para foto de perfil:", data);
+
+            if (Array.isArray(data) && data.length > 0) {
+                setProfileImage(data[0].image_src); 
+            }
+        } catch (error) {
+            console.error("Error al obtener imagen de perfil:", error);
+        }
+    };
+
+    fetchProfileImage();
+}, [currentUser]);
+
+useEffect(() => {
     const fetchProfileData = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/profile?currentUser=${currentUser}`);
-        const data = await response.json();
-        setProfile({
-          user_name: data.user_name || 'No se encontro nombre',
-          user_last_name: data.user_last_name,
-          user_parent_name: data.user_parent_name,
-          email: data.user_email || 'No se encontro correo', 
-          number: data.user_tel || 'No se encontro número',
-          age: data.user_age || 'No se encontro edad', 
-          statement: data.user_personal_statement || 'No se encontro statement',
-          description: data.user_description || 'No hay descripción disponible',
-        });
-      } catch (error) {
-        console.error('Error al obtener los datos del perfil:', error);
-      }
+        try {
+            if (currentUser === 0) {
+                console.log('currentUser es 0, no se realizará la solicitud.');
+                return;
+            }
+
+            const response = await fetch(`http://localhost:3000/profile?currentUser=${currentUser}`);
+            const data = await response.json();
+            setProfile({
+                user_name: data.user_name || 'No se encontró nombre',
+                user_last_name: data.user_last_name,
+                user_parent_name: data.user_parent_name,
+                email: data.user_email || 'No se encontró correo',
+                number: data.user_tel || 'No se encontró número',
+                age: data.user_age || 'No se encontró edad',
+                statement: data.user_personal_statement || 'No se encontró statement',
+                description: data.user_description || 'No hay descripción disponible',
+            });
+        } catch (error) {
+            console.error('Error al obtener los datos del perfil:', error);
+        }
     };
 
     fetchProfileData();
-  }, [currentUser]);
+}, [currentUser]);
+
+  const handleModalClick = (e) => {
+    if (e.target === e.currentTarget) {
+      setMostrarCustomization(false);
+    }
+  };
 
   return (
     <div>
@@ -63,7 +118,7 @@ const Profile = () => {
                 <div className={prof.circle}>
                   {profileImage ? (
                     <img
-                      src={profileImage}
+                      src={`http://localhost:3000/${profileImage}`}
                       alt="Foto de perfil"
                       style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
                     />
@@ -97,7 +152,7 @@ const Profile = () => {
               </article>
 
               <article className={prof.descLabel}>
-              <TagsProfile currentUser={8}/>
+              <TagsProfile currentUser={IDUSER}/>
               </article>
 
               {mostrarCustomization && (

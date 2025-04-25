@@ -4,7 +4,8 @@
     display: flex;
     flex-wrap: wrap;
     background-color: #E5E7EB;
-    width: 100%;
+    width: 100vw;
+
     height: 100vh;
 } */
 .barraNav {

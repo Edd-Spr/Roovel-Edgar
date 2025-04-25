@@ -8,7 +8,7 @@ const InputForm = ({title, type, Width, Height, options, onChange}) => {
     return (
         <>
             {type !== 'select' && type !== 'area' ? (
-                <div className={Styles.inputFormContainer}>
+                <div className={Styles.inputFormContainer} style={{width: Width, height: Height}}>
                     <input 
                         type={type === 'password' && visiblePassword ? 'text' : type} 
                         className={Styles.inputForm} 
@@ -29,7 +29,7 @@ const InputForm = ({title, type, Width, Height, options, onChange}) => {
                     )}
                 </div>
             ) : (
-                <div className={Styles.inputFormContainer}>
+                <div className={Styles.inputFormContainer}  style={{width: Width, height: Height}}>
                     {type === 'select' && (
                         <>
                             <select name="" id="" className={Styles.inputForm} onChange={onChange} required style={{width: Width, height: Height}}>

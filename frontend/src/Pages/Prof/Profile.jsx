@@ -110,7 +110,7 @@ const Profile = () => {
               </article>
 
               <article className={prof.descLabel}>
-              <TagsProfile currentUser={8}/>
+              <TagsProfile currentUser={IDUSER}/>
               </article>
 
             </div>

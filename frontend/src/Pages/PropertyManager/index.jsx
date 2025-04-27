@@ -6,16 +6,19 @@ import Layout from '../Layout';
 import HouseEditor from '../../Components/HouseEditor';
 import RoomEditor from '../../Components/RoomEditor';
 import PropertyOverview from '../../Components/PropertyOverview';
+import RoomOverview from '../../Components/RoomOverview';
 import PropertyCard from './Components/PropertyCard';
 
 const PropertyManager = () => {
   const [isHouseEditorOpen, setIsHouseEditorOpen] = useState(false);
   const [isRoomEditorOpen, setIsRoomEditorOpen] = useState(false);
   const [isPropertyOverviewOpen, setIsPropertyOverviewOpen] = useState(false);
+  const [isRoomOverviewOpen, setIsRoomOverviewOpen] = useState(false);
 
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [selectedHouse, setSelectedHouse] = useState(null);
   const [selectedProperty, setSelectedProperty] = useState(null);
+
 
   const [propertys, setPropertys] = useState([
     {
@@ -32,6 +35,7 @@ const PropertyManager = () => {
         { id_tag: 2, tag_content: 'Sustentable' },
         { id_tag: 3, tag_content: 'Ahorro' },
         { id_tag: 4, tag_content: 'Decoración' },
+        { id_tag: 5, tag_content: 'Minimalismo' },
         { id_tag: 5, tag_content: 'Minimalismo' }
       ],
       mainImage: [{ id_image: 1, image_content: '/PropertyImages/111-house.jpeg' }],
@@ -248,6 +252,8 @@ const [pendingRooms, setPendingRooms] = useState([
           onPropertyCardClick={handlePropertyCardClick} 
           pendingRooms={pendingRooms}
           setPendingRooms={setPendingRooms}
+          setSelectedRoom={setSelectedRoom}
+          setIsRoomOverviewOpen={setIsRoomOverviewOpen}
         />
       </article>
 
@@ -263,6 +269,7 @@ const [pendingRooms, setPendingRooms] = useState([
           closeHouseEditor={() => setIsHouseEditorOpen(false)}
           pendingRooms={pendingRooms}
           setPendingRooms={setPendingRooms}
+          setIsPropertyOverviewOpen={setIsPropertyOverviewOpen}
         />
       )}
 
@@ -277,11 +284,22 @@ const [pendingRooms, setPendingRooms] = useState([
       )}
 
 
-      {isPropertyOverviewOpen && selectedProperty && (
+      {isPropertyOverviewOpen && (
         <PropertyOverview
           property={selectedProperty}
           rooms={pendingRooms.filter((room) => room.id_home === selectedProperty.id_home)} 
           closePropertyOverview={() => setIsPropertyOverviewOpen(false)}
+          OpenRoomOverview={()=> setIsRoomOverviewOpen(true)}
+          setSelectedRoom={setSelectedRoom}
+        />
+      )}
+      {isRoomOverviewOpen && (
+        <RoomOverview
+          room={selectedRoom}
+          property={propertys.find( prop => prop.id_home === selectedRoom.id_home )}
+          setSelectedProperty={setSelectedProperty}
+          closeRoomOverviewOpen={()=>setIsRoomOverviewOpen(false)}
+          setIsPropertyOverviewOpen={() => setIsPropertyOverviewOpen(true)}
         />
       )}
     </Layout>
@@ -318,17 +336,17 @@ const DashboardSidebar = ({pendingRooms}) => {
         </button>
 
         <button
-          className={`${Styles['tabs__button']} ${activeButton === 'Reservas' ? Styles['tabs__button-active'] : ''}`}
-          onClick={() => setActiveButton('Reservas')}
+          className={`${Styles['tabs__button']} ${activeButton === 'Huespedes' ? Styles['tabs__button-active'] : ''}`}
+          onClick={() => setActiveButton('Huespedes')}
         >
-          Reservas
+          Huespedes
         </button>
 
         <button
-          className={`${Styles['tabs__button']} ${activeButton === 'Mensajes' ? Styles['tabs__button-active'] : ''}`}
-          onClick={() => setActiveButton('Mensajes')}
+          className={`${Styles['tabs__button']} ${activeButton === 'Solicitudes' ? Styles['tabs__button-active'] : ''}`}
+          onClick={() => setActiveButton('Solicitudes')}
         >
-          Mensajes
+          Solicitudes
         </button>
       </div>
 
@@ -375,6 +393,8 @@ const DashboardSidebar = ({pendingRooms}) => {
                   draggable="false"
                   style={{
                     width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
                     margin: '0 auto',
                     opacity: '0.7',
                     userSelect: 'none',
@@ -389,7 +409,7 @@ const DashboardSidebar = ({pendingRooms}) => {
   );
 };
 
-const PropertyManagerPanel = ({propertys, setPropertys, setIsHouseEditorOpen, onPropertyCardClick, pendingRooms, setPendingRooms}) => {
+const PropertyManagerPanel = ({propertys, setPropertys, setIsHouseEditorOpen, onPropertyCardClick, pendingRooms, setPendingRooms, setSelectedRoom, setIsRoomOverviewOpen}) => {
 
   const [activeButton, setActiveButton] = useState('Casas');
   return (
@@ -451,19 +471,19 @@ const PropertyManagerPanel = ({propertys, setPropertys, setIsHouseEditorOpen, on
               key={property.id_home}
               property={property}
               setProperty={setPropertys}
-              onPropertyCardClick={onPropertyCardClick} // Pasa la función al componente PropertyCard
+              onPropertyCardClick={onPropertyCardClick} 
             />
           ))
         ) : activeButton === 'Habitaciónes' ? (
-          pendingRooms.map((room) => (
-            console.log(room),
+          pendingRooms.map((room, index) => (
             <PropertyCard
-              key={room.id_room}
-              property={room} // Aquí `room` se pasa como `property` para reutilizar el componente
-              setProperty={setPendingRooms} // Cambia el estado de habitaciones
+              key={`${room.id_room}-${index}`} // Combina `id_room` con el índice para garantizar unicidad
+              property={room}
+              setProperty={setPendingRooms}
               onPropertyCardClick={() => {
-                setSelectedRoom(room); // Establece la habitación seleccionada
-                setIsRoomEditorOpen(true); // Abre el RoomEditor
+                setSelectedRoom(room);
+                console.log('Aver si ahora si hdtpm: ', room)
+                setIsRoomOverviewOpen(true);
               }}
             />
           ))

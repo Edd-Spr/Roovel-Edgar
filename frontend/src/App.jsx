@@ -5,6 +5,9 @@ import MatchingPage from './Pages/RoommateMatchingPage.jsx';
 import PropertyManager from './Pages/PropertyManager';
 
 
+import AdminDashboard from './Pages/admin/dashboard/index.jsx';
+import AdminManagement from './Pages/admin/manage-admins/index.jsx';
+
 import Map from './Pages/Map';
 import Favorite from './Pages/Favorite/Favorite.jsx';
 
@@ -29,6 +32,10 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/propertyManager' element={<PropertyManager />} />
           <Route path='/favorite' element={<Favorite />} />
+
+
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/admins" element={<AdminManagement />} />
 
         </Routes>
       </AuthProvider>

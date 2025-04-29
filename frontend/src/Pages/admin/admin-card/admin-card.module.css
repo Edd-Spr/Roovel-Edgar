@@ -1,0 +1,19 @@
+.admin-card {
+  padding: 0.5rem 1rem;
+  width: 100%;
+  color: #4A617F;
+  background-color: #FFF;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.admin-card:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transform: translateX(0.25rem);
+}
+
+.admin-card__admin {
+  color: #4A617F;
+  margin: 0;
+}

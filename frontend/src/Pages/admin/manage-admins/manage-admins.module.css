@@ -1,0 +1,41 @@
+.manage-admins__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.manage-admins__admin-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+}
+
+.manage-admins__admin-card input[type="checkbox"] {
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+}
+
+.manage-admins__admin-card input[type="checkbox"]:checked {
+  background-color: #4A617F;
+}
+
+.manage-admins__actions {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.manage-admins__button {
+  padding: .5rem 1rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #B2C9CE;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}

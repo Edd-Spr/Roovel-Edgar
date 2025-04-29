@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'; // Agregar useEffect aquí
+import '../Styles/chatsContainer.css';
+
 import ChatOpen from './ChatOpen.jsx';
 import ChatBox from './ChatBox.jsx';
-import '../Styles/chatsContainer.css';
 import ContactsContainer from './ContactsContainer.jsx';
 import { getPorfiles, getGroups } from '../templade/callback_chat_messges.js';
+import FriendRequestBox from './FriendRequestBox/index.jsx';
 
 const Chat = () =>{
   const [chatIsOpen, setChatIsOpen] = useState(false);
@@ -15,6 +17,35 @@ const Chat = () =>{
   const [user, setUser] = useState(1);
   const [perfiles, setPerfiles2] = useState([]); 
   const [grupos, setGrupos] = useState([]); // Estado para almacenar los grupos
+
+  const friendRequestUsers = [
+    {
+      id: 1,
+      username: 'Benito Camelo',
+      age: 22,
+      gender: 'Hombre',
+      image: '/PhotoProfiles/imagen1.jpeg',
+    },
+    {
+      id: 2,
+      username: 'Irma Mando',
+      age: 24,
+      gender: 'Mujer',
+      image: '/PhotoProfiles/imagen2.jpeg',
+    },
+    {
+      id: 3,
+      username: 'Debora Melo',
+      age: 19,
+      gender: 'No Binario',
+      image: '/PhotoProfiles/imagen3.jpeg',
+    }
+  ]
+  /*
+
+
+   */
+
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
@@ -60,6 +91,7 @@ const Chat = () =>{
           leftBarButtonPressed={leftBarButtonPressed}
           setLeftBarButtonPressed={setLeftBarButtonPressed}
           setActualChatType={setActualChatType}
+          friendRequestUsers={friendRequestUsers}
         />
 
         {activeSection === 'chats' ? (
@@ -73,7 +105,7 @@ const Chat = () =>{
             setActualChatType={setActualChatType}
           />
         ) : (
-          <FriendsRequest />
+          <FriendsRequest friendRequestUsers={friendRequestUsers} />
         )}
       </section>
 
@@ -104,6 +136,7 @@ const LeftBarChat = ({
     leftBarButtonPressed,
     setLeftBarButtonPressed,
     setActualChatType,
+    friendRequestUsers,
 }) => {
   function chatClick() {
     setLeftBarButtonPressed(false);
@@ -155,6 +188,16 @@ const LeftBarChat = ({
             draggable="false"
             className="iconLeftBarButtonAction"
           />
+          {friendRequestUsers.length > 0 && 
+            <div style={{
+              position: 'absolute',
+              width: '1rem',
+              height: '1rem',
+              backgroundColor: '#5BE2FF',
+              borderRadius: '100%',
+              bottom: '.9rem',
+              right: '.9rem'   
+            }}></div>}
         </div>
       </button>
 
@@ -184,13 +227,36 @@ const LeftBarChat = ({
   );
 };
 
-const FriendsRequest = () => {
+const FriendsRequest = ({ friendRequestUsers }) => {
   return (
     <div className="friendsRequestContainer">
-
+      {friendRequestUsers?.length > 0 ? (
+        <>
+          <h1 className="friendsRequestContainer__title">Solicitudes</h1>
+          {friendRequestUsers.map(user => (
+            <FriendRequestBox key={user.id} user={user} />
+          ))}
+        </>
+      ) : (
+        <div className="empty-screen">
+          <img 
+            src="/Graphics/Icons/empty-screen_icon-dog.png" 
+            alt="" 
+            draggable="false"
+            style={{
+              width: '10rem',
+              margin: '0 auto',
+              opacity: '0.3',
+              userSelect: 'none',
+              pointerEvents: 'none',
+            }}
+          />
+          <p className="property-manager__message">No hay solicitudes.</p>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 const ToggleChatButton = ({ setBarChatOpen, barChatOpen }) => {
   return (

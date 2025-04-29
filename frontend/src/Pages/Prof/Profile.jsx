@@ -130,7 +130,7 @@ useEffect(() => {
 
               <article className={prof.rectangle}>
                 <div className={prof.rectPhoto}>
-                  <Carousel />
+                  <Carousel currentUser={currentUser}/>
                 </div>
               </article>
             </div>

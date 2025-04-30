@@ -23,6 +23,7 @@ const Authentication = () => {
   const [ signUpEmail, setSignUpEmail ] = useState('')
   const [ signUpPassword, setSignUpPassword ] = useState('')
   const [ userType, setUserType ] = useState(0)// 0 = user, 1 = host
+  const [ choosingRole, setChoosingRole ] = useState(false)
 
   const [ fullName, setFullName ] = useState('')
   const [ birthdate, setBirthdate ] = useState('')
@@ -112,7 +113,8 @@ const Authentication = () => {
 
         if ( response.status === 200 ) {
           setSignInSignUp(false)
-          setCustomizationStep(true)
+          // setCustomizationStep(true)
+          setChoosingRole(true)
         }
       } catch (error) {
         console.error(error)
@@ -155,6 +157,12 @@ const Authentication = () => {
     setDescription(description)
   }
 
+  function handleUserTypeChoice( type ) {
+    setUserType( type )
+    setChoosingRole( false )
+    setCustomizationStep( true )
+  }
+
   function onSecondPersoSubmit( option ) {
     setIsProfilePrivate( option === 2 )
   }
@@ -187,6 +195,7 @@ const Authentication = () => {
             user_pass: signUpPassword,
             user_name: fullName,
             user_birthdate: birthdate,
+            user_is_host: Boolean( userType ),
         });
 
         console.log('Respuesta del servidor:', response);
@@ -318,11 +327,20 @@ const Authentication = () => {
             </>
           ) : (
             <ProfileCustomization 
+              userType={ userType }
               onFirstSubmit={ onFirstPersoSubmit }
               onSecondSubmit={ onSecondPersoSubmit }
               onThirdSubmit={ onThirdPersoSubmit }
               key="profileCustomization" />
-          )}
+            )
+          }
+
+          {
+            !customizationStep && choosingRole ? (<>
+              
+            </>) : (<>
+            </>)
+          }
         </AnimatePresence>
       </article>
     </main>

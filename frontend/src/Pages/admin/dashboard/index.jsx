@@ -1,12 +1,14 @@
 import AdminLayout from '../admin-layout'
 import Styles from './dashboard.module.css'
 
+import img1 from '../../../../public/Graphics/manage-admins.jpg'
+
 import AdminActionCard from '../admin-action-card'
 
 const ADMIN_ACTION_CARDS = [
   {
     title: 'Administrar Administradores',
-    image: '',
+    image: img1,
     path: '/admin/admins',
   },
   {

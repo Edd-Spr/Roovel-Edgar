@@ -10,6 +10,7 @@ import Favorite from './Pages/Favorite/Favorite.jsx';
 
 import { AuthProvider } from './hooks/auth';
 
+
 import './main.css'
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -26,9 +27,7 @@ function App() {
           <Route path="/auth" element={<Authentication/>} />
           <Route path='/map' element={<Map />} />
           <Route path='/profile' element={<Profile />} />
-
           <Route path='/propertyManager' element={<PropertyManager />} />
-
           <Route path='/favorite' element={<Favorite />} />
 
         </Routes>

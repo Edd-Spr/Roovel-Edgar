@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Carousel.css';
 
-const Carousel = () => {
+const Carousel = ({currentUser}) => {
   const [images, setImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const currentUser = '8'; // ID del usuario
-
+  console.log(currentUser)
   useEffect(() => {
     const fetchImages = async () => {
       try {
+        if(currentUser == 0){
+          console.log('Await for value diferent 0')
+        }
         const response = await axios.get(`http://localhost:3000/images?id_user=${currentUser}`);
         console.log('Imágenes recibidas del backend:', response.data);
         setImages(response.data);
@@ -18,9 +20,9 @@ const Carousel = () => {
       }
     };
 
-    fetchImages();
-  }, []);
-
+    if(currentUser) fetchImages();
+  }, [currentUser]);
+console.log('Imágenes en el estado:', images);
   const nextImage = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
@@ -41,11 +43,11 @@ const Carousel = () => {
           style={{
             transform: `translateX(-${currentIndex * 100}%)`,
             transition: 'transform 0.5s ease', 
-          }}
+          }} 
         >
           {images.map((image, index) => (
             <div key={index} className="carousel-image">
-              <img src={image.image_content} alt={`carousel-img-${index}`} />
+              <img src={`http://localhost:3000/${image.image_src}`} alt={`carousel-img-${index}`} />
             </div>
           ))}
         </div>

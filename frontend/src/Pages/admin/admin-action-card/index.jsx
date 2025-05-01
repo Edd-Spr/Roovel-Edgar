@@ -9,6 +9,8 @@ export default function AdminActionCard({ title, image, path }) {
     <article onClick={ handleClick } className={ Styles['admin-action-card'] }>
       <img src={ image } alt={ title } className={ Styles['admin-action-card__image'] } />
       <h3 className={ Styles['admin-action-card__title'] }>{ title }</h3>
+
+      <div className={ Styles['admin-action-card__gradient'] }></div>
     </article>
   )
 }

@@ -61,7 +61,9 @@ export const MessageEditor = ({ setMessageContainerHeight, idReciveMessague, idS
         onInput={adjustHeight}
         placeholder="Escribe un mensaje..."
       ></textarea>
-      <button onClick={handleSendMessage}>Enviar</button>
+      <button 
+        className="send-message__button"
+        onClick={handleSendMessage}>{'>'}</button>
     </div>
   );
 };
@@ -113,7 +115,9 @@ export const MessageEditorGroup = ({ setMessageContainerHeight, idGroup, idSentM
         onInput={adjustHeight}
         placeholder="Escribe un mensaje..."
       ></textarea>
-      <button onClick={handleSendMessage}>Enviar</button>
+      <button 
+        className="send-message__button"
+        onClick={handleSendMessage}>{'>'}</button>
     </div>
   );
 };

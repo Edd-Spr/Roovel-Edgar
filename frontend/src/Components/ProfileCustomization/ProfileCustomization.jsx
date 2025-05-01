@@ -7,7 +7,8 @@ import BounceLoader from "react-spinners/BounceLoader";
 import ImageCropperModal from '../ImageCropper/ImageCropper.jsx';
 import ImageCropperRect from '../ImageCropper/ImageCropperRectangle.jsx';
 
-const ProfileCustomization = ({ onFirstSubmit, onSecondSubmit, onThirdSubmit }) => {
+const landlordMessage = "Esta opción no está disponible para arrendadores."
+const ProfileCustomization = ({ userType, onFirstSubmit, onSecondSubmit, onThirdSubmit }) => {
     const [customProgress, setCustomProgress] = useState(1);
     const [customizationIsLoading, setCustomizationIsLoading] = useState(false)
     const navigate = useNavigate();
@@ -15,7 +16,9 @@ const ProfileCustomization = ({ onFirstSubmit, onSecondSubmit, onThirdSubmit }) 
     const handleFirstSubmit = (e, data) => {
         e.preventDefault();
         onFirstSubmit(e, data);
-        setCustomProgress(customProgress + 1);
+        // Should the user is a landlord, we skip the second step
+        // and go directly to the third step.
+        setCustomProgress( customProgress + ( ( userType === 1 ) ? 2 : 1 ) );
     }
     const handleSecondSubmit = ( option ) => {
         onSecondSubmit( option );
@@ -25,14 +28,20 @@ const ProfileCustomization = ({ onFirstSubmit, onSecondSubmit, onThirdSubmit }) 
         const res = await onThirdSubmit( data );
         
         setCustomizationIsLoading(false)
-        if ( res ) setCustomProgress(customProgress + 1);
-        else navigate('/');
+        if ( res ) {
+            navigate('/');//TODO: Cambiar a la ruta de la página principal basado en el rol del usuario
+        };
     }
 
     const handleBack = () => {
         if (customProgress > 1) {
             setCustomProgress(customProgress - 1);
         }
+
+        if ( customProgress >= 2 && userType === 1 ) {
+            setCustomProgress(customProgress - 2);
+        }
+
     }
 
     return (
@@ -42,7 +51,7 @@ const ProfileCustomization = ({ onFirstSubmit, onSecondSubmit, onThirdSubmit }) 
                     customProgress={customProgress} 
                     onSubmit={ handleFirstSubmit } 
                 />) }
-            {customProgress === 2 && ( 
+            { ( customProgress === 2 && userType !== 1 ) && ( 
                 <SecondStep 
                     customProgress={customProgress} 
                     onSubmit={ handleSecondSubmit } 
@@ -65,9 +74,17 @@ const ProfileCustomization = ({ onFirstSubmit, onSecondSubmit, onThirdSubmit }) 
 
             {customProgress < 4 && 
             <section className={Styles.customProgressContainer}>
-                <button className={`${Styles.customProgressButton} ${customProgress >= 1 && Styles.activeCustomProgressButton}`}>1</button>
-                <button className={`${Styles.customProgressButton} ${customProgress >= 2 && Styles.activeCustomProgressButton}`}>2</button>
-                <button className={`${Styles.customProgressButton} ${customProgress >= 3 && Styles.activeCustomProgressButton}`}>3</button>
+                <button 
+                    className={`${Styles.customProgressButton} ${customProgress >= 1 && Styles.activeCustomProgressButton}`} 
+                    onClick={ () => setCustomProgress(1) }>1</button>
+                <button 
+                    title={ landlordMessage } 
+                    className={`${Styles.customProgressButton} ${customProgress >= 2 && Styles.activeCustomProgressButton}`} 
+                    disabled={ userType === 1 }
+                    onClick={ () => setCustomProgress(2) }>2</button>
+                <button 
+                    className={`${Styles.customProgressButton} ${customProgress >= 3 && Styles.activeCustomProgressButton}`}
+                    onClick={ () => setCustomProgress(3) }>3</button>
             </section>}
 
             {customizationIsLoading && (

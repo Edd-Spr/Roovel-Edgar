@@ -28,7 +28,6 @@ export async function apiRequest(method = 'get', url, data = {}, params = {}, is
     return response;
   } catch (error) {
     logError(error);
-    console.log("Here", error);
     throw error;
   }
 }

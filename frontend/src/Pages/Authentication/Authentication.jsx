@@ -2,6 +2,7 @@ import Styles from './Authentication.module.css'
 import SignIn from './Components/SignIn';
 import SignUp from './Components/SignUp';
 import ProfileCustomization from '../../Components/ProfileCustomization/ProfileCustomization';
+import UserType from './Components/UserType';
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -23,6 +24,7 @@ const Authentication = () => {
   const [ signUpEmail, setSignUpEmail ] = useState('')
   const [ signUpPassword, setSignUpPassword ] = useState('')
   const [ userType, setUserType ] = useState(0)// 0 = user, 1 = host
+  const [ choosingRole, setChoosingRole ] = useState( false )
 
   const [ fullName, setFullName ] = useState('')
   const [ birthdate, setBirthdate ] = useState('')
@@ -45,7 +47,7 @@ const Authentication = () => {
     setSignInSignUp(!signInSignUp);
   }
 
-  function mathcingPasswords(password, passwordConfirm){
+  function matchingPasswords(password, passwordConfirm){
     if ( password.value.trim().length < 8 ) {
       alert('La contraseña debe tener al menos 8 caracteres')
       password.focus()
@@ -73,7 +75,7 @@ const Authentication = () => {
     const passwordValue = password.value
     const passwordConfirmValue = passwordConfirm.value
 
-    if ( !mathcingPasswords(password, passwordConfirm) ) {
+    if ( !matchingPasswords(password, passwordConfirm) ) {
       alert('Las contraseñas no coinciden')
       password.focus()
       setCustomizationStep(false)
@@ -112,14 +114,20 @@ const Authentication = () => {
 
         if ( response.status === 200 ) {
           setSignInSignUp(false)
-          setCustomizationStep(true)
+          // setCustomizationStep(true)
+          setChoosingRole(true)
         }
       } catch (error) {
         console.error(error)
-        if ( error.response.status === 409 ) {
+        if ( error?.response?.status === 409 ) {
           alert('El email ya está en uso')
           email.focus()
           
+          setCustomizationStep(false)
+          return
+        }
+        if ( error?.code == 'ERR_NETWORK' ) {
+          alert('Algo salió mal, por favor intenta de nuevo')
           setCustomizationStep(false)
           return
         }
@@ -155,6 +163,12 @@ const Authentication = () => {
     setDescription(description)
   }
 
+  function handleUserTypeChoice( type ) {
+    setUserType( type )
+    setChoosingRole( false )
+    setCustomizationStep( true )
+  }
+
   function onSecondPersoSubmit( option ) {
     setIsProfilePrivate( option === 2 )
   }
@@ -187,9 +201,8 @@ const Authentication = () => {
             user_pass: signUpPassword,
             user_name: fullName,
             user_birthdate: birthdate,
+            user_is_host: Boolean( userType ),
         });
-
-        console.log('Respuesta del servidor:', response);
 
         if (response.status === 201) {
             const { token } = response.data; // Extrae el token del objeto
@@ -236,6 +249,17 @@ const Authentication = () => {
 
   async function onThirdPersoSubmit( data ) {
     const listOfImages = [ profilePhoto, ...data ]
+
+    if ( listOfImages.length === 0 ) {
+      alert('Por favor selecciona al menos una imagen')
+      return
+    }
+
+    if ( signUpEmail === '' || signUpPassword === '' || fullName === '' || birthdate === '' ) {
+      alert('Por favor completa todos los campos')
+      return
+    }
+
     try {
       const serials = listOfImages.map( ( image ) => {
         return fromURLtoB64( image )
@@ -265,7 +289,7 @@ const Authentication = () => {
     <main className={Styles.authentication}>
       <article className={Styles.mainBoxContainer}>
         <AnimatePresence exitBeforeEnter>
-          {customizationStep === false ? (
+          { ( !customizationStep && !choosingRole ) && (
             <>
               <motion.div
                 key="signIn"
@@ -316,13 +340,22 @@ const Authentication = () => {
                 />
               </motion.div>
             </>
-          ) : (
+          )}
+          {
+            ( customizationStep && !choosingRole ) && (
             <ProfileCustomization 
+              userType={ userType }
               onFirstSubmit={ onFirstPersoSubmit }
               onSecondSubmit={ onSecondPersoSubmit }
               onThirdSubmit={ onThirdPersoSubmit }
               key="profileCustomization" />
-          )}
+            )
+          }
+          {
+            ( !customizationStep && choosingRole ) && (
+            <UserType onSubmit={ handleUserTypeChoice } />
+          )
+          }
         </AnimatePresence>
       </article>
     </main>

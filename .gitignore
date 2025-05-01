@@ -12,3 +12,6 @@ frontend/dist
 ./frontend/dist
 /dist
 dist
+
+/.vscode
+/.vscode/

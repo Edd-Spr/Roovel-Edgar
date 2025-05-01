@@ -23,9 +23,62 @@ const Profile = () => {
     user_parent_name: '',
     email: '',
     number: '',
-    age: 26,
-    description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit.',
+    description: '',
+    user_birthdate: '', 
   });
+  useEffect(() => {
+    if (usrToken) {
+        try {
+            const decodedToken = jwtDecode(usrToken);
+            console.log('Token decodificado:', decodedToken);
+            console.log('ID del Usuario:', decodedToken.userId);
+            console.log('Estado de autenticación:', isAuthenticated);
+            setIDUSER(decodedToken.userId);
+        } catch (error) {
+            console.error('Error al decodificar el token:', error);
+        }
+    } else {
+        console.log('No hay token disponible.');
+    }
+}, [usrToken]);
+
+useEffect(() => {
+    setCurrentUser(IDUSER);
+}, [IDUSER]);
+
+const [profileImage, setProfileImage] = useState(null);
+const [mostrarCustomization, setMostrarCustomization] = useState(false);
+
+  function ageInYears(birthdate) {
+    const today = new Date();
+    const birthDate = new Date(birthdate);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+  }
+
+useEffect(() => {
+    const fetchProfileImage = async () => {
+        try {
+            if (currentUser === 0) return;
+
+            const response = await fetch(`http://localhost:3000/images?id_user=${currentUser}`);
+            const data = await response.json();
+            console.log("Imágenes recibidas para foto de perfil:", data);
+
+            if (Array.isArray(data) && data.length > 0) {
+                setProfileImage(data[0].image_src); 
+            }
+        } catch (error) {
+            console.error("Error al obtener imagen de perfil:", error);
+        }
+    };
+
+    fetchProfileImage();
+}, [currentUser]);
 
 useEffect(() => {
     const fetchProfileData = async () => {
@@ -46,6 +99,7 @@ useEffect(() => {
                 age: data.user_age || 'No se encontró edad',
                 statement: data.user_personal_statement || 'No se encontró statement',
                 description: data.user_description || 'No hay descripción disponible',
+                user_birthdate: data.user_birthdate || 'No se encontró fecha de nacimiento',
             });
         } catch (error) {
             console.error('Error al obtener los datos del perfil:', error);
@@ -105,7 +159,7 @@ useEffect(() => {
 
               <article className={prof.descInfo}>
                 <span className={prof.descMain}>{profile.statement}</span>
-                <span className={prof.descAge}> {profile.age} años</span>
+                <span className={prof.descAge}>{profile.user_birthdate ? `${ageInYears(profile.user_birthdate)} años` : 'Edad no disponible'}</span>                
                 <span className={prof.descAll}>{profile.description}</span>
               </article>
 

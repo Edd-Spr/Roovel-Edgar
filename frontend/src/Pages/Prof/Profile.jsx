@@ -16,7 +16,7 @@ import axios from 'axios';
 const Profile = () => {
   const { usrToken, isAuthenticated } = useAuth();
   const [IDUSER, setIDUSER] = useState(0); // Estado para almacenar el ID del usuario
-  const [currentUser, setCurrentUser] = useState(8); // Estado para sincronizar con IDUSER
+  const [currentUser, setCurrentUser] = useState(IDUSER); // Estado para sincronizar con IDUSER
   const [profile, setProfile] = useState({
     user_name: '',
     user_last_name: '',

@@ -112,7 +112,7 @@ const ChatContactOpen = ({setChatIsOpen, infoProfile, idRemitente, user, setActu
 const ChatGroupOpen = ({ setChatIsOpen, infoProfile, user, setActualChat, messageContainerHeight, setMessageContainerHeight, idGroup, messageList}) => {
     console.log('Mensajes de grupo:', idGroup);
     return (
-        <section className="ChatOpen" style={{ backgroundColor: '#f0f0f0' }}>
+        <section className="ChatOpen">
             <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat} />
             <MessageContainerGroups
                 infoProfile={infoProfile}
@@ -139,13 +139,13 @@ function ContactBar({ infoProfile, setChatIsOpen, setActualChat }) {
     return (
         <div className="contactBar">
             <div className="contactBarPhotoContainer">
-                <img src={`/PhotoProfiles/${infoProfile?.imagen}`} alt="" className="contactBarPhoto" />
+                <img src={`/PhotoProfiles/${infoProfile?.imagen}`} alt="" className="contactBarPhoto" draggable="false" />
             </div>
 
             <p className="profileName">{infoProfile?.nombre}</p>
 
             <button className="closeChat" onClick={close}>
-                <img src="/Graphics/Icons/close.png" alt="" style={{ width: '100%' }} />
+                <img src="/Graphics/Icons/close_dark.png" alt="" style={{ width: '100%' }} />
             </button>
         </div>
     );

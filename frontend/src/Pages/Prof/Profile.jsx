@@ -16,58 +16,16 @@ import axios from 'axios';
 const Profile = () => {
   const { usrToken, isAuthenticated } = useAuth();
   const [IDUSER, setIDUSER] = useState(0); // Estado para almacenar el ID del usuario
-  const [currentUser, setCurrentUser] = useState(0); // Estado para sincronizar con IDUSER
+  const [currentUser, setCurrentUser] = useState(8); // Estado para sincronizar con IDUSER
   const [profile, setProfile] = useState({
     user_name: '',
     user_last_name: '',
     user_parent_name: '',
     email: '',
     number: '',
-    age: '',
-    description: '',
+    age: 26,
+    description: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit.',
   });
-  useEffect(() => {
-    if (usrToken) {
-        try {
-            const decodedToken = jwtDecode(usrToken);
-            console.log('Token decodificado:', decodedToken);
-            console.log('ID del Usuario:', decodedToken.userId);
-            console.log('Estado de autenticación:', isAuthenticated);
-            setIDUSER(decodedToken.userId);
-        } catch (error) {
-            console.error('Error al decodificar el token:', error);
-        }
-    } else {
-        console.log('No hay token disponible.');
-    }
-}, [usrToken]);
-
-useEffect(() => {
-    setCurrentUser(IDUSER);
-}, [IDUSER]);
-
-const [profileImage, setProfileImage] = useState(null);
-const [mostrarCustomization, setMostrarCustomization] = useState(false);
-
-useEffect(() => {
-    const fetchProfileImage = async () => {
-        try {
-            if (currentUser === 0) return;
-
-            const response = await fetch(`http://localhost:3000/images?id_user=${currentUser}`);
-            const data = await response.json();
-            console.log("Imágenes recibidas para foto de perfil:", data);
-
-            if (Array.isArray(data) && data.length > 0) {
-                setProfileImage(data[0].image_src); 
-            }
-        } catch (error) {
-            console.error("Error al obtener imagen de perfil:", error);
-        }
-    };
-
-    fetchProfileImage();
-}, [currentUser]);
 
 useEffect(() => {
     const fetchProfileData = async () => {

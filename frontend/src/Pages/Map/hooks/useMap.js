@@ -1,93 +1,101 @@
-import { useState, useEffect } from "react"
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import axios from "axios";
 
 import { API_URL_MAP__NEAREST_PLACES, API_URL_MAP__HOME } from "../../../env";
 
-import { useMap as useMapLeaflet, useMapEvents } from 'react-leaflet';
+import { useMap as useMapLeaflet, useMapEvents } from "react-leaflet";
 
 export default function useMap() {
-  const [ position, setPosition ] = useState([20.6597586, -103.324082]);
-  const [ readableDirection, setReadableDirection ] = useState('');
-  const [ displayCard, setDisplayCard ] = useState(0);
-  const [ places, setPlaces ] = useState([]);
-  const [ home, setHome ] = useState({});
-  const [ searched, setSearched ] = useState(false);
+  const [position, setPosition] = useState([20.6597586, -103.324082]); // CUCEI location por defecto
+  const [readableDirection, setReadableDirection] = useState("");
+  const [displayCard, setDisplayCard] = useState(0);
+  const [places, setPlaces] = useState([]);
+  const [home, setHome] = useState({});
+  const [searched, setSearched] = useState(false);
 
-  const [ dirTyped, setDirTyped ] = useState('');
-  const [ possiblePlaces, setPossiblePlaces ] = useState([]);
+  const [dirTyped, setDirTyped] = useState("");
+  const [possiblePlaces, setPossiblePlaces] = useState([]);
 
+  const [searchParams] = useSearchParams(); // Hook para leer los parámetros de la URL
+  
   async function getNearestPlaces({ params }) {
-    if ( !params ) return
-    return await axios.get( API_URL_MAP__NEAREST_PLACES, { params } );
+    if (!params) return;
+    try {
+      const response = await axios.get(API_URL_MAP__NEAREST_PLACES, { params });
+      console.log("Datos obtenidos de la API:", response.data);
+  
+      if (response && response.data && response.data.homes) {
+        setPlaces(response.data.homes); // Actualizar el estado con las habitaciones
+      }
+    } catch (error) {
+      console.error("Error al obtener los lugares más cercanos:", error);
+    }
   }
-
   async function getPlace({ params }) {
-    if ( !params ) return
-    return await axios.get( API_URL_MAP__HOME, { params } );
+    if (!params) return;
+    return await axios.get(API_URL_MAP__HOME, { params });
   }
 
-  async function getReadableDirection( position ) {
+  async function getReadableDirection(position) {
     const url = `https://nominatim.openstreetmap.org/reverse`;
     const params = `format=json&lat=${position[0]}&lon=${position[1]}&zoom=18&addressdetails=1`;
-    const response = await axios.get( `${ url }?${ params }` );
+    const response = await axios.get(`${url}?${params}`);
 
-    if ( response && response.data ) return response.data.display_name;
+    if (response && response.data) return response.data.display_name;
   }
 
-  async function getSimilarPlaces( readable_location ) {
+  async function getSimilarPlaces(readable_location) {
     const url = `https://nominatim.openstreetmap.org/search`;
     const params = `q=${readable_location}&format=json&addressdetails=1`;
-    const response = await axios.get( `${ url }?${ params }` );
+    const response = await axios.get(`${url}?${params}`);
 
-    if ( response && response.data ) return response.data;
+    if (response && response.data) return response.data;
   }
 
-  async function getLatLng( readable_location ) {
+  async function getLatLng(readable_location) {
     const url = `https://nominatim.openstreetmap.org/search`;
     const params = `q=${readable_location}&format=json`;
-    const response = await axios.get( `${ url }?${ params }` );
+    const response = await axios.get(`${url}?${params}`);
 
-    if ( response && response.data[ 0 ] ) return [ response.data[ 0 ].lat, response.data[ 0 ].lon, response.data[ 0 ].display_name ];
+    if (response && response.data[0])
+      return [response.data[0].lat, response.data[0].lon, response.data[0].display_name];
   }
 
-  async function getPlaces( latlng ) {
-    // If the response is empty, do nothing
-    // Should give feedback to the user
-    if ( !latlng ) return
-    const [ lat, lng ] = latlng;
+  async function getPlaces(latlng) {
+    if (!latlng) return;
+    const [lat, lng] = latlng;
 
-    // Get nearest places
-    const res = await getNearestPlaces( { params: { currentLat: lat, currentLon: lng } });
+    const res = await getNearestPlaces({ params: { currentLat: lat, currentLon: lng } });
 
-    // it the places response is empty, do nothing
-    if ( !res || !res.data ) return
-    setPlaces( res.data.homes ); // instead, update
+    if (!res || !res.data) return;
+    setPlaces(res.data.homes);
   }
 
   const eventHandlers = {
     click: (e) => {
       const { lat, lng } = e.latlng;
 
-      if( lat === position[0] && lng === position[1] ) return;
+      if (lat === position[0] && lng === position[1]) return;
 
       (async () => {
         const display_name = await getReadableDirection([lat, lng]);
-        const res2 = await getPlace({ params:{ lat, lon: lng } });
+        const res2 = await getPlace({ params: { lat, lon: lng } });
 
-        if ( !display_name || !res2 ) return
+        if (!display_name || !res2) return;
 
-        setHome({ ...res2.data.home, home_address: display_name })
-      })()
+        setHome({ ...res2.data.home, home_address: display_name });
+      })();
       setDisplayCard(1);
-    }
+    },
   };
 
-  function showMoreHandler( current ) {
-    if ( current !== 2 ) setDisplayCard( current + 1 );
+  function showMoreHandler(current) {
+    if (current !== 2) setDisplayCard(current + 1);
   }
 
-  function showLessHandler( current ) {
-    if ( current !== 0 ) setDisplayCard( current - 1 );
+  function showLessHandler(current) {
+    if (current !== 0) setDisplayCard(current - 1);
   }
 
   function MapLocator() {
@@ -97,95 +105,133 @@ export default function useMap() {
         const { lat, lng } = e.latlng;
         map.setView([lat, lng], map.getZoom());
         setPosition([lat, lng]);
-        setReadableDirection( readableDirection );
+        setReadableDirection(readableDirection);
       },
     });
-  
+
     return null;
   }
 
   function SetViewOnUpdate() {
     const map = useMapLeaflet();
     useEffect(() => {
-      // Set the map's view to the new position with zoom level 13
-      if ( !position ) return
+      if (!position) return;
       map.setView(position, 15);
     }, [position, map]);
-  
+
     return null;
   }
 
-  function onPositionUpdate( e ) {
+  function onPositionUpdate(e) {
     const userDirectionTyped = e.target.value;
     setSearched(false);
-    setDirTyped( userDirectionTyped );
-  };
+    setDirTyped(userDirectionTyped);
+  }
 
-  function onOptionSelected( e ) {
+  function onOptionSelected(e) {
     const selectedOption = e.target.textContent;
 
-    const { ubication } = possiblePlaces.find( place => place.display_name === selectedOption );
-    if ( !ubication ) return
+    const { ubication } = possiblePlaces.find((place) => place.display_name === selectedOption);
+    if (!ubication) return;
 
-    setPosition( ubication );//So the map can be updated
-    setReadableDirection( selectedOption );
+    setPosition(ubication);
+    setReadableDirection(selectedOption);
 
-    setDirTyped( selectedOption );//Update the input value
-    getPlaces( ubication );//Look for the nearest places
-    setPossiblePlaces([]);//Clean the options, so the user can see the map
+    setDirTyped(selectedOption);
+    getPlaces(ubication);
+    setPossiblePlaces([]);
     setSearched(true);
   }
 
-  function cleanPlaces( places ) {
-    return places.map( place => {
+  function cleanPlaces(places) {
+    return places.map((place) => {
       return {
-        ubication: [ place.lat, place.lon ],
+        ubication: [place.lat, place.lon],
         display_name: place.display_name,
-      }
-    })
+      };
+    });
   }
 
-  function onSubmit( e ) {
+  function onSubmit(e) {
     e.preventDefault();
-    
-    getPlaces( position );
+
+    getPlaces(position);
     setSearched(true);
   }
 
   useEffect(() => {
-    if ( dirTyped ) {
+    if (dirTyped) {
       const timeout = setTimeout(async () => {
-        const res = await getSimilarPlaces(dirTyped)
-        if ( !res ) return
+        const res = await getSimilarPlaces(dirTyped);
+        if (!res) return;
 
-        if ( res.length > 0 ) {
-          setPossiblePlaces( cleanPlaces( res ) );
+        if (res.length > 0) {
+          setPossiblePlaces(cleanPlaces(res));
         }
-
       }, 500);
       return () => clearTimeout(timeout);
     }
-  }, [ dirTyped ]);
+  }, [dirTyped]);
 
-  // Get current position
+  // Configurar posición inicial basada en parámetros de la URL o ubicación actual
   useEffect(() => {
-    // This start to botter me, so I will comment it out for now
-    // at the end, we'll focus on CUCEI location for now
+    const lat = parseFloat(searchParams.get("lat"));
+    const lon = parseFloat(searchParams.get("lon"));
+    const pets = parseFloat(searchParams.get("pets"));
+    const gender = parseFloat(searchParams.get("gender"));
+    const minAge = parseFloat(searchParams.get("minAge"));
+    const maxAge = parseFloat(searchParams.get("maxAge"));
+  
+    if (lat && lon) {
+      setPosition([lat, lon]);
+  
+      // Llamar a getNearestPlaces con los parámetros adicionales
+      getNearestPlaces({
+        params: {
+          currentLat: lat,
+          currentLon: lon,
+          pets,
+          gender,
+          minAge,
+          maxAge,
+        },
+      });
+    } else {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const currentLat = position.coords.latitude;
+          const currentLon = position.coords.longitude;
+  
+          setPosition([currentLat, currentLon]);
+  
+          // Llamar a getNearestPlaces con los parámetros adicionales y ubicación actual
+          getNearestPlaces({
+            params: {
+              currentLat,
+              currentLon,
+              pets,
+              gender,
+              minAge,
+              maxAge,
+            },
+          });
+        },
+        (error) => {
+          console.error("Error al obtener la ubicación actual:", error);
+        }
+      );
+    }
+  }, [searchParams]);
 
-    // navigator.geolocation.getCurrentPosition((position) => {
-    //   setPosition([position.coords.latitude, position.coords.longitude]);
-    // });
-  }, []);
-
-  // Get readable direction
+  // Actualizar dirección legible cuando cambie la posición
   useEffect(() => {
     (async () => {
       const readableDirection = await getReadableDirection(position);
       setReadableDirection(readableDirection);
-    })()
-  }, [ position ]);
+    })();
+  }, [position]);
 
-  return { 
+  return {
     position,
     readableDirection,
     home,

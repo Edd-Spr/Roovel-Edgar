@@ -82,3 +82,30 @@ export const ClientPlugin_group_chat = {
     return new Error('This part code isnt implement');
   }
 };
+export const ClientPligin_friends = {
+  get : async(url) => {
+    return new Error('This part code isnt implement');  
+  },
+  post: async (url, body) => {
+
+    try {
+        const response = await axios.post(url, body, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error al enviar la solicitud:', error);
+        console.log('url', url);
+        console.log('body', body);
+        throw error; // Lanza el error para que pueda ser manejado por el llamador
+    }
+},
+  put: async(url, body) => {
+    return new Error('This part code isnt implement');
+  },  
+  delete: async(url, body) => { 
+    return new Error('This part code isnt implement');
+  }
+}

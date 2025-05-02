@@ -1,0 +1,83 @@
+/*--------------------------------------------------------------*/
+/* Dashboard Sidebar                                            */
+/*--------------------------------------------------------------*/
+
+.property-manager__title{
+    width: 100%;
+    font-family: Arial;
+    font-weight: 400;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin: 1rem;
+    margin-top: 0.5rem;
+}
+
+.dashboard-sidebar {
+    width: 30rem;
+    height: 100%;
+    background-color: white;
+    border: 2px solid #c3c3c3;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 1rem;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.statistics__container {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    padding: 1rem;
+
+}
+
+.statistics__logo-container {
+    flex: 1;
+    background-color: #B2C9CE;
+    color: white;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    overflow: hidden;
+    min-height: 0;   
+    position: relative;
+}
+.statistics__logo-title{
+    position: absolute;
+    color: white;
+    opacity: 0.9;
+    margin: 0;
+    top: 1rem;
+    left: 1rem;
+}
+
+/*--------------------------------------------------------------*/
+/* Tabs                                                         */
+/*--------------------------------------------------------------*/
+
+
+.tabs__container{
+    width: 100%;
+    height: 1.8rem;
+    display: flex;
+    border-bottom: 2px solid #c3c3c3;
+}
+.tabs__button{
+    height: 1.8rem;
+    padding: 0 1rem;
+    margin: 0;
+    background: none;
+    border: none;
+    box-sizing: content-box;
+    color: #636363;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+.tabs__button-active{
+    color: #4A617F;
+    border-bottom: 3px solid #4A617F;
+}

@@ -1,8 +1,8 @@
-// FourthStep.jsx
 import Styles from './FourthStep.module.css';
 import { motion } from 'framer-motion';
+import { useState, useRef, useEffect } from 'react';
 
-const FourthStep = ({ pendingRooms, openRoomEditor }) => {
+const FourthStep = ({ setPendingRooms, openRoomEditor, relatedRooms }) => {
     return (
         <motion.article
             style={{
@@ -31,7 +31,7 @@ const FourthStep = ({ pendingRooms, openRoomEditor }) => {
             <section className={Styles['fourth-step__rooms-container']} style={{ gridColumn: '1 / -1', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1vw' }}>
                 <button
                     className={Styles['fourth-step__add-room']}
-                    onClick={() => openRoomEditor(null)}
+                    onClick={() => openRoomEditor()}
                 >
                     <img 
                         src="/Graphics/Icons/add-icon_gray.png" 
@@ -40,14 +40,14 @@ const FourthStep = ({ pendingRooms, openRoomEditor }) => {
                         style={{
                             width: '30%',
                         }}
-                        />
+                    />
                 </button>
 
-                {pendingRooms.map((room, index) => (
+                {relatedRooms.map((room, index) => (
                     <RoomCard
-                        key={index}
+                        key={room.id_room} 
                         room={room}
-                        onClick={() => openRoomEditor(room)}
+                        onClick={() => openRoomEditor(room)} 
                     />
                 ))}
             </section>
@@ -55,24 +55,58 @@ const FourthStep = ({ pendingRooms, openRoomEditor }) => {
     );
 };
 
-const RoomCard = ({ room, onClick }) => {
+const RoomCard = ({ room, onClick, onEdit, onDelete }) => {
+    const [menuOpen, setMenuOpen] = useState(false);
+    const menuRef = useRef();
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (menuRef.current && !menuRef.current.contains(e.target)) {
+                setMenuOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     return (
-        <button
-            className={Styles['fourth-step__room']}
-            onClick={onClick}
-        >
-            <img
-                src={room.mainImage[0].image_content || '/placeholder-room.jpg'}
-                alt={room.name}
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    transition: '0.3s',
-                }}
-            />
-        </button>
+            <div className={Styles['fourth-step__room']}>
+                <img
+                    src={room.mainImage[0].image_content || '/placeholder-room.jpg'}
+                    alt={room.name}
+                    className={Styles['fourth-step__room-image']}
+                />
+
+                <div className={Styles['fourth-step__menu-wrapper']} ref={menuRef}>
+                    <button
+                        className={Styles['fourth-step__menu-toggle']}
+                        onClick={() => setMenuOpen(!menuOpen)}
+                    >
+                        ...
+                    </button>
+                    {menuOpen && (
+                        <div className={Styles['fourth-step__menu']}>
+                            <button
+                                className={Styles['fourth-step__menu-item']}
+                                onClick={onClick}
+                            >
+                                Editar
+                            </button>
+                            <button
+                                className={Styles['fourth-step__menu-item']}
+                                onClick={() => {
+                                    setMenuOpen(false);
+                                    onDelete(room);
+                                }}
+                            >
+                                Eliminar
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
     );
 };
+
 
 export default FourthStep;

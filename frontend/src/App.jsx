@@ -3,7 +3,7 @@ import Home from './Pages/Home/Home.jsx';
 import Profile from './Pages/Prof/Profile.jsx';
 import MatchingPage from './Pages/RoommateMatchingPage.jsx';
 import PropertyManager from './Pages/PropertyManager';
-
+import Paypage from './Pages/Pay/Pay.jsx';
 
 import Map from './Pages/Map';
 import Favorite from './Pages/Favorite/Favorite.jsx';
@@ -29,6 +29,7 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/propertyManager' element={<PropertyManager />} />
           <Route path='/favorite' element={<Favorite />} />
+          <Route path='/pay' element={<Paypage />} />
 
         </Routes>
       </AuthProvider>

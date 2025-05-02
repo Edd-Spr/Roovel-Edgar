@@ -25,12 +25,5 @@ export async function getSimilarPlaces(readable_location) {
     const response = await axios.get(`${url}?${params}`);
 
     if (response && response.data) return response.data;
-}
-
-export async function getLatLng(readable_location) {
-    const url = `https://nominatim.openstreetmap.org/search`;
-    const params = `q=${readable_location}&format=json`;
-    const response = await axios.get(`${url}?${params}`);
-
-    if (response && response.data[0]) return [response.data[0].lat, response.data[0].lon, response.data[0].display_name];
+    return [];
 }

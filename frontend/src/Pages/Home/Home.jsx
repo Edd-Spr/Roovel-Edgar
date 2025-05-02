@@ -12,6 +12,8 @@ import { getReadableDirection} from './hooks/useGeolocation';
 import{getRoomReview, getRoomAll} from '../../templade/callback_home.js'
 import { useAuth } from '../../hooks/auth/index.jsx';
 import jwtDecode from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
+
 
 
 import { Link } from 'react-router-dom';
@@ -368,48 +370,81 @@ const CarouselButton = ({name, id, actualCarousel, setActualCarousel}) => {
     );
 }
 
-const StayFinder = () => {
 
-        
-    const [finderBy, setFinderBy] = useState(1);
-    const handleFinderBy = (value) => {
-        setFinderBy(value);
+
+const StayFinder = () => {
+    const navigate = useNavigate(); // Hook para redirigir
+    const [gender, setGender] = useState(0); // 0: Todos, 1: Hombres, 2: Mujeres
+    const [pets, setPets] = useState(false); // Booleano para mascotas
+    const [rangeValues, setRangeValues] = useState([17, 60]); // Rango de valores
+    const [address, setAddress] = useState(''); // Dirección ingresada por el usuario
+    const [coordinates, setCoordinates] = useState({ lat: null, lon: null }); // Coordenadas
+
+    const getLatLng = async (address) => {
+        const url = `https://nominatim.openstreetmap.org/search`;
+        const params = `q=${encodeURIComponent(address)}&format=json`;
+        try {
+            const response = await fetch(`${url}?${params}`);
+            const data = await response.json();
+            if (data && data.length > 0) {
+                return [data[0].lat, data[0].lon]; // Devuelve latitud y longitud
+            }
+            return null; // Si no se encuentran resultados
+        } catch (error) {
+            console.error('Error al obtener las coordenadas:', error);
+            return null;
+        }
     };
 
-    const min = 17;
-    const max = 65;
-    const [minValue, set_minValue] = useState(min);
-    const [maxValue, set_maxValue] = useState(max);
-    const [actualValue, setActualValue] = useState(false);
-    const [gender, setGender] = useState(0);
-    const [pets, setPets] = useState(0);
-    const [rangeValues, setRangeValues] = useState([17, 60]);
-
+    const handleSearch = async () => {
+        let latLng = null;
     
+        // Si se ingresó una dirección, conviértela en coordenadas
+        if (address) {
+            latLng = await getLatLng(address);
+            if (!latLng) {
+                alert('No se pudieron obtener las coordenadas para la dirección ingresada.');
+                return;
+            }
+        }
+    
+        // Construir los parámetros de la URL
+        const params = new URLSearchParams({
+            gender,
+            pets: pets ? 1 : 0, // Convertir booleano a 1 o 0
+            minAge: rangeValues[0],
+            maxAge: rangeValues[1],
+            lat: latLng ? latLng[0] : null, // Usar las coordenadas obtenidas
+            lon: latLng ? latLng[1] : null, // Usar las coordenadas obtenidas
+        });
+    
+        // Redirigir a la pantalla de /map con los parámetros
+        navigate(`/map?${params.toString()}`);
+    };
+
     return (
         <article className={Styles.stayFinderContainer}>
             <section className={Styles.stayFinderBox}>
                 <div className={Styles.containerFinderBy}>
-                    <label htmlFor="" className={Styles.labelStayFinder}> ¿Roomie o Habitación? Encuentra lo que necesitas</label>
+                    <label htmlFor="" className={Styles.labelStayFinder}>
+                        ¿Roomie o Habitación? Encuentra lo que necesitas
+                    </label>
                     <div className={Styles.buttonsFindByContainer}>
-                        <button 
-                            className={`${Styles.buttonFindBy} ${finderBy === 1 ? Styles.activeFindBy : ''}`}
-                            onClick={() => handleFinderBy(1)}
-                        >
+                        <button className={`${Styles.buttonFindBy} ${Styles.buttonFindByActive}`}>
                             Habitación
-                        </button>
-                        <button 
-                            className={`${Styles.buttonFindBy} ${finderBy === 2 ? Styles.activeFindBy : ''}`}
-                            onClick={() => handleFinderBy(2)}
-                        >
-                            Roomie
                         </button>
                     </div>
                 </div>
                 <div className={Styles.inputsContainer}>
-                    <input type="text" className={Styles.inputStayFinder} placeholder='Escribe una dirección'/>
+                <input
+                        type="text"
+                        className={Styles.inputStayFinder}
+                        placeholder="Escribe una dirección"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)} // Actualiza la dirección
+                    />
                     <FilterButton
-                        buttonType='multirange'
+                        buttonType="multirange"
                         rangeValues={rangeValues}
                         setRangeValues={setRangeValues}
                         modalPlace={0}
@@ -424,15 +459,11 @@ const StayFinder = () => {
                         setValueInput={setPets}
                         options={['No mascotas', 'Cualquier mascota', 'Solo Perros', 'Solo Gatos']}
                     />
-                    <button className={Styles.searchButton}>
-                        <img src="/Graphics/Icons/search_icon.png" 
-                        alt="" 
-                        style={{width: '100%'}}/>
+                    <button className={Styles.searchButton} onClick={handleSearch}>
+                        <img src="/Graphics/Icons/search_icon.png" alt="" style={{ width: '100%' }} />
                     </button>
-                    
                 </div>
             </section>
         </article>
     );
-}
-
+};

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Styles from './InputForm.module.css';
 
-const InputForm = ({title, type, Width, Height, options, onChange}) => {
+const InputForm = ({title, type, Width, Height, options, onChange, content}) => {
 
     const [visiblePassword, setVisiblePassword] = useState(false);
 
@@ -15,6 +15,7 @@ const InputForm = ({title, type, Width, Height, options, onChange}) => {
                         required
                         style={{width: Width, height: Height, paddingRight: type === 'password' && '2.5vw'}}
                         onChange={onChange}
+                        defaultValue={type !== 'password' ? content : undefined} // Valor por defecto excepto para contraseñas
                     />
                     <label htmlFor="" className={Styles.labelInputForm}>{title}</label>
                     {type === 'password' && (
@@ -32,7 +33,7 @@ const InputForm = ({title, type, Width, Height, options, onChange}) => {
                 <div className={Styles.inputFormContainer}  style={{width: Width, height: Height}}>
                     {type === 'select' && (
                         <>
-                            <select name="" id="" className={Styles.inputForm} onChange={onChange} required style={{width: Width, height: Height}}>
+                            <select name="" id="" className={Styles.inputForm} onChange={onChange} required style={{width: Width, height: Height}} defaultValue={content}>
                                 {options?.map((value) => <option value={value} key={value}>{value}</option>)}
                             </select>
                             <label htmlFor="" className={Styles.labelInputForm}>{title}</label>
@@ -47,6 +48,7 @@ const InputForm = ({title, type, Width, Height, options, onChange}) => {
                                 rows="10" 
                                 className={Styles.inputForm} 
                                 style={{ width: Width, height: Height, resize: "none", paddingTop: '10px' }} 
+                                defaultValue={content} // Valor por defecto para textarea
                             ></textarea>
                             <label htmlFor="" className={Styles.labelInputForm}>{title}</label>
                         </>

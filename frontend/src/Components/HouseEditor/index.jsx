@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Styles from './HouseEditor.module.css';
 
 // Steps
@@ -9,7 +9,7 @@ import ThirdStep from './Steps/ThirdStep';
 import FourthStep from './Steps/FourthStep';
 import FifthStep from './Steps/FifthStep';
 
-const HouseEditor = ({ openRoomEditor, pendingRooms, setPendingRooms, closeHouseEditor }) => {
+const HouseEditor = ({ property, openRoomEditor, pendingRooms, setPendingRooms, closeHouseEditor }) => {
     const [houseEditorProgress, setHouseEditorProgress] = useState(0);
 
     const [images, setImages] = useState([]);
@@ -17,7 +17,29 @@ const HouseEditor = ({ openRoomEditor, pendingRooms, setPendingRooms, closeHouse
     const [imageFile, setImageFile] = useState(null);
     const [croppedMainImage, setCroppedMainImage] = useState(null);
 
+    const relatedRooms = pendingRooms.filter((room) => room.id_home === property?.id_home);
 
+    const [temporaryRooms, setTemporaryRooms] = useState([]);
+
+    // Determina si estás editando o creando una casa
+    const isEditing = !!property;
+
+    // Cargar datos iniciales en caso de edición
+    useEffect(() => {
+        if (isEditing) {
+            // Si estás editando, carga los datos de la propiedad en los estados
+            setImages(property.images || []);
+            setImageFiles(property.images || []);
+            setCroppedMainImage(property.mainImage?.[0]?.image_content || null);
+            setTemporaryRooms(relatedRooms || []);
+        } else {
+            // Si estás creando, inicializa los estados vacíos
+            setImages([]);
+            setImageFiles([]);
+            setCroppedMainImage(null);
+            setTemporaryRooms([]);
+        }
+    }, [property, isEditing, relatedRooms]);
 
     const allImageFiles = {
         images,
@@ -51,10 +73,19 @@ const HouseEditor = ({ openRoomEditor, pendingRooms, setPendingRooms, closeHouse
                 {houseEditorProgress === 3 && <ThirdStep />}
                 {houseEditorProgress === 4 && (
                     <FourthStep
-                        pendingRooms={pendingRooms}
                         setPendingRooms={setPendingRooms}
                         setHouseEditorProgress={setHouseEditorProgress}
-                        openRoomEditor={openRoomEditor} // Nueva prop para abrir el RoomEditor desde PropiedadesPage
+                        openRoomEditor={openRoomEditor}
+                        relatedRooms={relatedRooms}
+                        setTemporaryRooms={setTemporaryRooms}
+                        images={images}
+                        setImages={setImages}
+                        imageFiles={imageFiles}
+                        setImageFiles={setImageFiles}
+                        imageFile={imageFile}
+                        setImageFile={setImageFile}
+                        croppedMainImage={croppedMainImage}
+                        setCroppedMainImage={setCroppedMainImage}
                     />
                 )}
                 {houseEditorProgress === 5 && <FifthStep />}

@@ -5,13 +5,23 @@ import InputForm from '../../../InputForm/InputForm.jsx';
 
 const SecondStep = ({setHouseEditorProgress}) => { 
 
+    const [selectedTags, setSelectedTags] = useState([]);
+
+    function onToggleTag(e) {
+        e.preventDefault();
+        const tag = e.target.value;
+
+        setSelectedTags((prev) =>
+            prev.includes(tag) ? prev.filter((n) => n !== tag) : [...prev, tag]
+        );
+    }
+
     return (
         <motion.article
             style={{
                 width: '100%',
                 height: '100%',
                 display: 'flex',
-                flexWrap: 'wrap',
                 alignContent: 'flex-start',
                 boxSizing: 'border-box',
                 padding: '3rem',
@@ -32,8 +42,39 @@ const SecondStep = ({setHouseEditorProgress}) => {
                 <InputForm Width='100%' title="Ubicacion" type="text" />
                 <InputForm Height='29vh' Width='100%' title="Añade una descripción" type="area" />
             </section>
+
+            <section className={Styles['second-step__tags-container']}>
+                <p className={Styles['tagsTitle']}>Elige etiquetas que describan tu propiedad</p>
+                <div className={Styles['firstStepTagsContainer']}>
+                    {tags.map((tag, i) => (
+                        <button
+                            key={i}
+                            value={tag}
+                            onClick={ onToggleTag }
+                            className={selectedTags.includes(tag) ? Styles['activeTag'] : Styles['tagFirstStep']}
+                        >
+                            {tag}
+                        </button>
+                    ))}
+                </div>
+
+            </section>
         </motion.article>
     )
 }
+
+let tags = [
+    "Lectura", "Deportes", "Tecnología", "Cine", "Música", "Viajes", "Arte", "Fotografía", 
+    "Videojuegos", "Naturaleza", "Desarrollador", "DiseñadorGráfico", "Ingeniero", "MarketingDigital", 
+    "Escritor", "Cocinero", "Creativo", "Emprendedor", "Educador", "Consultor", "Optimista", 
+    "Aventurero", "Curioso", "Introvertido", "Extravertido", "Empático", "Líder", "Soñador", 
+    "Perseverante", "Amor", "Equidad", "Innovación", "Sostenibilidad", "Igualdad", "Familia", 
+    "Responsabilidad", "TrabajoEnEquipo", "CrecimientoPersonal", "AprenderNuevo", "DesarrolloProfesional", 
+    "Networking", "Inspiración", "Motivación", "Productividad", "Bilingüe", "Cultura", "Multicultural", 
+    "Idiomas", "ArteCultural", "EstilosDeVida", "Meditación", "SaludMental", "Ejercicio", "Yoga", 
+    "ComidaSaludable", "Bienestar", "Influencer", "Vlogs", "Streaming", "Tendencias", "Memes", 
+    "CulturaPop", "Voluntariado", "Mentoría", "Colaboración", "RedesProfesionales", "Comunidad"
+];
+
 
 export default SecondStep;

@@ -1,16 +1,16 @@
 import Styles from './PropertyManager.module.css';
 import { useState } from 'react';
-import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
 import Layout from '../Layout';
 import HouseEditor from '../../Components/HouseEditor';
 import RoomEditor from '../../Components/RoomEditor';
 import PropertyOverview from '../../Components/PropertyOverview';
 import RoomOverview from '../../Components/RoomOverview';
-import PropertyCard from './Components/PropertyCard';
+import DashboardSidebar from './Components/DashboardSidebar';
+import PropertyManagerPanel from './Components/PropertyManagerPanel';
 
 const PropertyManager = () => {
-  const [isHouseEditorOpen, setIsHouseEditorOpen] = useState(false);
+  const [isHouseEditorOpen, setIsHouseEditorOpen] = useState(true);
   const [isRoomEditorOpen, setIsRoomEditorOpen] = useState(false);
   const [isPropertyOverviewOpen, setIsPropertyOverviewOpen] = useState(false);
   const [isRoomOverviewOpen, setIsRoomOverviewOpen] = useState(false);
@@ -18,7 +18,6 @@ const PropertyManager = () => {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [selectedHouse, setSelectedHouse] = useState(null);
   const [selectedProperty, setSelectedProperty] = useState(null);
-
 
   const [propertys, setPropertys] = useState([
     {
@@ -254,6 +253,11 @@ const [pendingRooms, setPendingRooms] = useState([
           setPendingRooms={setPendingRooms}
           setSelectedRoom={setSelectedRoom}
           setIsRoomOverviewOpen={setIsRoomOverviewOpen}
+          openHouseEditor={(house) => {
+            setSelectedHouse(house.id_home || null);
+            setIsHouseEditorOpen(true);
+          }}
+          setSelectedHouse={setSelectedHouse}
         />
       </article>
 
@@ -261,6 +265,7 @@ const [pendingRooms, setPendingRooms] = useState([
 
       {isHouseEditorOpen && (
         <HouseEditor
+          property={propertys.find(prop => prop.id_home === selectedHouse)}
           closeModal={() => setIsHouseEditorOpen(false)}
           openRoomEditor={(room) => {
             setSelectedRoom(room || null);
@@ -308,205 +313,7 @@ const [pendingRooms, setPendingRooms] = useState([
 };
 
 
-const DashboardSidebar = ({pendingRooms}) => {
-  const [activeButton, setActiveButton] = useState('Estadisticas');
 
-  const occupiedCount = pendingRooms.filter(r => r.room_ocupied === 1).length;
-  const availableCount = pendingRooms.filter(r => r.room_ocupied === 0).length;
-  const deactivatedCount = pendingRooms.filter(r => r.room_ocupied === 2).length;
 
-  const data = [
-    { name: 'Disponibles', value: availableCount },
-    { name: 'Ocupadas', value: occupiedCount },
-    { name: 'Desactivadas', value: deactivatedCount },
-  ];
-
-  const COLORS = ['#CBA18A', '#4A617F', '#E5DCD0'];
-
-  return (
-    <section className={Styles['dashboard-sidebar']}>
-      <h2 className={Styles['property-manager__title']}>{activeButton}</h2>
-
-      <div className={Styles['tabs__container']}>
-        <button
-          className={`${Styles['tabs__button']} ${activeButton === 'Estadisticas' ? Styles['tabs__button-active'] : ''}`}
-          onClick={() => setActiveButton('Estadisticas')}
-        >
-          Estadísticas
-        </button>
-
-        <button
-          className={`${Styles['tabs__button']} ${activeButton === 'Huespedes' ? Styles['tabs__button-active'] : ''}`}
-          onClick={() => setActiveButton('Huespedes')}
-        >
-          Huespedes
-        </button>
-
-        <button
-          className={`${Styles['tabs__button']} ${activeButton === 'Solicitudes' ? Styles['tabs__button-active'] : ''}`}
-          onClick={() => setActiveButton('Solicitudes')}
-        >
-          Solicitudes
-        </button>
-      </div>
-
-      {activeButton === 'Estadisticas' && (
-        <>
-          <div className={Styles['statistics__container']}style={{ display: 'flex', alignItems: 'center'}}>
-            
-            {/* Izquierda: leyenda personalizada */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {data.map((item, index) => (
-                <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <div style={{
-                    width: '16px',
-                    height: '16px',
-                    borderRadius: '4px',
-                    backgroundColor: COLORS[index]
-                  }} />
-                  <span className={Styles['']}>{item.name}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Derecha: gráfica de pastel */}
-            <PieChart width={250} height={250}>
-              <Pie
-                data={data}
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                label
-                dataKey="value"
-              >
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </div>
-          <div className={Styles['statistics__logo-container']}>
-                <img 
-                  src="/Graphics/roovel-dog.png" 
-                  alt="" 
-                  draggable="false"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    margin: '0 auto',
-                    opacity: '0.7',
-                    userSelect: 'none',
-                    pointerEvents: 'none',
-                  }}
-                  />
-                  <h1 className={Styles['statistics__logo-title']}>Roovel</h1>
-          </div>
-        </>)}
-    </section>
-    
-  );
-};
-
-const PropertyManagerPanel = ({propertys, setPropertys, setIsHouseEditorOpen, onPropertyCardClick, pendingRooms, setPendingRooms, setSelectedRoom, setIsRoomOverviewOpen}) => {
-
-  const [activeButton, setActiveButton] = useState('Casas');
-  return (
-    <section className={Styles['property-manager-panel']}>
-      <h2 className={Styles['property-manager__title']}>Gestor de propiedades</h2>
-      <div className={Styles['tabs__container']}>
-        <button
-          className={`${Styles['tabs__button']} ${activeButton === 'Casas' ? Styles['tabs__button-active'] : ''}`}
-          onClick={() => setActiveButton('Casas')}
-        >
-          Casas
-        </button>
-
-        <button
-          className={`${Styles['tabs__button']} ${activeButton === 'Habitaciónes' ? Styles['tabs__button-active'] : ''}`}
-          onClick={() => setActiveButton('Habitaciónes')}
-        >
-          Habitaciónes
-        </button>
-
-        <button
-          className={`${Styles['tabs__button']} ${activeButton === 'Disponibles' ? Styles['tabs__button-active'] : ''}`}
-          onClick={() => setActiveButton('Disponibles')}
-        >
-          Disponibles
-        </button>
-
-        <button
-          className={`${Styles['tabs__button']} ${activeButton === 'Ocupadas' ? Styles['tabs__button-active'] : ''}`}
-          onClick={() => setActiveButton('Ocupadas')}
-        >
-          Ocupadas
-        </button>
-
-        <button
-          className={`${Styles['tabs__button']} ${activeButton === 'Desactivadas' ? Styles['tabs__button-active'] : ''}`}
-          onClick={() => setActiveButton('Desactivadas')}
-        >
-          Desactivadas
-        </button>
-      </div>
-
-      <div className={Styles['property-manager__content']}>
-        <div className={Styles['property-manager__content-title']}>
-          <h2 className={Styles['property-manager__title']}>{activeButton}</h2>
-          {activeButton === 'Casas' && (
-            <button
-              className={Styles['property-manager__button-add-property']}
-              onClick={() => setIsHouseEditorOpen(true)}
-            >
-              + Crear Propiedad
-            </button>
-          )}
-        </div>
-
-        {activeButton === 'Casas' ? (
-          propertys.map((property) => (
-            <PropertyCard
-              key={property.id_home}
-              property={property}
-              setProperty={setPropertys}
-              onPropertyCardClick={onPropertyCardClick} 
-            />
-          ))
-        ) : activeButton === 'Habitaciónes' ? (
-          pendingRooms.map((room, index) => (
-            <PropertyCard
-              key={`${room.id_room}-${index}`} // Combina `id_room` con el índice para garantizar unicidad
-              property={room}
-              setProperty={setPendingRooms}
-              onPropertyCardClick={() => {
-                setSelectedRoom(room);
-                console.log('Aver si ahora si hdtpm: ', room)
-                setIsRoomOverviewOpen(true);
-              }}
-            />
-          ))
-        ) : (
-          <div className={Styles['empty-screen']}>
-            <img 
-              src="/Graphics/Icons/empty-screen_icon-dog.png" 
-              alt="" 
-              draggable="false"
-              style={{
-                width: '10rem',
-                margin: '0 auto',
-                opacity: '0.3',
-                userSelect: 'none',
-                pointerEvents: 'none',
-              }}
-            />
-            <p className={Styles['property-manager__message']}>No hay elementos para mostrar.</p>
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
 
 export default PropertyManager;

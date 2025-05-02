@@ -9,6 +9,7 @@
     box-sizing: border-box;
     padding-top: 3vh;
     gap: 1rem;
+    flex-shrink: 0;
 }
 
 .second-step__title {
@@ -20,4 +21,70 @@
     margin-bottom: 0.5rem;
     width: 100%;
     text-align: left;
+}
+
+
+/* Tags ----------------------------------------*/
+
+.second-step__tags-container{
+    box-sizing: border-box;
+    padding-left: 3rem;
+}
+.firstStepTagsContainer {
+    flex-grow: 1;
+    height: 55vh;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    overflow-y: scroll;
+}
+
+.activeTag {
+    margin: 0;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid var(--active-tag-color);
+    background-color: var(--active-tag-color);
+    color: #ffffff;
+    border-radius: 20px;
+    transition: .1s;
+    cursor: pointer;
+}
+
+.activeTag:hover {
+    background-color: #b79381;
+    border: 1px solid #b79381;
+}
+
+.tagFirstStep {
+    margin: 0;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid var(--primary-color);
+    background: none;
+    color: var(--primary-color);
+    border-radius: 20px;
+    transition: .1s;
+    cursor: pointer;
+}
+
+.tagFirstStep:hover {
+    background-color: var(--tag-hover-color);
+    color: var(--primary-color);
+}
+
+.tagFirstStepP {
+    margin: 0;
+}
+
+.tagsTitle {
+    width: 100%;
+    margin: 0;
+    color: var(--primary-color);
+    margin-top: 2.6rem;
+    text-align: center;
 }

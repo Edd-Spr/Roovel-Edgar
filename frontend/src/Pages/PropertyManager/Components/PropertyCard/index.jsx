@@ -1,7 +1,7 @@
 import Styles from './PropertyCard.module.css';
 import { useState, useEffect, useRef } from 'react';
 
-const PropertyCard = ({ property, setProperty, onPropertyCardClick }) => {
+const PropertyCard = ({ property, setProperty, onPropertyCardClick, openHouseEditor }) => {
     const [showMenu, setShowMenu] = useState(false);
     const menuRef = useRef(null);
     const buttonRef = useRef(null);
@@ -73,7 +73,7 @@ const PropertyCard = ({ property, setProperty, onPropertyCardClick }) => {
                         onClick={(e) => e.stopPropagation()}
                     >
                         <ul>
-                            <li>Editar</li>
+                            <li onClick={() => openHouseEditor(property)}>Editar</li> {/* Agregado */}
                             <li>Eliminar</li>
                             <li>Ver detalles</li>
                         </ul>

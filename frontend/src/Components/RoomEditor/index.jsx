@@ -10,49 +10,61 @@ import ThirdStep from './Steps/ThirdStep';
 // -----------------------------------------------------
 
 const RoomEditor = ({ room, closeModal, pendingRooms, setPendingRooms }) => {
+  const isEditing = !!room; // Determina si estás editando o creando
   const [houseEditorProgress, setHouseEditorProgress] = useState(0);
+
   const [images, setImages] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const [imageFile, setImageFile] = useState(null);
-  const [croppedMainImage, setCroppedMainImage] = useState(room?.mainImage[0].image_content || null);
+  const [croppedMainImage, setCroppedMainImage] = useState(room?.mainImage[0]?.image_content || null);
+
+  const [info, setInfo] = useState({
+    name: room?.name || '',
+    propertyType: room?.propertyType || '',
+    price: room?.price || null,
+    address: room?.address || '',
+    description: room?.description || '',
+    tags: room?.tags || [],
+  });
+  const [selectedTags, setSelectedTags] = useState(room?.tags || []);
 
   useEffect(() => {
     if (room?.images && room.images.length > 0) {
-        const imageUrls = room.images.map((image) => image.image_content);
-        setImages(imageUrls);
-        setImageFiles(room.images);
+      const imageUrls = room.images.map((image) => image.image_content);
+      setImages(imageUrls);
+      setImageFiles(room.images);
     }
-}, [room]);
+  }, [room]);
 
-  const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files);
-    const newPreviews = files.map((file) => URL.createObjectURL(file));
+  const handleSave = () => {
+    const newRoom = {
+      ...room, // Si estás editando, conserva los datos existentes
+      name: info.name,
+      propertyType: info.propertyType,
+      price: info.price,
+      address: info.address,
+      description: info.description,
+      tags: selectedTags,
+      mainImage: [{ image_content: croppedMainImage }],
+      images: imageFiles,
+    };
 
-    setImages((prev) => [...prev, ...newPreviews]);
-    setImageFiles((prev) => [...prev, ...files]);
-  };
-
-  const allImageFiles = {
-    images,
-    imageFiles,
-    setImages,
-    setImageFiles,
-    imageFile,
-    setImageFile,
-    croppedMainImage,
-    setCroppedMainImage,
-  };
-
-  const back = () => {
-    if (houseEditorProgress > 0) {
-      setHouseEditorProgress(houseEditorProgress - 1);
+    if (isEditing) {
+      // Actualiza la habitación existente
+      const updatedRooms = pendingRooms.map((r) =>
+        r.id_room === room.id_room ? newRoom : r
+      );
+      setPendingRooms(updatedRooms);
+    } else {
+      // Crea una nueva habitación
+      const newRoomWithId = {
+        ...newRoom,
+        id_room: Date.now(), // Genera un ID único para la nueva habitación
+      };
+      setPendingRooms([...pendingRooms, newRoomWithId]);
     }
-  };
 
-  const next = () => {
-    if (houseEditorProgress < 3) {
-      setHouseEditorProgress(houseEditorProgress + 1);
-    }
+    closeModal(); // Cierra el modal después de guardar
   };
 
   return (
@@ -61,52 +73,36 @@ const RoomEditor = ({ room, closeModal, pendingRooms, setPendingRooms }) => {
 
         {houseEditorProgress === 0 && <StartStep setHouseEditorProgress={setHouseEditorProgress} />}
         {houseEditorProgress === 1 && (
-          <FirstStep allImageFiles={allImageFiles} room={room}>
-            <div className={Styles['image-uploader']}>
-              <label className={Styles['image-label']}>
-                Subir imágenes del cuarto:
-                <input type="file" multiple onChange={handleImageUpload} />
-              </label>
-              <div className={Styles['preview-container']}>
-                {images.map((img, index) => (
-                  <img
-                    key={index}
-                    src={img}
-                    alt={`preview-${index}`}
-                    className={Styles['image-preview']}
-                    draggable="false"
-                  />
-                ))}
-              </div>
-            </div>
-          </FirstStep>
+          <FirstStep allImageFiles={{ images, setImages, imageFiles, setImageFiles, croppedMainImage, setCroppedMainImage }} />
         )}
-        {houseEditorProgress === 2 && <SecondStep />}
-        {houseEditorProgress === 3 && 
-            <ThirdStep
-                setHouseEditorProgress={setHouseEditorProgress}
-                allImageFiles={allImageFiles}
-                setPendingRooms={setPendingRooms}
-                closeModal={closeModal}
-            />}
+        {houseEditorProgress === 2 && (
+          <SecondStep info={info} setInfo={setInfo} selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
+        )}
+        {houseEditorProgress === 3 && (
+          <ThirdStep
+            setHouseEditorProgress={setHouseEditorProgress}
+            allImageFiles={{
+                images,
+                imageFiles,
+                croppedMainImage,
+            }}
+            setPendingRooms={setPendingRooms}
+            closeModal={closeModal}
+            room={room}
+        />
+        )}
 
         {/* Navegación entre pasos */}
         {houseEditorProgress > 0 && (
           <div className={Styles['house-editor__progress']}>
-            <button className={Styles['pogress__button-back']} onClick={back}>Atrás</button>
-            {Array.from({ length: 3 }).map((_, i) => (
-              <p
-                key={i}
-                className={
-                  i < houseEditorProgress
-                    ? Styles['house-editor__progress-circle--active']
-                    : Styles['house-editor__progress-circle']
-                }
-              >
-                {i + 1}
-              </p>
-            ))}
-            {houseEditorProgress < 3 && <button className={Styles['pogress__button-next']} onClick={next}>Siguiente</button>}
+            <button className={Styles['pogress__button-back']} onClick={() => setHouseEditorProgress(houseEditorProgress - 1)}>
+              Atrás
+            </button>
+            {houseEditorProgress < 3 && (
+              <button className={Styles['pogress__button-next']} onClick={() => setHouseEditorProgress(houseEditorProgress + 1)}>
+                Siguiente
+              </button>
+            )}
           </div>
         )}
 

@@ -9,14 +9,14 @@ import SecondStep from './Steps/SecondStep';
 import ThirdStep from './Steps/ThirdStep';
 // -----------------------------------------------------
 
-const RoomEditor = ({ room, closeModal, pendingRooms, setPendingRooms }) => {
-  const isEditing = !!room; // Determina si estás editando o creando
+export default function RoomEditor({ room, closeModal, pendingRooms, setPendingRooms }) {
+  // const isEditing = !!room; // Determina si estás editando o creando
   const [houseEditorProgress, setHouseEditorProgress] = useState(0);
 
   const [images, setImages] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
-  const [imageFile, setImageFile] = useState(null);
-  const [croppedMainImage, setCroppedMainImage] = useState(room?.mainImage[0]?.image_content || null);
+  const [imageFile, setImageFile] = useState();
+  const [croppedMainImage, setCroppedMainImage] = useState();
 
   const [info, setInfo] = useState({
     name: room?.name || '',
@@ -121,5 +121,3 @@ const RoomEditor = ({ room, closeModal, pendingRooms, setPendingRooms }) => {
     </article>
   );
 };
-
-export default RoomEditor;

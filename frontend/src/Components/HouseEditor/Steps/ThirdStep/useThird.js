@@ -39,14 +39,12 @@ export default function useMap( vagueReadableDirection ) {
 
   const eventHandlers = {
     click: (e) => {
-      console.log( e )
       const { lat, lng } = e.latlng;
 
       if (lat === position[0] && lng === position[1]) return;
 
       (async () => {
         const display_name = await getReadableDirection([lat, lng]);
-        console.log( "Display name:", display_name );
         setReadableDirection(display_name);
         setDirTyped(display_name);
         setSearched(true);

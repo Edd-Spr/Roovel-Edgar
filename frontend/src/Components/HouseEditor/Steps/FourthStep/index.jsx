@@ -31,7 +31,7 @@ const FourthStep = ({ openRoomEditor, relatedRooms }) => {
             <section className={Styles['fourth-step__rooms-container']} style={{ gridColumn: '1 / -1', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1vw' }}>
                 <button
                     className={Styles['fourth-step__add-room']}
-                    onClick={() => openRoomEditor()}
+                    onClick={ openRoomEditor }
                 >
                     <img 
                         src="/Graphics/Icons/add-icon_gray.png" 

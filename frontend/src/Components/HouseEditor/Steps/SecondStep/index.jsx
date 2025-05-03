@@ -1,6 +1,5 @@
 import Styles from './SecondStep.module.css';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import InputForm from '../../../InputForm/InputForm.jsx';
 
 const tags = [

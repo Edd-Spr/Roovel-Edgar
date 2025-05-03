@@ -24,12 +24,20 @@ export default function PropertyManager() {
   const [properties, setPropertys] = useState( DUMMY_PROPERTIES );
   const [pendingRooms, setPendingRooms] = useState( DUMMY_PENDING_ROOMS );
 
+  const [createdProperty, setCreatedProperty] = useState(null);
+
   // TODO: Editing house
 
   const handlePropertyCardClick = (property) => {
     setSelectedProperty(property);
     setIsPropertyOverviewOpen(true);
   };
+
+  function handleSaveProperty( jsonProperty ) {
+    const newProperty = JSON.parse(jsonProperty);
+
+    setCreatedProperty(newProperty);
+  }
 
   return (
     <Layout>
@@ -56,16 +64,13 @@ export default function PropertyManager() {
 
       {isHouseEditorOpen && (
         <HouseEditor
-          property={ properties.find(prop => prop.id_home === selectedHouseId) }
           closeModal={() => setIsHouseEditorOpen(false)}
           openRoomEditor={(room) => {
             setSelectedRoom(room || null);
             setIsRoomEditorOpen(true);
           }}
           closeHouseEditor={() => setIsHouseEditorOpen(false)}
-          pendingRooms={ pendingRooms.filter((room) => room.id_home === selectedHouseId) }
-          setPendingRooms={setPendingRooms}
-          setIsPropertyOverviewOpen={setIsPropertyOverviewOpen}
+          onSave={ handleSaveProperty }
         />
       )}
 

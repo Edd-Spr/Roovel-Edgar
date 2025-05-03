@@ -1,10 +1,8 @@
 import Styles from './FifthStep.module.css';
 import { motion } from 'framer-motion';
 
-const ThirdStep = ({ setHouseEditorProgress, allImageFiles, setPendingRooms, closeModal }) => {
-    const handleSave = () => {
-
-    };
+export default function ThirdStep() {
+    const handleSave = () => {};
 
     return (
         <motion.article
@@ -30,5 +28,3 @@ const ThirdStep = ({ setHouseEditorProgress, allImageFiles, setPendingRooms, clo
         </motion.article>
     );
 };
-
-export default ThirdStep;

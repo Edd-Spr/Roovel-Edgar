@@ -8,8 +8,9 @@ const submitMessage = 'Buscar';
 
 import useThird from './useThird';
 
-export default function ThirdStep({ readableLoc, onCoordinatesChange, onSubmit, propertyName }) { 
-  const {position, 
+export default function ThirdStep({ readableLoc, onSubmit, propertyName }) {
+  const {
+    position, 
     readableDirection, 
     dirTyped,
     possiblePlaces,
@@ -24,7 +25,6 @@ export default function ThirdStep({ readableLoc, onCoordinatesChange, onSubmit, 
 
   const onLocalSubmit = (e) => {
     e.preventDefault();
-    console.log( position, readableDirection );
     onSubmit(e, { lat: position[0], lng: position[1], readableLoc: readableDirection });
   }
 

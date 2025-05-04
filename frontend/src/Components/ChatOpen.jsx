@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, act } from 'react';
 import { io } from 'socket.io-client';
 import '../Styles/ChatOpen.css';
 import {MessageBox,MessageBoxGroup} from './MessageBox';
@@ -6,11 +6,13 @@ import {MessageEditor,MessageEditorGroup} from './MessageEditor';
 
 const socket = io('http://localhost:3000');
 
-const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, setActualChat, actualChatType, idGroup}) => {
+const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, actualChat, setActualChat, actualChatType, idGroup}) => {
     const [messageContainerHeight, setMessageContainerHeight] = useState(window.innerHeight * 0.85);
     const [messageList, setMessageList] = useState([]); 
     const [mensajesGrops, setMensajesGrops] = useState([]);
 
+
+    console.log('ChatOpen', idRemitente, user, actualChatType, actualChat);
     useEffect(() => {
         if (!idRemitente || !user) return;
 
@@ -85,13 +87,14 @@ const ChatOpen = ({ chatIsOpen, setChatIsOpen, infoProfile, idRemitente, user, s
                     messageContainerHeight={messageContainerHeight}
                     setMessageContainerHeight={setMessageContainerHeight}
                     messageList={messageList}
+                    actualChat={actualChat}
                 />}
         </section>
     );
 };
 
 
-const ChatContactOpen = ({setChatIsOpen, infoProfile, idRemitente, user, setActualChat, messageContainerHeight, setMessageContainerHeight, messageList }) => {
+const ChatContactOpen = ({setChatIsOpen, infoProfile, idRemitente, user, setActualChat, messageContainerHeight, setMessageContainerHeight, messageList, actualChat }) => {
     return (
         <section className="ChatOpen">
             <ContactBar infoProfile={infoProfile} setChatIsOpen={setChatIsOpen} setActualChat={setActualChat} />
@@ -104,7 +107,10 @@ const ChatContactOpen = ({setChatIsOpen, infoProfile, idRemitente, user, setActu
             <MessageEditor 
                 setMessageContainerHeight={setMessageContainerHeight} 
                 idReciveMessague={idRemitente} 
-                idSentMessage={user} />
+                idSentMessage={user} 
+                actualChat={actualChat}
+            />
+                
         </section>
     )
 }

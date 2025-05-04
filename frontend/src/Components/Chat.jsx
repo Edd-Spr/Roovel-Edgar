@@ -171,6 +171,7 @@ useEffect(() => {
         infoProfile={[...perfiles, ...grupos].find((perfil) => perfil.id === actualChat)}
         idRemitente={remitente}
         user={user}
+        actualChat={actualChat}
         setActualChat={setActualChat}
         actualChatType={actualChatType}
         setActualChatType={setActualChatType}
@@ -316,7 +317,7 @@ const FriendsRequest = ({ friendRequestUsers }) => {
 
 const ToggleChatButton = ({ setBarChatOpen, barChatOpen }) => {
   return (
-    <button className="leftBarButtonAction" onClick={() => setBarChatOpen(!barChatOpen)}>
+    <button className="leftBarButtonAction toggleChatButton" onClick={() => setBarChatOpen(!barChatOpen)}>
       <div className="iconLeftBarContainer">
         <img
           src="/Graphics/Icons/flechas.png"

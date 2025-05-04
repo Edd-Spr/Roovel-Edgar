@@ -21,7 +21,7 @@ const ContactsContainer = ({actualChat, setActualChat, setChatIsOpen, perfiles, 
           minWidth: barChatOpen ? '18rem' : '4rem',
         }}
       >
-        <SearchInput size={barChatOpen ? 20 : 2.2}/>
+        <SearchInput size={barChatOpen ? 20 : 2.2} setBarChatOpen={setBarChatOpen}/>
       </div>
       
       <div className="contactsContainer">

@@ -7,15 +7,19 @@
     padding: 0;
     border: none;
     text-align: left;
-    transition: .3s;
+    transition: width .3s;
 }
 .activeChatBox{
     width: 25vw;
     min-width: 18rem;
 }
-.chatBox:hover{
-    background-color: #9c8f87;
+.selectedChat{
+    background: #988c8345;
 }
+.chatBox:hover{
+    background-color: #9c8f8769;
+}
+
 .photoSectionContainer{
     flex-shrink: 0;
     width: 4rem;

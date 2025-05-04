@@ -252,7 +252,6 @@ const Home = () => {
                image="/Graphics/advertising-image-div.jpeg" 
                position={2}
                color='#CEB6A9'
-               top='-100px'
             />
         </>
     );

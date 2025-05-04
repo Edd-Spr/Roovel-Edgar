@@ -1,7 +1,8 @@
+import { useState, useEffect } from 'react';
 import Styles from './RoomSlider.module.css';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-
+import RoomSliderSkeleton from './RoomSliderSkeleton';
 
 const CustomLeftArrow = ({ onClick }) => (
     <button className={`${Styles["custom-arrow"]} ${Styles["custom-left-arrow"]}`} onClick={onClick}>
@@ -10,7 +11,7 @@ const CustomLeftArrow = ({ onClick }) => (
                 src="/Graphics/Icons/arrow_back.png" 
                 alt="" 
                 draggable="false"
-                style={{ height: '70%' }}
+                style={{ width: '70%', height: '70%', marginLeft: '8px', marginTop: '4px' }}
             />
         </span>
     </button>
@@ -23,13 +24,23 @@ const CustomRightArrow = ({ onClick }) => (
                 src="/Graphics/Icons/arrow_forward.png" 
                 alt="" 
                 draggable="false"
-                style={{ height: '70%' }}
+                style={{ width: '70%', height: '70%', marginTop: '5px' }}
             />
         </span>
     </button>
 );
 
-const RoomSlider = ({roomSliderTitle, rooms}) => {
+const RoomSlider = ({ roomSliderTitle, rooms }) => {
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 4000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
     const responsive = {
         static: {
             breakpoint: { max: 4000, min: 0 },
@@ -41,26 +52,30 @@ const RoomSlider = ({roomSliderTitle, rooms}) => {
         <article className={Styles.roomSliderSectionContainer}>
             <h1 className={Styles.roomSliderTitle}>{roomSliderTitle}</h1>
             <div className={Styles.roomSliderContainer}>
-                <Carousel
-                    responsive={responsive}
-                    customLeftArrow={<CustomLeftArrow />}
-                    customRightArrow={<CustomRightArrow />}
-                >
-                    {rooms.map((room) => <RoomBox key={room.id} room={room} />)}
-                </Carousel>
+                {isLoading ? (
+                    <RoomSliderSkeleton />
+                ) : (
+                    <Carousel
+                        responsive={responsive}
+                        customLeftArrow={<CustomLeftArrow />}
+                        customRightArrow={<CustomRightArrow />}
+                    >
+                        {rooms.map((room) => <RoomBox key={room.id} room={room} />)}
+                    </Carousel>
+                )}
             </div>
         </article>
     );
 };
 
-const RoomBox = ({room}) =>{
+const RoomBox = ({ room }) => {
     return (
         <div className={Styles.roomBox}>
             <div className={Styles.imageContainer}>
                 <img 
                     src={room.image} 
                     alt="" 
-                    style={{height: '100%'}}
+                    style={{ height: '100%' }}
                     draggable="false"
                 />
             </div>
@@ -70,6 +85,6 @@ const RoomBox = ({room}) =>{
             </div>
         </div>
     );
-}
-export default RoomSlider;
+};
 
+export default RoomSlider;

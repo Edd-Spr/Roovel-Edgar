@@ -4,6 +4,8 @@
     border-radius: 100px;
     border: none;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
     box-shadow: 0 0 5px 0px rgb(190, 190, 190);
     background-color: white;
     transition: .3s;
@@ -12,7 +14,7 @@
     width: 90%;
 }
 .searchInput {
-    width: 100%;
+    width: 93%;
     height: 100%;
     border: none;
     outline: none;

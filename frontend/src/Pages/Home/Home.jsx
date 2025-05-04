@@ -376,7 +376,7 @@ const StayFinder = () => {
     const navigate = useNavigate(); // Hook para redirigir
     const [gender, setGender] = useState(0); // 0: Todos, 1: Hombres, 2: Mujeres
     const [pets, setPets] = useState(false); // Booleano para mascotas
-    const [rangeValues, setRangeValues] = useState([17, 60]); // Rango de valores
+    const [rangeValues, setRangeValues] = useState([1000, 16000]); // Rango de valores
     const [address, setAddress] = useState(''); // Dirección ingresada por el usuario
     const [coordinates, setCoordinates] = useState({ lat: null, lon: null }); // Coordenadas
 

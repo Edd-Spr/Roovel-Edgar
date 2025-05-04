@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import ProfileCustomization from '../../Components/ProfileCustomization/ProfileCustomization';
 import axios from 'axios';
 
+
 const Profile = () => {
   const { usrToken, isAuthenticated } = useAuth();
   const [IDUSER, setIDUSER] = useState(0); // Estado para almacenar el ID del usuario

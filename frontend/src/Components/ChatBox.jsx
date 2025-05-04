@@ -14,10 +14,9 @@ const ChatBox = ({image, name, actualChat, setActualChat, setChatIsOpen, infoPro
 
     return (
         <button 
-            className={`chatBox`}
+            className={`chatBox ${actualChat == chatKey && 'selectedChat'}`}
             onClick={() => click()} 
             style={{
-                ...(actualChat == chatKey && { backgroundColor: '#FFFFFF' }),
                 width: barChatOpenComparation ? '25vw' : '4rem',
                 minWidth: barChatOpenComparation ? '18rem' : '4rem',
               }}

@@ -1,0 +1,48 @@
+.roomBoxSkeleton {
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    /* Animación eliminada */
+}
+
+.imageContainerSkeleton {
+    margin: 0;
+    padding: 0;
+    margin-left: 5vw;
+    margin-top: 2vh;
+    margin-bottom: 5vh;
+    background-color: #dcdcdc;
+    border-radius: 8px;
+}
+.roomBoxInfoSkeleton {
+    width: 90vw;
+    height: 40vh;
+    gap: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.roomAddressSkeleton {
+    width: 21.5vw;
+    height: 40vh;
+    border-radius: 5px;
+    animation: pulse 1.5s infinite; /* Solo aquí */
+}
+
+.roomSliderTitle {
+    /* Animación eliminada si ya no debe pulsar */
+}
+
+@keyframes pulse {
+    0% {
+        background-color: #f0f0f0;
+    }
+    50% {
+        background-color: #e0e0e0;
+    }
+    100% {
+        background-color: #f0f0f0;
+    }
+}

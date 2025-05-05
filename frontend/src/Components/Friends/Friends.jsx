@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FiTrash2, FiSlash, FiAlertCircle, FiMoreVertical } from 'react-icons/fi';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import dog from './dog_waiting.jpg';
 import './Friends.css';
 
 const AmigosList = ({ currentUser }) => {
@@ -83,7 +84,13 @@ const AmigosList = ({ currentUser }) => {
     <div className="amigos-container" ref={containerRef}>
       <ul className="amigos-list">
         {amigos.length === 0 ? (
-          <p>No tienes amigos todavía 🥲</p>
+          <article>
+            <h1>Amigos</h1>
+            <div className='sinAmigos'>
+              <img src= {dog} />
+              <span>No tienes amigos todavía</span>
+            </div>
+          </article>
         ) : (
           amigos.map((friend, index) => (
             <li key={friend.id_user} className={`amigos-item ${activeIndex === index ? 'active' : ''}`}>

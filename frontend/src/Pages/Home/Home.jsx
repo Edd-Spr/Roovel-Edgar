@@ -276,7 +276,7 @@ const CAROUSEL_CONTENT = [
         image: '/Graphics/carousel-roommates.jpeg',
         buttonName: 'Roomies',
         buttonContent: 'Explorar',
-        direction: '/map'
+        direction: '/matching'
     },
     // {
     //     id: 3,
@@ -294,7 +294,7 @@ const CAROUSEL_CONTENT = [
         image: '/Graphics/carousel-publi.jpeg',
         buttonName: 'Publicar',
         buttonContent: 'Explorar',
-        direction: '/map'
+        direction: '/propertyManager'
     },
 ];
 

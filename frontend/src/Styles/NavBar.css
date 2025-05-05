@@ -16,6 +16,13 @@
     align-items: center;
    
 }
+.logoContainer{
+    width: 20%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 @font-face {
     font-family: 'Poppins';
     src: url('/Graphics/Fonts/Poppins/Poppins-SemiBold.ttf') format('truetype');
@@ -25,7 +32,7 @@
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 0 30px;
+    padding-left: 30px;
     font-size: 30px;
     font-family: 'Poppins', sans-serif;
 }

@@ -4,7 +4,7 @@ export default function Layout({ children }) {
   return (
     <>
       <NavBar />
-      <main style={{display: 'flex', overflow: 'hidden'}}>
+      <main style={{display: 'flex', flexWrap: 'wrap', overflowX: 'hidden', height: 'auto'}}>
         { children }
       </main>
     </>

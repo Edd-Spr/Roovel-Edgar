@@ -34,7 +34,16 @@ const NavBar = () => {
     return (
         <header className={`barraNav ${Home ? 'barraNavFixed' : ''}`}>
             <Link to='/'>
-                <p className="logoName">Roovel</p>
+                <div className="logoContainer">
+                    <p className="logoName">Roovel</p>
+                    <img
+                        src="ROOVEL-LOGO.png"
+                        alt="Logo"
+                        className="logoImage"
+                        draggable="false"
+                        style={{height: '5VH' }}
+                    />
+                </div>
             </Link>
             <div className="barNavRigthContainer">
                 {navActions.map((action) =>

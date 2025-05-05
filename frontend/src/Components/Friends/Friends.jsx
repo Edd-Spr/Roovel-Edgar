@@ -81,11 +81,25 @@ const AmigosList = ({ currentUser }) => {
 
   return (
     <div className="amigos-container" ref={containerRef}>
-      <ul className="amigos-list">
-        {amigos.length === 0 ? (
-          <p>No tienes amigos todavía 🥲</p>
-        ) : (
-          amigos.map((friend, index) => (
+      {amigos.length === 0 ? (
+        <div className="empty-screen">
+          <img 
+            src="/Graphics/Icons/empty-screen_icon-dog.png" 
+            alt="" 
+            draggable="false"
+            style={{
+              width: '10rem',
+              margin: '0 auto',
+              opacity: '0.3',
+              userSelect: 'none',
+              pointerEvents: 'none',
+            }}
+          />
+          <p className="property-manager__message">No tienes amigos :(</p>
+        </div>
+      ) : (
+        <ul className="amigos-list">
+          {amigos.map((friend, index) => (
             <li key={friend.id_user} className={`amigos-item ${activeIndex === index ? 'active' : ''}`}>
               {activeIndex !== index ? (
                 <div className="amigos-main">
@@ -116,9 +130,9 @@ const AmigosList = ({ currentUser }) => {
                 </div>
               )}
             </li>
-          ))
-        )}
-      </ul>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

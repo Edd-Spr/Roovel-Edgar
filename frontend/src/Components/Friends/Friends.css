@@ -5,11 +5,16 @@
   background: white;
   padding: 4px;
   border-radius: 10px;
+  padding-left: 20px;
 }
 
 .amigos-container > .amigos{
   padding-left: 15px;
 
+}
+
+.amigos-container{
+  font-size: 1.4rem;
 }
 
 .amigos-list {
@@ -33,6 +38,18 @@
   background-color: #3333334e;
   cursor: pointer;
   overflow: visible;
+}
+
+.sinAmigos{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* text-align: center; */
+  width: 100%;
+  height: 100%;
+  font-size: 1.2rem;
+  color: #999;
 }
 
 .amigo-info {

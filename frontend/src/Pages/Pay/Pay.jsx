@@ -1,11 +1,11 @@
 import './Pay.css';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Paypage = () => {
   const { id_room } = useParams();
   // const id_room = 3;
-
   const [room, setRoom] = useState({ room_price: 0, room_description: '' });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -34,11 +34,19 @@ const Paypage = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        alert('Pago confirmado: ' + JSON.stringify(data));
+        Swal.fire({
+          title: '¡Pago confirmado!',
+          text: 'La habitación ha sido marcada como ocupada.',
+          icon: 'success',
+        });
       })
       .catch((err) => {
         console.error('Error al confirmar pago:', err);
-        alert('No se pudo confirmar el pago');
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo confirmar el pago',
+          icon: 'error',
+        });
       });
   };
 

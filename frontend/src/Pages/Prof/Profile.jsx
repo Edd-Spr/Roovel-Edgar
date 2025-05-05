@@ -11,12 +11,12 @@ import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
 import ProfileCustomization from '../../Components/ProfileCustomization/ProfileCustomization';
-import axios from 'axios';
+// import axios from 'axios';
 
 const Profile = () => {
   const { usrToken, isAuthenticated } = useAuth();
-  const [IDUSER, setIDUSER] = useState(0); // Estado para almacenar el ID del usuario
-  const [currentUser, setCurrentUser] = useState(IDUSER); // Estado para sincronizar con IDUSER
+  const [IDUSER, setIDUSER] = useState(0);
+  const [currentUser, setCurrentUser] = useState(IDUSER);
   const [profile, setProfile] = useState({
     user_name: '',
     user_last_name: '',

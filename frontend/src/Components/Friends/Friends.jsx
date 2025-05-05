@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FiTrash2, FiSlash, FiAlertCircle, FiMoreVertical } from 'react-icons/fi';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import dog from './dog_waiting.jpg';
 import './Friends.css';
 
 const AmigosList = ({ currentUser }) => {

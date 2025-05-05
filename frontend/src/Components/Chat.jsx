@@ -4,13 +4,14 @@ import '../Styles/chatsContainer.css';
 import ChatOpen from './ChatOpen.jsx';
 import ChatBox from './ChatBox.jsx';
 import ContactsContainer from './ContactsContainer.jsx';
-import { getPorfiles, getGroups } from '../templade/callback_chat_messges.js';
+import { getPorfiles, getGroups , getFriendsRequest} from '../templade/callback_chat_messges.js';
 
 import FriendRequestBox from './FriendRequestBox/index.jsx';
 
 import { useAuth } from '../hooks/auth/index.jsx';
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+
 
 
 const Chat = () =>{
@@ -60,35 +61,25 @@ const Chat = () =>{
   const [activeSection, setActiveSection] = useState('chats');
   const [perfiles, setPerfiles2] = useState([]); 
   const [grupos, setGrupos] = useState([]); // Estado para almacenar los grupos
+  const [friendRequestUsers, setFriendRequest] = useState([]); // Estado para almacenar las solicitudes de amistad
 
 
-  const friendRequestUsers = [
-    {
-      id: 1,
-      username: 'Benito Camelo',
-      age: 22,
-      gender: 'Hombre',
-      image: '/PhotoProfiles/imagen1.jpeg',
-    },
-    {
-      id: 2,
-      username: 'Irma Mando',
-      age: 24,
-      gender: 'Mujer',
-      image: '/PhotoProfiles/imagen2.jpeg',
-    },
-    {
-      id: 3,
-      username: 'Debora Melo',
-      age: 19,
-      gender: 'No Binario',
-      image: '/PhotoProfiles/imagen3.jpeg',
-    }
-  ]
-  /*
 
+  useEffect(() => {
+    const fetchFriendRequests = async () => {
+        try {
+            if (user !== 0) { // Verifica que `user` no sea 0
+                const friendRequests = await getFriendsRequest(user);
+                setFriendRequest(friendRequests); 
+            }
+        } catch (error) {
+            console.error('Error al obtener las solicitudes de amistad:', error);
+        }
+    };
+    fetchFriendRequests();
+}, [user]);
 
-   */
+  console.log('friendRequestUsers',friendRequestUsers)
 
 
   useEffect(() => {
@@ -287,10 +278,10 @@ const LeftBarChat = ({
 const FriendsRequest = ({ friendRequestUsers }) => {
   return (
     <div className="friendsRequestContainer">
-      {friendRequestUsers?.length > 0 ? (
+      {friendRequestUsers.length > 0 ? (
         <>
           <h1 className="friendsRequestContainer__title">Solicitudes</h1>
-          {friendRequestUsers.map(user => (
+          {friendRequestUsers?.map(user => (
             <FriendRequestBox key={user.id} user={user} />
           ))}
         </>

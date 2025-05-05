@@ -180,7 +180,7 @@ useEffect(() => {
         </article>
 
         <article className={prof.right}>
-          <AmigosList currentUser={8}/>
+          <AmigosList currentUser={currentUser}/>
         </article>
       </div>
     </div>

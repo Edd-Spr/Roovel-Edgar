@@ -8,8 +8,7 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { useAuth } from '../../hooks/auth';
-
-import { apiRequest } from '../../utils/api';
+import { fromURLtoB64, apiRequest } from '../../utils';
 import { API_URL_AUTH } from '../../env';
 
 const Authentication = () => {
@@ -153,6 +152,19 @@ const Authentication = () => {
     const lookingForDescription = e.target.form[4].value
     const description = e.target.form[5].value
 
+    if ( fullName === '' || birthdate === '' || lookingForDescription === '' || description === '' ) {
+      alert('Por favor completa todos los campos')
+      return
+    }
+    if ( imageFile === '' ) {
+      alert('Por favor selecciona una imagen de perfil')
+      return
+    }
+    if ( selectedTags.length === 0 ) {
+      alert('Por favor selecciona al menos una etiqueta')
+      return
+    }
+
     setFullName(fullName)
     setBirthdate(birthdate)
     setTags(selectedTags)
@@ -171,27 +183,6 @@ const Authentication = () => {
 
   function onSecondPersoSubmit( option ) {
     setIsProfilePrivate( option === 2 )
-  }
-
-  function fromURLtoB64( url ) {
-    const fetchAndConvert = async () => {
-      const response = await fetch( url );
-      const blob = await response.blob();
-      const reader = new FileReader();
-      reader.readAsDataURL( blob );
-
-      return new Promise( ( resolve ) => {
-        reader.onloadend = () => {
-          resolve( reader.result );
-        };
-        reader.onerror = ( error ) => {
-          console.error( 'Error converting URL to base64:', error );
-          resolve( null );
-        }
-      });
-    }
-
-    return fetchAndConvert()
   }
 
   async function onRegisterUser() {

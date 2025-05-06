@@ -1,7 +1,7 @@
 import Styles from './StartStep.module.css';
 import { motion } from 'framer-motion';
 
-const StartStep = ({setHouseEditorProgress}) => { 
+const StartStep = ({setHouseEditorProgress, onClose }) => { 
 
     return (
         <motion.article
@@ -31,7 +31,7 @@ const StartStep = ({setHouseEditorProgress}) => {
                 <button 
                     onClick={() => setHouseEditorProgress(1)}
                     className={ Styles['start-Step__button-1'] }> Comenzar </button>
-                <button className={ Styles['start-Step__button-2'] }>Cancelar</button>
+                <button className={ Styles['start-Step__button-2'] } onClick={ onClose }>Cancelar</button>
             </div>
     </motion.article>
     )

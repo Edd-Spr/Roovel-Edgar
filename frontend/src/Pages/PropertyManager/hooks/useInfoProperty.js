@@ -31,6 +31,14 @@ export default function useInfoProperty() {
             prev.includes(tagValue) ? prev.filter((n) => n !== tagValue) : [...prev, tagValue]
         );
     }
+
+    function resetHook() {
+        setPropertyName('');
+        setPropertyType('');
+        setPropertyPrice('');
+        setPropertyDescription('');
+        setPropertyTags([]);
+    }
     
     return {
         propertyName,
@@ -42,6 +50,7 @@ export default function useInfoProperty() {
         handlePropertyTypeChange,
         handlePropertyPriceChange,
         handlePropertyDescriptionChange,
-        handleTagsChange
+        handleTagsChange,
+        resetHook
     }
 }

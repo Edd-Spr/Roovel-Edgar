@@ -13,7 +13,7 @@ import useMainImages from '../../Pages/PropertyManager/hooks/useMainImages';
 import useInfoProperty from '../../Pages/PropertyManager/hooks/useInfoProperty';
 import useLocation from '../../Pages/PropertyManager/hooks/useLocation';
 
-export default function HouseEditor({ openRoomEditor, relatedRooms, closeHouseEditor, onSave }) {
+export default function HouseEditor({ openRoomEditor, relatedRooms, closeHouseEditor, onSave, onRoomDelete, onSubmit }) {
     const [houseEditorProgress, setHouseEditorProgress] = useState(0);
 
     const {
@@ -52,12 +52,11 @@ export default function HouseEditor({ openRoomEditor, relatedRooms, closeHouseEd
     
     const {
         propertyLocation,
+        propertyCoordinates,
         setPropertyLocation,
         setPropertyCoordinates,
         handlePropertyLocationChange
     } = useLocation();
-
-    const [temporaryRooms, setTemporaryRooms] = useState([]);
 
     function backStep() {
         if (houseEditorProgress > 0)
@@ -66,6 +65,14 @@ export default function HouseEditor({ openRoomEditor, relatedRooms, closeHouseEd
 
     function nextStep() {
         const increment = () => setHouseEditorProgress(houseEditorProgress + 1);
+
+        // to pre load the data and make it available for room editor
+        if ( houseEditorProgress === 3 ) {
+            //before opening the room editor
+            const propertyData = convertPropertyToJSON();
+            onSave(propertyData);
+            increment();
+        }
 
         if ( houseEditorProgress === 4) { 
             const propertyData = convertPropertyToJSON();
@@ -77,6 +84,7 @@ export default function HouseEditor({ openRoomEditor, relatedRooms, closeHouseEd
             increment();
     };
 
+    // TODO: implement error assertion to check if there are no null values
     function convertPropertyToJSON() {
         const propertyData = {
             name: propertyName,
@@ -84,11 +92,10 @@ export default function HouseEditor({ openRoomEditor, relatedRooms, closeHouseEd
             price: propertyPrice,
             description: propertyDescription,
             tags: propertyTags,
-            location: propertyLocation,
+            location: propertyCoordinates,
             images: [ mainImage, ...images ],// the main image is the first one
         };
-
-        return JSON.stringify(propertyData);
+        return propertyData;
     }
 
     function onMapSubmit(e, data) {
@@ -152,11 +159,12 @@ export default function HouseEditor({ openRoomEditor, relatedRooms, closeHouseEd
                 {houseEditorProgress === 3 && <ThirdStep readableLoc={ propertyLocation } propertyName={ propertyName } onSubmit={ onMapSubmit } />}
                 {houseEditorProgress === 4 && (
                     <FourthStep
+                        onDelete={ onRoomDelete }
                         openRoomEditor={openRoomEditor}
-                        relatedRooms={relatedRooms}
+                        rooms={relatedRooms}
                     />
                 )}
-                {houseEditorProgress === 5 && <FifthStep />}
+                {houseEditorProgress === 5 && <FifthStep onSubmit={ onSubmit } />}
 
                 {houseEditorProgress > 0 && (
                     <div className={Styles['house-editor__progress']}>

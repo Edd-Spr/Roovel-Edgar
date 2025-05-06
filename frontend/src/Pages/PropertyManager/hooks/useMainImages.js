@@ -105,6 +105,18 @@ export default function useMainImages() {
 
     }, [ croppedMainImage ]);
 
+    function resetHook() {
+        setImages([]);
+        setMainImage(null);
+        setErrorMessage("");
+        setImageFiles([]);
+        setImageFile(null);
+        setCroppedMainImage(null);
+        setCroppingImage(null);
+        setOriginalFile(null);
+        setNewImageUrl(false);
+    }
+
     return {
         images,
         mainImage,
@@ -123,6 +135,7 @@ export default function useMainImages() {
         imageFile,
         setImageFile,
         originalFile,
-        setOriginalFile
+        setOriginalFile,
+        resetHook,
   }
 }

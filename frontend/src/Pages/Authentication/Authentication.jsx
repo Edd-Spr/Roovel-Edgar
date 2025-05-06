@@ -152,6 +152,19 @@ const Authentication = () => {
     const lookingForDescription = e.target.form[4].value
     const description = e.target.form[5].value
 
+    if ( fullName === '' || birthdate === '' || lookingForDescription === '' || description === '' ) {
+      alert('Por favor completa todos los campos')
+      return
+    }
+    if ( imageFile === '' ) {
+      alert('Por favor selecciona una imagen de perfil')
+      return
+    }
+    if ( selectedTags.length === 0 ) {
+      alert('Por favor selecciona al menos una etiqueta')
+      return
+    }
+
     setFullName(fullName)
     setBirthdate(birthdate)
     setTags(selectedTags)

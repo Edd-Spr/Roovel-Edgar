@@ -2,7 +2,7 @@ import Styles from './FourthStep.module.css';
 import { motion } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
 
-const FourthStep = ({ openRoomEditor, relatedRooms }) => {
+const FourthStep = ({ openRoomEditor, rooms, onDelete }) => {
     return (
         <motion.article
             style={{
@@ -43,11 +43,12 @@ const FourthStep = ({ openRoomEditor, relatedRooms }) => {
                     />
                 </button>
 
-                {relatedRooms?.map((room, index) => (
+                {rooms?.map((room, index) => (
                     <RoomCard
                         key={room.id_room} 
                         room={room}
-                        onClick={() => openRoomEditor(room)} 
+                        onClick={() => openRoomEditor(room)}
+                        onDelete={ () => onDelete( index ) }
                     />
                 ))}
             </section>
@@ -72,8 +73,8 @@ const RoomCard = ({ room, onClick, onEdit, onDelete }) => {
     return (
             <div className={Styles['fourth-step__room']}>
                 <img
-                    src={room.mainImage[0].image_content || '/placeholder-room.jpg'}
-                    alt={room.name}
+                    src={room?.images[0] || '/placeholder-room.jpg'}
+                    alt={room?.name}
                     className={Styles['fourth-step__room-image']}
                 />
 
@@ -96,7 +97,7 @@ const RoomCard = ({ room, onClick, onEdit, onDelete }) => {
                                 className={Styles['fourth-step__menu-item']}
                                 onClick={() => {
                                     setMenuOpen(false);
-                                    onDelete(room);
+                                    onDelete();
                                 }}
                             >
                                 Eliminar

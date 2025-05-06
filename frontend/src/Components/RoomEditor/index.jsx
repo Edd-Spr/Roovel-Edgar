@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
 import Styles from './RoomEditor.module.css';
 
 //Steps ------------------------------------------------
@@ -9,63 +8,13 @@ import SecondStep from './Steps/SecondStep';
 import ThirdStep from './Steps/ThirdStep';
 // -----------------------------------------------------
 
-export default function RoomEditor({ room, closeModal, pendingRooms, setPendingRooms }) {
-  // const isEditing = !!room; // Determina si estás editando o creando
+export default function RoomEditor({ firstStepValues, firstStepHandlers, secondStepValues, secondStepHandlers, closeModal, onSubmit }) {
   const [houseEditorProgress, setHouseEditorProgress] = useState(0);
 
-  const [images, setImages] = useState([]);
-  const [imageFiles, setImageFiles] = useState([]);
-  const [imageFile, setImageFile] = useState();
-  const [croppedMainImage, setCroppedMainImage] = useState();
-
-  const [info, setInfo] = useState({
-    name: room?.name || '',
-    propertyType: room?.propertyType || '',
-    price: room?.price || null,
-    address: room?.address || '',
-    description: room?.description || '',
-    tags: room?.tags || [],
-  });
-  const [selectedTags, setSelectedTags] = useState(room?.tags || []);
-
-  useEffect(() => {
-    if (room?.images && room.images.length > 0) {
-      const imageUrls = room.images.map((image) => image.image_content);
-      setImages(imageUrls);
-      setImageFiles(room.images);
-    }
-  }, [room]);
-
-  const handleSave = () => {
-    const newRoom = {
-      ...room, // Si estás editando, conserva los datos existentes
-      name: info.name,
-      propertyType: info.propertyType,
-      price: info.price,
-      address: info.address,
-      description: info.description,
-      tags: selectedTags,
-      mainImage: [{ image_content: croppedMainImage }],
-      images: imageFiles,
-    };
-
-    if (isEditing) {
-      // Actualiza la habitación existente
-      const updatedRooms = pendingRooms.map((r) =>
-        r.id_room === room.id_room ? newRoom : r
-      );
-      setPendingRooms(updatedRooms);
-    } else {
-      // Crea una nueva habitación
-      const newRoomWithId = {
-        ...newRoom,
-        id_room: Date.now(), // Genera un ID único para la nueva habitación
-      };
-      setPendingRooms([...pendingRooms, newRoomWithId]);
-    }
-
-    closeModal(); // Cierra el modal después de guardar
-  };
+  const onDecoratedSubmit = () => {
+    closeModal();
+    onSubmit();
+  }
 
   return (
     <article className={Styles['house-editor__overlay']}>
@@ -73,23 +22,13 @@ export default function RoomEditor({ room, closeModal, pendingRooms, setPendingR
 
         {houseEditorProgress === 0 && <StartStep setHouseEditorProgress={setHouseEditorProgress} />}
         {houseEditorProgress === 1 && (
-          <FirstStep allImageFiles={{ images, setImages, imageFiles, setImageFiles, croppedMainImage, setCroppedMainImage }} />
+          <FirstStep values={ firstStepValues } handlers={ firstStepHandlers } />
         )}
         {houseEditorProgress === 2 && (
-          <SecondStep info={info} setInfo={setInfo} selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
+          <SecondStep values={ secondStepValues } handlers={ secondStepHandlers } />
         )}
         {houseEditorProgress === 3 && (
-          <ThirdStep
-            setHouseEditorProgress={setHouseEditorProgress}
-            allImageFiles={{
-                images,
-                imageFiles,
-                croppedMainImage,
-            }}
-            setPendingRooms={setPendingRooms}
-            closeModal={closeModal}
-            room={room}
-        />
+          <ThirdStep onSubmit={ onDecoratedSubmit } />
         )}
 
         {/* Navegación entre pasos */}

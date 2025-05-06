@@ -52,3 +52,13 @@ export const PostFriendRquest = async(idUser, idUserRequest)=>{
         
     }
 }
+export const getFriendsRequest = async(actualuser)=>{
+    try {
+         const url =  `http://localhost:3000/api/friendsRequest?idUser=${actualuser}`
+         const response = await ClientPligin_friends.get(url)
+         return response
+    } catch (error) {
+        return 'user not found'
+        
+    }
+}

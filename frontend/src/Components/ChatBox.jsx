@@ -41,7 +41,7 @@ const ProfilePhoto = ({image, barChatOpen}) => {
         <div className="photoSectionContainer">
             <div className="photoContainer">
                 <img 
-                    src = {`/PhotoProfiles/${image}`} 
+                    src = {`http://localhost:3000/${image}`} 
                     alt="" 
                     className='photoProfile'
                     draggable={false}

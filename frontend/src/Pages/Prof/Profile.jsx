@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import ProfileCustomization from '../../Components/ProfileCustomization/ProfileCustomization';
 // import axios from 'axios';
 
+
 const Profile = () => {
   const { usrToken, isAuthenticated } = useAuth();
   const [IDUSER, setIDUSER] = useState(0);
@@ -179,7 +180,7 @@ useEffect(() => {
         </article>
 
         <article className={prof.right}>
-          <AmigosList currentUser={8}/>
+          <AmigosList currentUser={currentUser}/>
         </article>
       </div>
     </div>

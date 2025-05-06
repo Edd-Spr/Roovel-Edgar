@@ -145,7 +145,7 @@ function ContactBar({ infoProfile, setChatIsOpen, setActualChat }) {
     return (
         <div className="contactBar">
             <div className="contactBarPhotoContainer">
-                <img src={`/PhotoProfiles/${infoProfile?.imagen}`} alt="" className="contactBarPhoto" draggable="false" />
+                <img src={`http://localhost:3000/${infoProfile?.imagen}`} alt="" className="contactBarPhoto" draggable="false" />
             </div>
 
             <p className="profileName">{infoProfile?.nombre}</p>

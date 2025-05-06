@@ -36,10 +36,10 @@ const FilterButton = ({ valueInput, setValueInput, options, radius, height, butt
         );
     }
     function MultiRange() {
-        const [tempRangeValues, setTempRangeValues] = useState([17, 60]);
+        const [tempRangeValues, setTempRangeValues] = useState([1000, 16000]);
         const [isActive, setIsActive] = useState(false);
-        const MIN = 17;
-        const MAX = 60;
+        const MIN = 1000;
+        const MAX = 16000;
 
         const activeButton = {
             backgroundColor: '#B2C9CE',
@@ -63,7 +63,7 @@ const FilterButton = ({ valueInput, setValueInput, options, radius, height, butt
       
             <div className={Styles.inputButtonContainer}>
               <div className={`${Styles.modalRange} ${!isActive ? Styles.hideOverlay : ""}`} style={modalPlace >= 1 ? {bottom: '-12.5rem'} : {top: '-12.5rem'}}>
-                <h1>Establecer rango de edad</h1>
+                <h1>Establecer rango de precios</h1>
                 <p>{`${tempRangeValues[0]} - ${tempRangeValues[1]}`}</p>
       
                 <Slider
@@ -109,7 +109,7 @@ const FilterButton = ({ valueInput, setValueInput, options, radius, height, butt
                     ...(rangeValues[0] !== MIN || rangeValues[1] !== MAX ? activeButton : {})
                   }}
                 >
-                {rangeValues[0]==MIN && rangeValues[1] == MAX ? 'Todas las Edades' : `${rangeValues[0]} - ${rangeValues[1]} años`}
+                {rangeValues[0]==MIN && rangeValues[1] == MAX ? 'Todos los precios' : `${rangeValues[0]} - ${rangeValues[1]} MXN`}
               </button>
             </div>
           </>

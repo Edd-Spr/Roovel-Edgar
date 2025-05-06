@@ -7,7 +7,7 @@
 }
 
 .house-editor__close{
-
+    z-index: 10;
     width: 2rem;
     height: 2rem;
     background-color: var(--hause-editor-terracotta);

@@ -9,15 +9,26 @@ import ThirdStep from './Steps/ThirdStep';
 import FourthStep from './Steps/FourthStep';
 import FifthStep from './Steps/FifthStep';
 
-const HouseEditor = ({ property, openRoomEditor, pendingRooms, setPendingRooms, closeHouseEditor }) => {
+const HouseEditor = ({ property, openRoomEditor, relatedRooms, setPendingRooms, closeHouseEditor }) => {
     const [houseEditorProgress, setHouseEditorProgress] = useState(0);
 
+    // serialized cropped images
     const [images, setImages] = useState([]);
-    const [imageFiles, setImageFiles] = useState([]);
-    const [imageFile, setImageFile] = useState(null);
-    const [croppedMainImage, setCroppedMainImage] = useState(null);
+    const [mainImage, setMainImage] = useState();
 
-    const relatedRooms = pendingRooms.filter((room) => room.id_home === property?.id_home);
+    // second step
+    const [propertyName, setPropertyName] = useState('');
+    const [propertyType, setPropertyType] = useState('');
+    const [propertyPrice, setPropertyPrice] = useState('');
+    const [propertyLocation, setPropertyLocation] = useState('');
+    const [propertyDescription, setPropertyDescription] = useState('');
+    const [propertyTags, setPropertyTags] = useState([]);
+
+    // third step
+    const [ propertyCoordinates, setPropertyCoordinates ] = useState({
+        lat: null,
+        lng: null
+    });
 
     const [temporaryRooms, setTemporaryRooms] = useState([]);
 
@@ -29,70 +40,109 @@ const HouseEditor = ({ property, openRoomEditor, pendingRooms, setPendingRooms, 
         if (isEditing) {
             // Si estás editando, carga los datos de la propiedad en los estados
             setImages(property.images || []);
-            setImageFiles(property.images || []);
-            setCroppedMainImage(property.mainImage?.[0]?.image_content || null);
             setTemporaryRooms(relatedRooms || []);
         } else {
             // Si estás creando, inicializa los estados vacíos
             setImages([]);
-            setImageFiles([]);
-            setCroppedMainImage(null);
             setTemporaryRooms([]);
         }
     }, [property, isEditing, relatedRooms]);
 
     const allImageFiles = {
         images,
-        imageFiles,
         setImages,
-        setImageFiles,
-        imageFile,
-        setImageFile,
-        croppedMainImage,
-        setCroppedMainImage,
+        mainImage,
+        setMainImage
     };
 
-    const back = () => {
-        if (houseEditorProgress > 0) {
+    function backStep() {
+        if (houseEditorProgress > 0)
             setHouseEditorProgress(houseEditorProgress - 1);
-        }
     };
 
-    const next = () => {
-        if (houseEditorProgress < 5) {
+    function nextStep() {
+        if (houseEditorProgress < 5) 
             setHouseEditorProgress(houseEditorProgress + 1);
-        }
     };
+
+    function handlePropertyNameChange(e) {
+        setPropertyName(e.target.value);
+    }
+
+    function handlePropertyTypeChange(e) {
+        setPropertyType(e.target.value);
+    }
+
+    function handlePropertyPriceChange(e) {
+        setPropertyPrice(e.target.value);
+    }
+
+    function handlePropertyLocationChange(e) {
+        setPropertyLocation(e.target.value);
+    }
+
+    function handlePropertyDescriptionChange(e) {
+        setPropertyDescription(e.target.value);
+    }
+
+    function handleTagsChange(e) {
+        e.preventDefault();
+        const tagValue = e.target.value;
+
+        setPropertyTags((prev) =>
+            prev.includes(tagValue) ? prev.filter((n) => n !== tagValue) : [...prev, tagValue]
+        );
+    }
+
+    function handleCoordinatesChange(coordinates, readableLoc) {
+        setPropertyCoordinates( coordinates );
+        setPropertyLocation( readableLoc );
+    }
+
+    function onMapSubmit(e, data) {
+        e.preventDefault();
+        const { lat, lng, readableLoc } = data;
+        setPropertyCoordinates({ lat, lng });
+        setPropertyLocation( readableLoc );
+        setHouseEditorProgress(houseEditorProgress + 1);
+    }
+
+    const secondStepValues = {
+        propertyName,
+        propertyType,
+        propertyPrice,
+        propertyLocation,
+        propertyDescription,
+        propertyTags
+    }
+
+    const secondStepEHandlers = {
+        handlePropertyNameChange,
+        handlePropertyTypeChange,
+        handlePropertyPriceChange,
+        handlePropertyLocationChange,
+        handlePropertyDescriptionChange,
+        handleTagsChange
+    }
 
     return (
         <article className={Styles['house-editor__overlay']}>
             <section className={Styles['house-editor__card-container']}>
                 {houseEditorProgress === 0 && <StartStep setHouseEditorProgress={setHouseEditorProgress} />}
                 {houseEditorProgress === 1 && <FirstStep allImageFiles={allImageFiles} />}
-                {houseEditorProgress === 2 && <SecondStep />}
-                {houseEditorProgress === 3 && <ThirdStep />}
+                {houseEditorProgress === 2 && <SecondStep values={ secondStepValues } eventHandlers={ secondStepEHandlers } />}
+                {houseEditorProgress === 3 && <ThirdStep readableLoc={ propertyLocation } propertyName={ propertyName } onCoordinatesChange={ handleCoordinatesChange } onSubmit={ onMapSubmit } />}
                 {houseEditorProgress === 4 && (
                     <FourthStep
-                        setPendingRooms={setPendingRooms}
-                        setHouseEditorProgress={setHouseEditorProgress}
                         openRoomEditor={openRoomEditor}
                         relatedRooms={relatedRooms}
-                        setTemporaryRooms={setTemporaryRooms}
-                        images={images}
-                        setImages={setImages}
-                        imageFiles={imageFiles}
-                        setImageFiles={setImageFiles}
-                        imageFile={imageFile}
-                        setImageFile={setImageFile}
-                        croppedMainImage={croppedMainImage}
-                        setCroppedMainImage={setCroppedMainImage}
                     />
                 )}
                 {houseEditorProgress === 5 && <FifthStep />}
 
                 {houseEditorProgress > 0 && (
                     <div className={Styles['house-editor__progress']}>
-                        <button className={Styles['pogress__button-back']} onClick={back}>
+                        <button className={Styles['pogress__button-back']} onClick={backStep}>
                             Atrás
                         </button>
                         {Array.from({ length: 5 }).map((_, i) => (
@@ -108,7 +158,7 @@ const HouseEditor = ({ property, openRoomEditor, pendingRooms, setPendingRooms, 
                             </p>
                         ))}
                         {houseEditorProgress < 5 && 
-                        <button className={Styles['pogress__button-next']} onClick={next}>
+                        <button className={Styles['pogress__button-next']} onClick={nextStep}>
                             Siguiente
                         </button>}
                     </div>

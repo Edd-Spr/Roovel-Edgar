@@ -1,25 +1,25 @@
 import Styles from './FirstStep.module.css';
 import { motion } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { fromURLtoB64 } from '../../../../utils';
 import ImageCropperRectangleHorizontal from '../../../ImageCropper/ImageCropperRectangleHorizontal';
 import ImageCropperRect from '../../../ImageCropper/ImageCropperRectH';
 
 const FirstStep = ({ allImageFiles }) => {
     const fileInputRef = useRef(null);
     const [errorMessage, setErrorMessage] = useState("");
-    const { images, 
-            imageFiles, 
-            setImages, 
-            setImageFiles, 
-            imageFile, 
-            setImageFile, 
-            croppedMainImage, 
-            setCroppedMainImage
-          } = allImageFiles;
+    const { images,
+            setImages,
+            mainImage,
+            setMainImage,
+        } = allImageFiles;
 
+    const [imageFiles, setImageFiles] = useState([]);
+    const [imageFile, setImageFile] = useState(null);
+    const [croppedMainImage, setCroppedMainImage] = useState(null);
     const [croppingImage, setCroppingImage] = useState(null);
     const [originalFile, setOriginalFile] = useState(null);
-
+    const [newImageUrl, setNewImageUrl] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Maneja el clic para abrir el input de archivo
@@ -39,9 +39,7 @@ const FirstStep = ({ allImageFiles }) => {
 
     // Maneja el cambio de archivo para imágenes adicionales
     const handleImageChange = (e) => {
-        const files = Array.from(e.target.files);
-        const newFile = files[0];
-
+        const newFile = Array.from(e.target.files)[0];
         if (!newFile) return;
 
         const isDuplicate = imageFiles.some((existingFile) => existingFile.name === newFile.name);
@@ -68,6 +66,7 @@ const FirstStep = ({ allImageFiles }) => {
 
         setCroppingImage(null);
         setOriginalFile(null);
+        setNewImageUrl(true);
     };
 
     // Maneja la cancelación del recorte
@@ -81,6 +80,37 @@ const FirstStep = ({ allImageFiles }) => {
         setImages((prev) => prev.filter((_, i) => i !== index));
         setImageFiles((prev) => prev.filter((_, i) => i !== index));
     };
+
+    // if it's been added a new image, convert it to base64
+    useEffect(() => {
+        const convertToBase64 = async () => {
+            if (!images?.length) return;
+    
+            const converted = await Promise.all(
+                images.map(async (file) => {
+                    if (typeof file === 'string' && !file.startsWith('blob:')) return file;
+                    if (typeof file === 'string' && file.startsWith('blob:')) return await fromURLtoB64(file);
+                })
+            );
+    
+            setImages(converted);
+            setNewImageUrl(false);
+        };
+    
+        if (newImageUrl) convertToBase64();
+    }, [ newImageUrl ] );
+
+    // if was added a new image, convert it to base64
+    useEffect(() => {
+        const convertToBase64 = async () => {
+            const converted = await fromURLtoB64(croppedMainImage);
+            setMainImage(converted);
+        };
+        
+        if (croppedMainImage) convertToBase64();
+        setCroppedMainImage();
+
+    }, [ croppedMainImage ]);
 
     return (
         <motion.article
@@ -133,13 +163,13 @@ const FirstStep = ({ allImageFiles }) => {
                         onChange={handleMainFileChange}
                     />
                     <img
-                        src={croppedMainImage || "/Graphics/Icons/camera-icon.png"}
+                        src={ mainImage || "/Graphics/Icons/camera-icon.png"}
                         alt="Foto de perfil"
                         draggable="false"
                         style={{
                             pointerEvents: 'none',
                             cursor: 'pointer',
-                            width: croppedMainImage ? '100%' : '50%',
+                            width: mainImage ? '100%' : '50%',
                         }}
                         onClick={() => setIsModalOpen(true)}
                     />

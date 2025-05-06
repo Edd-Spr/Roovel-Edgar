@@ -1,20 +1,37 @@
 import Styles from './SecondStep.module.css';
 import { motion } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import InputForm from '../../../InputForm/InputForm.jsx';
 
-const SecondStep = ({setHouseEditorProgress}) => { 
-
-    const [selectedTags, setSelectedTags] = useState([]);
-
-    function onToggleTag(e) {
-        e.preventDefault();
-        const tag = e.target.value;
-
-        setSelectedTags((prev) =>
-            prev.includes(tag) ? prev.filter((n) => n !== tag) : [...prev, tag]
-        );
-    }
+const tags = [
+    "Lectura", "Deportes", "Tecnología", "Cine", "Música", "Viajes", "Arte", "Fotografía", 
+    "Videojuegos", "Naturaleza", "Desarrollador", "DiseñadorGráfico", "Ingeniero", "MarketingDigital", 
+    "Escritor", "Cocinero", "Creativo", "Emprendedor", "Educador", "Consultor", "Optimista", 
+    "Aventurero", "Curioso", "Introvertido", "Extravertido", "Empático", "Líder", "Soñador", 
+    "Perseverante", "Amor", "Equidad", "Innovación", "Sostenibilidad", "Igualdad", "Familia", 
+    "Responsabilidad", "TrabajoEnEquipo", "CrecimientoPersonal", "AprenderNuevo", "DesarrolloProfesional", 
+    "Networking", "Inspiración", "Motivación", "Productividad", "Bilingüe", "Cultura", "Multicultural", 
+    "Idiomas", "ArteCultural", "EstilosDeVida", "Meditación", "SaludMental", "Ejercicio", "Yoga", 
+    "ComidaSaludable", "Bienestar", "Influencer", "Vlogs", "Streaming", "Tendencias", "Memes", 
+    "CulturaPop", "Voluntariado", "Mentoría", "Colaboración", "RedesProfesionales", "Comunidad"
+];
+export default function SecondStep({ values, eventHandlers }) { 
+    const { 
+        handlePropertyNameChange,
+        handlePropertyTypeChange,
+        handlePropertyPriceChange,
+        handlePropertyLocationChange,
+        handlePropertyDescriptionChange,
+        handleTagsChange 
+    } = eventHandlers;
+    const { 
+        propertyName,
+        propertyType,
+        propertyPrice,
+        propertyLocation,
+        propertyDescription,
+        propertyTags
+    } = values;
 
     return (
         <motion.article
@@ -34,13 +51,45 @@ const SecondStep = ({setHouseEditorProgress}) => {
         > 
             <section className={Styles['second-step__inputs-container']}>
                 <p className={Styles['second-step__title']}>Información de la casa</p>
-                <InputForm Width='100%' title="Escribe tu nombre" type="text" />
+                <InputForm 
+                    Width='100%' 
+                    title="Escribe tu nombre" 
+                    type="text" 
+                    onChange={ handlePropertyNameChange } 
+                    value={ propertyName }
+                    />
                 <div style={{display: 'flex', gap: '1rem', width: '100%'}}>
-                <InputForm Width='100%' title="Tipo de propiedad" type="select" options={['', 'Masculino', 'Femenino']} />
-                <InputForm Width='100%' title="precio mensual" type="number"/>
+                <InputForm 
+                    Width='100%' 
+                    title="Tipo de propiedad" 
+                    type="select" 
+                    options={['Casa', 'Departamento', 'Duplex']} 
+                    onChange={ handlePropertyTypeChange }
+                    value={ propertyType }
+                    />
+                <InputForm 
+                    Width='100%' 
+                    title="precio mensual" 
+                    type="number"
+                    onChange={ handlePropertyPriceChange }
+                    value={ propertyPrice }
+                    />
                 </div>
-                <InputForm Width='100%' title="Ubicacion" type="text" />
-                <InputForm Height='29vh' Width='100%' title="Añade una descripción" type="area" />
+                <InputForm 
+                    Width='100%' 
+                    title="Ubicacion" 
+                    type="text" 
+                    onChange={ handlePropertyLocationChange }
+                    value={ propertyLocation }
+                    />
+                <InputForm 
+                    Height='29vh' 
+                    Width='100%' 
+                    title="Añade una descripción" 
+                    type="area" 
+                    onChange={ handlePropertyDescriptionChange }
+                    value={ propertyDescription }
+                    />
             </section>
 
             <section className={Styles['second-step__tags-container']}>
@@ -50,8 +99,8 @@ const SecondStep = ({setHouseEditorProgress}) => {
                         <button
                             key={i}
                             value={tag}
-                            onClick={ onToggleTag }
-                            className={selectedTags.includes(tag) ? Styles['activeTag'] : Styles['tagFirstStep']}
+                            onClick={ handleTagsChange }
+                            className={propertyTags.includes(tag) ? Styles['activeTag'] : Styles['tagFirstStep']}
                         >
                             {tag}
                         </button>
@@ -62,19 +111,3 @@ const SecondStep = ({setHouseEditorProgress}) => {
         </motion.article>
     )
 }
-
-let tags = [
-    "Lectura", "Deportes", "Tecnología", "Cine", "Música", "Viajes", "Arte", "Fotografía", 
-    "Videojuegos", "Naturaleza", "Desarrollador", "DiseñadorGráfico", "Ingeniero", "MarketingDigital", 
-    "Escritor", "Cocinero", "Creativo", "Emprendedor", "Educador", "Consultor", "Optimista", 
-    "Aventurero", "Curioso", "Introvertido", "Extravertido", "Empático", "Líder", "Soñador", 
-    "Perseverante", "Amor", "Equidad", "Innovación", "Sostenibilidad", "Igualdad", "Familia", 
-    "Responsabilidad", "TrabajoEnEquipo", "CrecimientoPersonal", "AprenderNuevo", "DesarrolloProfesional", 
-    "Networking", "Inspiración", "Motivación", "Productividad", "Bilingüe", "Cultura", "Multicultural", 
-    "Idiomas", "ArteCultural", "EstilosDeVida", "Meditación", "SaludMental", "Ejercicio", "Yoga", 
-    "ComidaSaludable", "Bienestar", "Influencer", "Vlogs", "Streaming", "Tendencias", "Memes", 
-    "CulturaPop", "Voluntariado", "Mentoría", "Colaboración", "RedesProfesionales", "Comunidad"
-];
-
-
-export default SecondStep;

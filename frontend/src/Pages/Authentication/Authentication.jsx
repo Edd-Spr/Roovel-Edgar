@@ -8,8 +8,7 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { useAuth } from '../../hooks/auth';
-
-import { apiRequest } from '../../utils/api';
+import { fromURLtoB64, apiRequest } from '../../utils';
 import { API_URL_AUTH } from '../../env';
 
 const Authentication = () => {
@@ -171,27 +170,6 @@ const Authentication = () => {
 
   function onSecondPersoSubmit( option ) {
     setIsProfilePrivate( option === 2 )
-  }
-
-  function fromURLtoB64( url ) {
-    const fetchAndConvert = async () => {
-      const response = await fetch( url );
-      const blob = await response.blob();
-      const reader = new FileReader();
-      reader.readAsDataURL( blob );
-
-      return new Promise( ( resolve ) => {
-        reader.onloadend = () => {
-          resolve( reader.result );
-        };
-        reader.onerror = ( error ) => {
-          console.error( 'Error converting URL to base64:', error );
-          resolve( null );
-        }
-      });
-    }
-
-    return fetchAndConvert()
   }
 
   async function onRegisterUser() {

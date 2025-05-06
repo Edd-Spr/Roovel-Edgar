@@ -2,7 +2,7 @@ import Styles from './FourthStep.module.css';
 import { motion } from 'framer-motion';
 import { useState, useRef, useEffect } from 'react';
 
-const FourthStep = ({ setPendingRooms, openRoomEditor, relatedRooms }) => {
+const FourthStep = ({ openRoomEditor, relatedRooms }) => {
     return (
         <motion.article
             style={{
@@ -43,7 +43,7 @@ const FourthStep = ({ setPendingRooms, openRoomEditor, relatedRooms }) => {
                     />
                 </button>
 
-                {relatedRooms.map((room, index) => (
+                {relatedRooms?.map((room, index) => (
                     <RoomCard
                         key={room.id_room} 
                         room={room}

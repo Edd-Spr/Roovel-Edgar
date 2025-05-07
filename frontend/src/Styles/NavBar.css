@@ -84,3 +84,34 @@
     z-index: 1000;
   }
   
+
+  .dropdownMenu{
+    position: absolute;
+    top: 130%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    display: flex;
+    flex-wrap: wrap;
+    z-index: 10;
+    width: 10rem;
+  }
+
+  .dropdownMenuButton{
+    padding: 8px;
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    padding: 15px 20px;
+    color: var(--primary-color);
+  }
+  .dropdownMenuButton:hover{
+    background-color: #f0f0f0;
+  }

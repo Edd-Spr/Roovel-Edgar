@@ -1,14 +1,24 @@
 import { Link, useLocation } from 'react-router-dom';
 import '../Styles/NavBar.css';
-import { useEffect, useState } from 'react';
+
+import { useAuth } from '../hooks/auth/index.jsx';
+import { useEffect, useState, useRef } from 'react';
+import AdvertisingBanner from './AdvertisingBanner';
 import { useAuth } from '../hooks/auth/index.jsx';
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
     const location = useLocation();
+    const { logout } = useAuth();
     const [profileImage, setProfileImage] = useState(null);
     const { usrToken, isAuthenticated } = useAuth();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const containerRef = useRef(null);
+
+    const [AdvertisingBannerIsOpen, setAdvertisingBannerIsOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false); // Estado para rastrear el scroll
+
   const [IDUSER, setIDUSER] = useState(0); // Estado para almacenar el ID del usuario
   const [currentUser, setCurrentUser] = useState(IDUSER); // Estado para sincronizar con IDUSER
     useEffect(() => {
@@ -17,6 +27,7 @@ const NavBar = () => {
               const decodedToken = jwtDecode(usrToken);
               console.log('Token decodificado:', decodedToken);
               console.log('ID del Usuario:', decodedToken.userId);
+              console.log('Type user:', decodedToken.type_user);
               console.log('Estado de autenticación:', isAuthenticated);
               setIDUSER(decodedToken.userId);
           } catch (error) {
@@ -62,6 +73,19 @@ const NavBar = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+          if (containerRef.current && !containerRef.current.contains(event.target)) {
+            setIsMenuOpen(false);
+          }
+        };
+    
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, []);
+    
     const navActions = [
         { id: 1, name: 'Roomies', direction: '/matching' },
         { id: 3, name: 'Publicar', direction: '/profile' },
@@ -112,23 +136,54 @@ const NavBar = () => {
                         draggable="false"
                     />
                 </button>
-                <div className="userPhotoProfileContainer">
-                    <Link to="/profile">
-                        {profileImage ? (
-                            <img
-                                src={`http://localhost:3000/` + profileImage}
-                                alt="Foto de perfil"
-                                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
-                            />
-                        ) : (
-                            <div style={{ width: '100%', height: '100%', borderRadius: '50%', backgroundColor: '#ccc' }} />
-                        )}
-                    </Link>
-                </div>
+                
+
+                {isAuthenticated &&
+                <ProfileImage 
+                    containerRef={containerRef}
+                    profileImage={profileImage}
+                    setIsMenuOpen={setIsMenuOpen}
+                    isMenuOpen={isMenuOpen}
+                />}
             </div>
             {AdvertisingBannerIsOpen && <AdvertisingBanner closeBanner={() => setAdvertisingBannerIsOpen(false)} />}
         </header>
     );
+
 };
+
+function ProfileImage({containerRef, profileImage, isMenuOpen, setIsMenuOpen}){
+    return (
+        <div
+        className="userPhotoProfileContainer"
+        ref={containerRef}
+        style={{ position: 'relative', cursor: 'pointer' }}
+        onClick={() => setIsMenuOpen((prev) => !prev)}
+        >
+        {profileImage ? (
+            <img
+            src={`http://localhost:3000/${profileImage}`}
+            alt="Foto de perfil"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+            />
+        ) : (
+            <div style={{ width: '100%', height: '100%', borderRadius: '50%', backgroundColor: '#ccc' }} />
+        )}
+
+        {isMenuOpen && (
+            <div className="dropdownMenu">
+                <Link to="/profile" className="dropdownMenuButton">Ver perfil</Link>
+                <Link to="/favorite" className="dropdownMenuButton">Favoritos</Link>
+                <button
+                    onClick={() => console.log('cerrar sesión')}
+                    className="dropdownMenuButton"
+                >
+                    Cerrar sesión
+                </button>
+            </div>
+        )}
+    </div>
+    );
+}
 
 export default NavBar;

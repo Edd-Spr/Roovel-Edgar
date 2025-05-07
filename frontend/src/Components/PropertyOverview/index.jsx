@@ -24,6 +24,8 @@ const PropertyOverview = ({
     const [liked, setLiked] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
+    console.log('rooms - - - - - - - -', rooms);
+
     useEffect(() => {
         const timer = setTimeout(() => setIsLoading(false), 3000);
         return () => clearTimeout(timer);
@@ -32,8 +34,8 @@ const PropertyOverview = ({
     if (isLoading || !property_name || !rooms) return <PropertyOverviewSkeleton />;
 
     const allImages = [
-        property_main_image?.[0]?.image_content,
-        ...((property_images && Array.isArray(property_images)) ? property_images.map(image => image.image_content) : [])
+        property_main_image?.[0],
+        ...((property_images && Array.isArray(property_images)) ? property_images : [])
     ];
     const relatedRooms = rooms.filter(room => room.id_home === property_id_home);
 
@@ -76,7 +78,7 @@ const PropertyOverview = ({
                         whileHover={{ scale: 1.03 }}
                     >
                         <img
-                            src={property_main_image[0].image_content}
+                            src={property_main_image}
                             alt=""
                             draggable="false"
                             className={Styles['images-container__image']}
@@ -255,7 +257,7 @@ const RenderImages = ({ images, openModalWithImage }) => {
                 whileHover={{ scale: 1.03 }}
             >
                 <img
-                    src={images[0].image_content}
+                    src={images[0]}
                     alt=""
                     draggable="false"
                     className={Styles['images-container__image']}
@@ -273,7 +275,7 @@ const RenderImages = ({ images, openModalWithImage }) => {
                         whileHover={{ scale: 1.03 }}
                     >
                         <img
-                            src={src.image_content}
+                            src={src}
                             className={Styles['images-container__image']}
                             draggable="false"
                         />
@@ -295,7 +297,7 @@ const RenderImages = ({ images, openModalWithImage }) => {
                         whileHover={{ scale: 1.03 }}
                     >
                         <img
-                            src={src.image_content}
+                            src={src}
                             className={Styles['images-container__image']}
                             draggable="false"
                         />

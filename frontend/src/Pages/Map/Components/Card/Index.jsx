@@ -19,7 +19,8 @@ export default function Card({
   roomsNumber, 
   home_all_in: onSale,
   tags, 
-  rooms 
+  rooms,
+  setIsPropertyOverviewOpen, 
 }) {
   const { currentImg, currentImgIndex, onPrevious, onNext } = useCard( imgs )
   
@@ -31,6 +32,7 @@ export default function Card({
         currentImgIndex={ currentImgIndex }
         onPrevious={ onPrevious }
         onNext={ onNext }
+        setIsPropertyOverviewOpen={ setIsPropertyOverviewOpen }
       />
 
 			<section className={ styles[`card-description`] }>

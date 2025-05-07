@@ -32,7 +32,7 @@ const Home = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setActualCarousel(prev => (prev % 3) + 1);
-        }, 10000);
+        }, 8000);
     
         return () => clearInterval(interval);
     }, []);
@@ -348,7 +348,7 @@ const FeaturesCarousel = ({actualCarousel, setActualCarousel}) =>{
                 exit={{ opacity: 0, x: 100 }}
                 transition={{
                     opacity: { duration: 5 },
-                    x: { duration: 10 }
+                    x: { duration: 8 }
                 }}
             />
             <CarouselInfo

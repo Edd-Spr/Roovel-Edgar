@@ -3,9 +3,8 @@
     width: 70vw;
     height: 85vh;
     background-color: var(--background-color);
-    position: absolute;
     display: flex;
-    flex-wrap: wrap;
+    
 }
 
 .goBack {
@@ -286,7 +285,7 @@
 .inputSelectPhoto{
     width: 13vw;
     height: 20vw;
-    background-color: var(--input-background);
+    background-color: rgb(230, 230, 230);
     border-radius: 10px;
     overflow: hidden;
     transition: .3s;
@@ -295,7 +294,7 @@
 }
 
 .inputSelectPhoto:hover{
-    background-color: var(--input-hover-background);
+    background-color: rgb(212, 212, 212);
 }
 
 .photosBoxContainer button{
@@ -323,7 +322,7 @@
 }
 
 .photosBoxContainer button:last-child:hover{
-    background-color: var(--hover-background);
+    background-color: #394c65;
 }
 
 /* ----------------------------------------------- */

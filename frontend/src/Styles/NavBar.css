@@ -14,6 +14,7 @@
     background-color: #4A617F;
     display: flex;
     align-items: center;
+    transition: .3s;
    
 }
 .logoContainer{
@@ -62,6 +63,7 @@
     margin-left: auto;
     margin-right: 20px;
     padding-top: 14px;
+    display: flex;
 }
 .actionButtons:hover{
     cursor: pointer;

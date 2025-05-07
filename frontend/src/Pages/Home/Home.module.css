@@ -27,6 +27,7 @@
     --white-color: white;
     --input-background: white;    
     --gray-light: #f0f0f0;
+    --overlay-color: rgba(0, 0, 0, 0.219);
 }
 html, body {
     margin: 0;

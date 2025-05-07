@@ -39,7 +39,8 @@ const HouseEditor = ({ property, openRoomEditor, pendingRooms, setPendingRooms, 
             setCroppedMainImage(null);
             setTemporaryRooms([]);
         }
-    }, [property, isEditing, relatedRooms]);
+    //}, [property, isEditing, relatedRooms]);
+    }, []);
 
     const allImageFiles = {
         images,

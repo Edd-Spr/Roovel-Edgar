@@ -18,12 +18,17 @@ export default function useMap() {
   const [possiblePlaces, setPossiblePlaces] = useState([]);
 
   const [searchParams] = useSearchParams(); // Hook para leer los parámetros de la URL
+
+  // Estados para controlar la apertura de los componentes de vista previa
+  const [isPropertyOverviewOpen, setIsPropertyOverviewOpen] = useState(false);
+  const [isRoomOverviewOpen, setIsRoomOverviewOpen] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [selectedProperty, setSelectedProperty] = useState(null);
   
   async function getNearestPlaces({ params }) {
     if (!params) return;
     try {
       const response = await axios.get(API_URL_MAP__NEAREST_PLACES, { params });
-      console.log("Datos obtenidos de la API:", response.data);
   
       if (response && response.data && response.data.homes) {
         setPlaces(response.data.homes); // Actualizar el estado con las habitaciones
@@ -240,6 +245,10 @@ export default function useMap() {
     dirTyped,
     possiblePlaces,
     searched,
+    isPropertyOverviewOpen,
+    isRoomOverviewOpen,
+    selectedRoom,
+    selectedProperty,
     SetViewOnUpdate,
     MapLocator,
     onPositionUpdate,
@@ -248,6 +257,10 @@ export default function useMap() {
     getPlaces,
     showMoreHandler,
     showLessHandler,
+    setIsPropertyOverviewOpen,
+    setIsRoomOverviewOpen,
+    setSelectedRoom,
+    setSelectedProperty,
     eventHandlers,
   };
 }

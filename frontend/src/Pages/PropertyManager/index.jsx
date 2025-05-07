@@ -15,8 +15,9 @@ const PropertyManager = () => {
   const [isPropertyOverviewOpen, setIsPropertyOverviewOpen] = useState(false);
   const [isRoomOverviewOpen, setIsRoomOverviewOpen] = useState(false);
 
-  const [selectedRoom, setSelectedRoom] = useState(null);
   const [selectedHouse, setSelectedHouse] = useState(null);
+
+  const [selectedRoom, setSelectedRoom] = useState(null);
   const [selectedProperty, setSelectedProperty] = useState(null);
 
   const [propertys, setPropertys] = useState([
@@ -295,8 +296,8 @@ const PropertyManager = () => {
           property_description={selectedProperty.home_description}
           property_address={selectedProperty.address}
           property_tags={selectedProperty.tags}
-          property_images={selectedProperty.images}
-          property_main_image={selectedProperty.mainImage}
+          property_images={selectedProperty.images.map((img) => img.image_content)}
+          property_main_image={selectedProperty.mainImage[0].image_content}
           property_owner={selectedProperty.home_owner}
           property_id_home={selectedProperty.id_home}
           

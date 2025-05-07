@@ -22,7 +22,7 @@ const ImageCropperRect = ({ imageSrc, onCropComplete, onClose }) => {
             image={imageSrc}
             crop={crop}
             zoom={zoom}
-            aspect={9 / 16}
+            aspect={9 / 14}
             cropShape="rect"
             showGrid={false}
             onCropChange={setCrop}

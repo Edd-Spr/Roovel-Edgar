@@ -152,7 +152,7 @@ const FirstStep = ({ onSubmit }) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
         >
-            <form action="">
+            <form action="" className={Styles.profileCustomizationMainBox}>
 
             <section className={Styles.inputsPersonalInfoContainer}>
                 <p className={Styles.titlePersonalInfo}>Personalizar Perfil</p>

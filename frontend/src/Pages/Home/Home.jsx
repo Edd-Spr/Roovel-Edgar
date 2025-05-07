@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
-
 import Styles from './Home.module.css';
+
+import Layout from '../Layout';
 import SignInBanner from '../../Components/SignInBanner/SignInBanner.jsx';
 import RoomSlider from '../../Components/RoomSlider/RoomSlider.jsx';
 import MultiRange from '../../Components/MultiRangeSlider/MultiRangeSlider.jsx';
@@ -13,6 +14,7 @@ import{getRoomReview, getRoomAll} from '../../templade/callback_home.js'
 import { useAuth } from '../../hooks/auth/index.jsx';
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import RoomOverview from '../../Components/RoomOverview';
 
 
 
@@ -22,6 +24,19 @@ const isLogged = false;
 
 const Home = () => {
     const { usrToken, isAuthenticated } = useAuth();
+    const [isRoomOverviewOpen, setIsRoomOverviewOpen] = useState(false);
+    const [selectedRoom, setSelectedRoom] = useState(null);
+
+    const [actualCarousel, setActualCarousel] = useState(1);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActualCarousel(prev => (prev % 3) + 1);
+        }, 8000);
+    
+        return () => clearInterval(interval);
+    }, []);
+    
     useEffect(() => {
         if (usrToken) {
             try {
@@ -224,36 +239,53 @@ const Home = () => {
     }
 
     return (
-        <>
-        <NavBar />
-            <FeaturesCarousel />
-            <StayFinder />
-            {isLogged || <SignInBanner />}
-            <RoomSlider
-                roomSliderTitle='Vistos Recientemente'
-                rooms={rooms}
-            />
-            <AdvertisingSection
-                title='¿Tienes Habitaciónes Vacías?'
-                description='Convierte tu espacio en una oportunidad. Publica tu habitación o casa y encuentra al roomie o inquilino ideal.'
-                direction=''
-                image="/Graphics/carousel-rooms.jpeg"
-                position={1}
-            />
+        <Layout>
+                <FeaturesCarousel actualCarousel={actualCarousel} setActualCarousel={setActualCarousel}/>
+                <StayFinder />
+                {isLogged || <SignInBanner />}
+                <RoomSlider
+                    roomSliderTitle='Vistos Recientemente'
+                    rooms={rooms}
+                    setIsRoomOverviewOpen={setIsRoomOverviewOpen}
+                    setSelectedRoom={setSelectedRoom}
+                />
+                <AdvertisingSection
+                    title='¿Tienes Habitaciónes Vacías?'
+                    description='Convierte tu espacio en una oportunidad. Publica tu habitación o casa y encuentra al roomie o inquilino ideal.'
+                    direction=''
+                    image="/Graphics/carousel-rooms.jpeg"
+                    position={1}
+                />
 
-            <RoomSlider
-                roomSliderTitle='Recomendados'
-                rooms={recommendedRooms}
-            />
-            <AdvertisingSection
-               title='¿Problemas con los gastos compartidos?' 
-               description='Evita malentendidos y disputas por los pagos. Usa nuestra app para dividir de forma precisa y justa lo que le toca a cada uno.'
-               direction=''
-               image="/Graphics/advertising-image-div.jpeg" 
-               position={2}
-               color='#CEB6A9'
-            />
-        </>
+                <RoomSlider
+                    roomSliderTitle='Recomendados'
+                    rooms={recommendedRooms}
+                    setIsRoomOverviewOpen={setIsRoomOverviewOpen}
+                    setSelectedRoom={setSelectedRoom}
+                />
+                <AdvertisingSection
+                title='¿Problemas con los gastos compartidos?' 
+                description='Evita malentendidos y disputas por los pagos. Usa nuestra app para dividir de forma precisa y justa lo que le toca a cada uno.'
+                direction=''
+                image="/Graphics/advertising-image-div.jpeg" 
+                position={2}
+                color='#CEB6A9'
+                />
+
+                {isRoomOverviewOpen && (
+                    <RoomOverview
+                    room_name={selectedRoom.name}
+                    room_description={selectedRoom.description}
+                    room_price={selectedRoom.price}
+                    room_tags={selectedRoom.tags}
+                    room_images={selectedRoom.images}
+                    room_main_image={selectedRoom.image}
+                    
+                    closeRoomOverviewOpen={()=>setIsRoomOverviewOpen(false)}
+                    setIsPropertyOverviewOpen={() => setIsPropertyOverviewOpen(true)}
+                    />
+                )}
+        </Layout>
     );
 };
 
@@ -288,7 +320,7 @@ const CAROUSEL_CONTENT = [
     //     direction: ''
     // },
     {
-        id: 4,
+        id: 3,
         title: 'Publica tu espacio para roomies',
         description: 'Publica habitaciones en renta y encuentra personas que encajen con tu estilo de convivencia.',
         image: '/Graphics/carousel-publi.jpeg',
@@ -298,9 +330,8 @@ const CAROUSEL_CONTENT = [
     },
 ];
 
-const FeaturesCarousel = () =>{
+const FeaturesCarousel = ({actualCarousel, setActualCarousel}) =>{
 
-    const [actualCarousel, setActualCarousel] = useState(1);
 
     const actualCarouselBox = CAROUSEL_CONTENT.find((item) => item.id == actualCarousel);
     
@@ -312,10 +343,13 @@ const FeaturesCarousel = () =>{
                 alt=""
                 className={Styles.carouselImage}
                 draggable="false"
-                initial={{ opacity: 0.5, x: 0 }}
+                initial={{ opacity: 0, x: 0 }}
                 animate={{ opacity: 1, x: 50 }}
                 exit={{ opacity: 0, x: 100 }}
-                transition={{ duration: 8 }}
+                transition={{
+                    opacity: { duration: 5 },
+                    x: { duration: 8 }
+                }}
             />
             <CarouselInfo
                 actualCarouselBox={actualCarouselBox}
@@ -428,11 +462,6 @@ const StayFinder = () => {
                     <label htmlFor="" className={Styles.labelStayFinder}>
                         ¿Roomie o Habitación? Encuentra lo que necesitas
                     </label>
-                    <div className={Styles.buttonsFindByContainer}>
-                        <button className={`${Styles.buttonFindBy} ${Styles.buttonFindByActive}`}>
-                            Habitación
-                        </button>
-                    </div>
                 </div>
                 <div className={Styles.inputsContainer}>
                 <input

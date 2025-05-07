@@ -1,35 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import fav from './Favorite.module.css';
 import NavBar from "../../Components/NavBar";
 import NavProfile from '../../Components/NavProfile/NavProfile';
-import FavoriteCard from '../../Components/FavoriteRoom/FavoriteRoom'
+import FavoriteCard from '../../Components/FavoriteRoom/FavoriteRoom';
+import axios from 'axios';
+import dog from '../../Components/Friends/dog_waiting.jpg';
+import { FaHeart } from "react-icons/fa";
 
 
 const Favoritos = () => {
-//   const location = useLocation();
+  const [favoritos, setFavoritos] = useState([]);
+  const userId = 41;
+
+  useEffect(() => {
+    const fetchFavoritos = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/favorito?userId=${userId}`);
+        setFavoritos(response.data);
+      } catch (error) {
+        console.error('Error al traer favoritos:', error);
+      }
+    };
+
+    fetchFavoritos();
+  }, [userId]);
 
   return (
     <div>
-        <NavBar />
-        <div className={fav.Favorite}>
-            <article className={fav.left}>
-                <h1>left</h1>
-                <NavProfile />
-            </article>
+      <NavBar />
+      <div className={fav.Favorite}>
+        <article className={fav.left}>
+          <NavProfile />
+        </article>
 
-            <article className={fav.center}>
-                <h2>center</h2>
-                <FavoriteCard
-                    titulo="Depto en Chapultepec"
-                    descripcion="Con excelente iluminación y a 5 min del tren ligero."
-                    imagen=""
-                    etiquetas={['Amueblado', 'Pet Friendly', 'Estudiante']}
-                />
-
-            </article>
-        
-            
-        </div>
+        <article className={fav.center}>
+            <div className={fav.favCont}>
+                <h2>Habitaciones Favorias</h2>
+                <div className={fav.roomFavs}>
+                {favoritos.length === 0 ? (
+                    <div className='sinAmigos'>
+                                <img src= {dog} />
+                                <span>No tienes amigos todavía</span>
+                                </div>
+                ) : (
+                    favoritos.map((room) => (
+                    <FavoriteCard
+                        key={room.id_room}
+                        // titulo={room.room_title}
+                        descripcion={room.room_description}
+                        imagen={"https://hips.hearstapps.com/hmg-prod/images/piso-familiar-coleccionsita-arte-sao-paulo-dormitorio-alfombras-superpuestas-1543243868.jpg"}
+                        etiquetas={['Amueblado', 'Pet Friendly', 'Estudiante']} // Puedes reemplazar esto con etiquetas reales si las tienes
+                    />
+                    ))
+                )}
+                </div>
+            </div>
+        </article>
+      </div>
     </div>
   );
 };

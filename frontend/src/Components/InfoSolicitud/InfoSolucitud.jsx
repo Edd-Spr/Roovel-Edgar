@@ -15,6 +15,7 @@ const InfoSolicitud = ({ idCurrentUserSenn }) => {
     const [swipeDirection, setSwipeDirection] = useState(null);
     const swipeDirectionRef = useRef(null);
 
+
     const [PROFILES, setProfiles] = useState([]);
     const userCard = PROFILES;
 
@@ -25,7 +26,7 @@ const InfoSolicitud = ({ idCurrentUserSenn }) => {
                 const data = await response.json();
 
                 if (data && typeof data === 'object') {
-                    setProfiles(data); // Asigna el objeto directamente al estado
+                    setProfiles(data); 
                 } else {
                     console.error('La respuesta no es un objeto válido:', data);
                 }

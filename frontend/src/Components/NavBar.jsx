@@ -4,7 +4,7 @@ import '../Styles/NavBar.css';
 import { useAuth } from '../hooks/auth/index.jsx';
 import { useEffect, useState, useRef } from 'react';
 import AdvertisingBanner from './AdvertisingBanner';
-import { useAuth } from '../hooks/auth/index.jsx';
+// import { useAuth } from '../hooks/auth/index.jsx';
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
@@ -173,7 +173,6 @@ function ProfileImage({containerRef, profileImage, isMenuOpen, setIsMenuOpen}){
         {isMenuOpen && (
             <div className="dropdownMenu">
                 <Link to="/profile" className="dropdownMenuButton">Ver perfil</Link>
-                <Link to="/favorite" className="dropdownMenuButton">Favoritos</Link>
                 <button
                     onClick={() => console.log('cerrar sesión')}
                     className="dropdownMenuButton"

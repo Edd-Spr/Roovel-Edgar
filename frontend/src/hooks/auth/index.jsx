@@ -1,26 +1,78 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
+import Swal from 'sweetalert2';
 
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [usrToken, setUsrToken] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [ user, setUser ] = useState(null);
+    const [ userIsHost, setUserIsHost ] = useState(false);
+    const [ usrToken, setUsrToken ] = useState(null);
+    const [ loading, setLoading ] = useState(true);
     const navigate = useNavigate();
+
+    function decodeToken() {
+        /** 
+         * userId
+         * typeuser: 0 = user, 1 = host
+        */
+        try {
+            const decoded = jwtDecode( usrToken );
+            if ( !decoded ) {
+                Swal.fire({
+                    title: 'Acceso denegado',
+                    text: 'No tienes permiso para acceder a esta página.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                })
+                navigate('/auth');
+            }
+            return decoded;
+        } catch (err) {
+            console.error('Error al decodificar el token:', err);
+            return null;
+        }
+    }
+
+    function redirectBasedOnRole( path, condition, actions = (() => {}) ) {
+        const decoded = decodeToken();
+        if ( !decoded ) {
+            console.error('No se pudo decodificar el token. Redirigiendo a /auth...');
+            navigate( path );
+            return;
+        }
+
+        if ( condition( decoded ) ) {
+            console.log( actions )
+            actions();
+            navigate( path );
+        }
+    }
+
 
     // Cargar el token desde sessionStorage o cookies al cargar la aplicación
     useEffect(() => {
+        console.log( 'Loading auth context...' );
         try {
             const storedToken = sessionStorage.getItem('jwt'); // O usa cookies si es necesario
             if (storedToken) {
                 setUsrToken(storedToken);
-                const decodedUser = jwtDecode(storedToken);
+                const decodedUser = jwtDecode( storedToken );
                 setUser(decodedUser);
+            } else {
+                Swal.fire({
+                    title: 'Acceso denegado',
+                    text: 'No tienes permiso para acceder a esta página.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                })
+                console.log('No se encontró un token en sessionStorage.');
+                setLoading(false);
             }
+            
             setLoading(false);
         } catch (error) {
             console.error('Error al cargar el token:', error);
@@ -39,6 +91,7 @@ export const AuthProvider = ({ children }) => {
         setUsrToken(token);
         const decodedUser = jwtDecode(token);
         setUser(decodedUser);
+        setUserIsHost( Boolean( decodedUser.typeuser ) );
         navigate('/');
     };
 
@@ -53,9 +106,10 @@ export const AuthProvider = ({ children }) => {
         user,
         usrToken,
         loading,
+        isAuthenticated: !!usrToken,
         login,
         logout,
-        isAuthenticated: !!usrToken,
+        redirectBasedOnRole
     };
 
     return (

@@ -7,6 +7,9 @@ import axios from 'axios';
 import dog from '../../Components/Friends/dog_waiting.jpg';
 import { FaHeart } from "react-icons/fa";
 
+import { useAuth } from '../../hooks/auth';
+import { useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 const Favoritos = () => {
   const [favoritos, setFavoritos] = useState([]);
@@ -24,6 +27,19 @@ const Favoritos = () => {
 
     fetchFavoritos();
   }, [userId]);
+const { redirectBasedOnRole } = useAuth();
+  useEffect(()=>{
+    const condition = ({ typeuser }) => typeuser === 0;
+    const action = () => {
+      Swal.fire({
+        title: 'Error',
+        text: 'No tienes permisos para acceder a esta página.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      });
+    }
+    redirectBasedOnRole('/auth', condition, action);
+  }, [])
 
   return (
     <div>

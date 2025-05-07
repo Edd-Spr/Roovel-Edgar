@@ -1,7 +1,8 @@
-import '../../Styles/MatchRoommateContainer.css';
+import soli from './InfoSolicitud.module.css';
 
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
 
 
 const InfoSolicitud = ({ idCurrentUserSenn }) => {
@@ -55,11 +56,11 @@ const InfoSolicitud = ({ idCurrentUserSenn }) => {
     if (!userCard || !userCard.images) return <p>Cargando perfiles...</p>;
 
     return (
-        <article className="matchRoommateContainer">
-            <section className="matchCardContainer">
-                <div className="cardContainerWrapper">
+        <article className={soli.matchRoommateContainer}>
+            <section className={soli.matchCardContainer}>
+                <div className={soli.cardContainerWrapper}>
                     {nextUserCard && (
-                        <div className="cardContainer">
+                        <div className={soli.cardContainer}>
                             <MatchCard
                                 userCard={nextUserCard}
                                 actualImage={actualImage}
@@ -119,14 +120,14 @@ const MatchCard = ({ back, next, userCard, actualImage, setInfoIsOpen, onLike, o
 
     return (
         <section
-            className="matchCard"
+            className={soli.matchCard} 
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
         >
             <img
                 src={`http://localhost:3000/${userCard.images[actualImage]}`}
                 alt=""
-                className="matchCardProfileImage"
+                className={soli.matchCardProfileImage}
                 draggable="false"
             />
 
@@ -134,7 +135,7 @@ const MatchCard = ({ back, next, userCard, actualImage, setInfoIsOpen, onLike, o
 
             {actualImage > 0 && (
                 <button
-                    className="imageButton"
+                    className={soli.imageButton}
                     style={{ left: '2vh', opacity: isHover ? 1 : 0 }}
                     onClick={back}
                 >
@@ -143,7 +144,7 @@ const MatchCard = ({ back, next, userCard, actualImage, setInfoIsOpen, onLike, o
             )}
             {actualImage < userCard.images.length - 1 && (
                 <button
-                    className="imageButton"
+                    className={soli.imageButton}
                     style={{ right: '2vh', opacity: isHover ? 1 : 0 }}
                     onClick={next}
                 >
@@ -164,7 +165,7 @@ const MatchCard = ({ back, next, userCard, actualImage, setInfoIsOpen, onLike, o
 const ActiveThumbnail = ({ images, actualImage }) => (
     <>
         {images.length > 1 && (
-            <div className="activeThumbnailContainer">
+            <div className={soli.activeThumbnailContainer}>
                 {images.map((_, index) => (
                     <div
                         key={index}
@@ -180,23 +181,23 @@ const MatchActions = ({ setInfoIsOpen, userCard, onLike, onDislike }) => {
     const age = useMemo(() => calculateAge(userCard?.birthday), [userCard?.birthday]);
 
     return (
-        <section className="matchActions">
-            <div className="firstInfoContainer">
-                <div className="ageAndNameInfoCardContainer">
-                    <p className="profileNameMatchCard">{userCard?.name}</p>
-                    <p className="profileAgeMatchCard">{age}</p>
+        <section className={soli.matchActions}>
+            <div className={soli.firstInfoContainer}>
+                <div className={soli.ageAndNameInfoCardContainer}>
+                    <p className={soli.profileNameMatchCard}>{userCard?.name}</p>
+                    <p className={soli.profileAgeMatchCard}>{age}</p>
                 </div>
-                <p className="profileLocationMatchCard">{userCard?.location}</p>
+                <p className={soli.profileLocationMatchCard}>{userCard?.location}</p>
             </div>
-            <div className="actionButtonsContainer">
-                <button className="smallInteractWithMatchCard" onClick={() => setInfoIsOpen(false)}>-</button>
-                <button className="interactWithMatchCard" onClick={onDislike}>
+            <div className={soli.actionButtonsContainer}>
+                <button className={soli.smallInteractWithMatchCard} onClick={() => setInfoIsOpen(false)}>-</button>
+                <button className={soli.interactWithMatchCard} onClick={onDislike}>
                     <img src="/Graphics/Icons/dislike.png" alt="" draggable="false" style={{ width: '50%' }} />
                 </button>
-                <button className="interactWithMatchCard" onClick={onLike}>
+                <button className={soli.interactWithMatchCard} onClick={onLike}>
                     <img src="/Graphics/Icons/like.png" alt="" draggable="false" style={{ width: '50%' }} />
                 </button>
-                <button className="smallInteractWithMatchCard" onClick={() => setInfoIsOpen(true)}>+</button>
+                <button className={soli.smallInteractWithMatchCard} onClick={() => setInfoIsOpen(true)}>+</button>
             </div>
         </section>
     );
@@ -206,27 +207,27 @@ const ProfileCardInfo = ({ userCard, infoIsOpen, setInfoIsOpen }) => {
     const age = useMemo(() => calculateAge(userCard?.birthday), [userCard?.birthday]);
 
     return (
-        <section style={{ width: infoIsOpen ? '55vh' : 0 }} className="profileCardInfoContainer">
-            <section className="profileCardInfo">
-                <button className="closeInfoCard" onClick={() => setInfoIsOpen(false)}>
+        <section style={{ width: infoIsOpen ? '55vh' : 0 }} className={soli.profileCardInfoContainer}>
+            <section className={soli.profileCardInfo}>
+                <button className={soli.closeInfoCard} onClick={() => setInfoIsOpen(false)}>
                     <img src="/Graphics/Icons/close_dark.png" alt="" draggable="false" style={{ width: '100%' }} />
                 </button>
 
-                <div className="firstInfoInInfoCardContainer">
-                    <div className="ageAndNameContainer">
-                        <p className="profileNameMatchCard" style={{ color: '#4A617F' }}>{userCard?.name}</p>
-                        <p className="profileAgeMatchCard" style={{ color: '#878787' }}>{age}</p>
+                <div className={soli.firstInfoInInfoCardContainer}>
+                    <div className={soli.ageAndNameContainer}>
+                        <p className={soli.profileNameMatchCard} style={{ color: '#4A617F' }}>{userCard?.name}</p>
+                        <p className={soli.profileAgeMatchCard} style={{ color: '#878787' }}>{age}</p>
                     </div>
-                    <p className="profileLocationMatchCard" style={{ color: '#878787' }}>{userCard?.location}</p>
+                    <p className={soli.profileLocationMatchCard} style={{ color: '#878787' }}>{userCard?.location}</p>
                 </div>
 
-                <div className="tagsContainer">
+                <div className={soli.tagsContainer}>
                     {userCard?.tags?.map((tag, index) => (
-                        <p key={index} className="tagProfileCard">{tag}</p>
+                        <p key={index} className={soli.tagProfileCard}>{tag}</p>
                     ))}
                 </div>
 
-                <div className="lookingForContainer">
+                <div className={soli.lookingForContainer}>
                 </div>
             </section>
         </section>
@@ -246,3 +247,4 @@ const calculateAge = (birthdate) => {
 };
 
 export default InfoSolicitud;
+

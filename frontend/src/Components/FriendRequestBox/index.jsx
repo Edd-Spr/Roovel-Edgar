@@ -1,21 +1,36 @@
 import Styles from './FriendRequestBox.module.css';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { BiLike, BiSolidLike, BiDislike, BiSolidDislike } from "react-icons/bi";
+import { IoIosClose } from "react-icons/io";
 import InfoSolicitud from '../../Components/InfoSolicitud/InfoSolucitud.jsx';
 
 const FriendRequestBox = ({ user }) => {
     const [hoverLike, setHoverLike] = useState(false);
     const [hoverDislike, setHoverDislike] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
+    const modalRef = useRef(); // Referencia para el modal
     console.log('user -------', user.id);
+
+    // Manejador de clic para abrir/cerrar el modal
     const handleContainerClick = () => {
-        setShowInfo(!showInfo); // Alterna el estado de showInfo
+        setShowInfo(!showInfo);
     };
 
-    const handleCloseModal = () => {
-        setShowInfo(false); // Cierra el modal
-    };
+    // Detectar clic fuera del modal para cerrarlo
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                setShowInfo(false); // Cierra el modal cuando se hace clic fuera
+            }
+        };
 
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    // Calcular edad a partir de la fecha de nacimiento
     function ageInYears(birthdate) {
         const today = new Date();
         const birthDate = new Date(birthdate);
@@ -33,12 +48,12 @@ const FriendRequestBox = ({ user }) => {
         <>
             <div
                 className={Styles['friend-request-box__container']}
-                onClick={handleContainerClick} // Muestra el modal al hacer clic
+                onClick={handleContainerClick} // Muestra el modal al hacer clic en el contenedor
             >
                 <div className={Styles['friend-request__photo-container']}>
                     <img
                         src={`http://localhost:3000/${user.image}`}
-                        alt=""
+                        alt="User"
                         draggable="false"
                         className={Styles['friend-request__photo']}
                     />
@@ -69,12 +84,12 @@ const FriendRequestBox = ({ user }) => {
             {/* Modal para mostrar InfoSolicitud */}
             {showInfo && (
                 <div className={Styles.modalOverlay}>
-                    <div className={Styles.modalContent}>
-                        <button className={Styles.closeButton} onClick={handleCloseModal}>
-                            Cerrar
-                        </button>
-                        {console.log('user.id', user.id)}
-                        <InfoSolicitud idCurrentUserSenn={user.id} />
+                    <div className={Styles.modalContent} ref={modalRef}>
+                        {user && user.id ? (
+                            <InfoSolicitud idCurrentUserSenn={user.id} />
+                        ) : (
+                            <p>Loading user information...</p>
+                        )}
                     </div>
                 </div>
             )}

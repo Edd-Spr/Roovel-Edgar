@@ -4,21 +4,40 @@ import { useState, useEffect } from 'react';
 import { RiHeartLine, RiHeartFill } from 'react-icons/ri';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const PropertyOverview = ({ property, rooms, OpenRoomOverview, setSelectedRoom, closePropertyOverview }) => {
+const PropertyOverview = ({ 
+
+    property_name,
+    property_description,
+    property_address,
+    property_tags,
+    property_images,
+    property_main_image,
+    property_owner,
+    property_id_home,
+    rooms, 
+    OpenRoomOverview, 
+    setSelectedRoom, 
+    closePropertyOverview 
+    }) => {
     const [selectedImageIndex, setSelectedImageIndex] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [liked, setLiked] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+
+    console.log('rooms - - - - - - - -', rooms);
 
     useEffect(() => {
         const timer = setTimeout(() => setIsLoading(false), 3000);
         return () => clearTimeout(timer);
     }, []);
 
-    if (isLoading || !property || !rooms) return <PropertyOverviewSkeleton />;
+    if (isLoading || !property_name || !rooms) return <PropertyOverviewSkeleton />;
 
-    const allImages = [property.mainImage[0].image_content, ...property.images.map(image => image.image_content)];
-    const relatedRooms = rooms.filter(room => room.id_home === property.id_home);
+    const allImages = [
+        property_main_image?.[0],
+        ...((property_images && Array.isArray(property_images)) ? property_images : [])
+    ];
+    const relatedRooms = rooms.filter(room => room.id_home === property_id_home);
 
     const openModalWithImage = (index) => {
         setSelectedImageIndex(index);
@@ -59,7 +78,7 @@ const PropertyOverview = ({ property, rooms, OpenRoomOverview, setSelectedRoom, 
                         whileHover={{ scale: 1.03 }}
                     >
                         <img
-                            src={property.mainImage[0].image_content}
+                            src={property_main_image}
                             alt=""
                             draggable="false"
                             className={Styles['images-container__image']}
@@ -67,17 +86,17 @@ const PropertyOverview = ({ property, rooms, OpenRoomOverview, setSelectedRoom, 
                     </motion.div>
 
                     <RenderImages
-                        images={property.images}
+                        images={property_images}
                         openModalWithImage={(index) => openModalWithImage(index + 1)}
                     />
 
-                    {property.images.length > 4 && (
+                    {property_images.length > 4 && (
                         <motion.button
                             className={Styles['images-container__button-see-more']}
                             onClick={() => openModalWithImage(5)}
                             whileHover={{ scale: 1.05 }}
                         >
-                            +{property.images.length - 4} más
+                            +{property_images.length - 4} más
                         </motion.button>
                     )}
                 </motion.section>
@@ -89,8 +108,8 @@ const PropertyOverview = ({ property, rooms, OpenRoomOverview, setSelectedRoom, 
                     transition={{ delay: 0.3 }}
                 >
                     <div className={Styles['info-container__left__container']}>
-                        <h1 className={Styles['info-container__name']}>{property.home_name}</h1>
-                        <p className={Styles['info-container__address']}>{property.address}</p>
+                        <h1 className={Styles['info-container__name']}>{property_name}</h1>
+                        <p className={Styles['info-container__address']}>{property_address}</p>
                         <div className={Styles['info-container__remaining-rooms']}>
                             <p className={Styles['remaining-rooms__number']}>
                                 {relatedRooms.filter(room => room.room_ocupied === 0).length}
@@ -98,7 +117,7 @@ const PropertyOverview = ({ property, rooms, OpenRoomOverview, setSelectedRoom, 
                                 <span className={Styles['remaining-rooms__subtitle']}>Disponibles</span></p>
                         </div>
                         <div className={Styles['remaining-rooms__tags-container']}>
-                        {property.tags.map(tag => (
+                        {property_tags.map(tag => (
                             <div key={tag.id_tag} className={Styles['property-tag__item']}>
                                 <img src="/Graphics/Icons/paw-icon.png" alt="" className={Styles['property-tag__icon']} />
                                 <span className={Styles['property-tag__name']} >{tag.tag_content}</span>
@@ -238,7 +257,7 @@ const RenderImages = ({ images, openModalWithImage }) => {
                 whileHover={{ scale: 1.03 }}
             >
                 <img
-                    src={images[0].image_content}
+                    src={images[0]}
                     alt=""
                     draggable="false"
                     className={Styles['images-container__image']}
@@ -256,7 +275,7 @@ const RenderImages = ({ images, openModalWithImage }) => {
                         whileHover={{ scale: 1.03 }}
                     >
                         <img
-                            src={src.image_content}
+                            src={src}
                             className={Styles['images-container__image']}
                             draggable="false"
                         />
@@ -278,7 +297,7 @@ const RenderImages = ({ images, openModalWithImage }) => {
                         whileHover={{ scale: 1.03 }}
                     >
                         <img
-                            src={src.image_content}
+                            src={src}
                             className={Styles['images-container__image']}
                             draggable="false"
                         />

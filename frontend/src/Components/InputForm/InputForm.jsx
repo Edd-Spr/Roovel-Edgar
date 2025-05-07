@@ -19,7 +19,11 @@ const InputForm = ({title, type, Width, Height, options, onChange, content, valu
                     />
                     <label htmlFor="" className={Styles.labelInputForm}>{title}</label>
                     {type === 'password' && (
-                        <button className={Styles.eyePassword} onClick={() => setVisiblePassword(!visiblePassword)}>
+                        <button 
+                            type="button" 
+                            className={Styles.eyePassword} 
+                            onClick={() => setVisiblePassword(!visiblePassword)}
+                        >
                             <img 
                                 src={`/Graphics/Icons/${visiblePassword ? 'open' : 'closed'}-eye.png`}
                                 alt="" 

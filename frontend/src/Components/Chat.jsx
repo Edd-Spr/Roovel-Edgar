@@ -70,6 +70,7 @@ const Chat = () =>{
         try {
             if (user !== 0) { // Verifica que `user` no sea 0
                 const friendRequests = await getFriendsRequest(user);
+                console.log('friendRequests',friendRequests)
                 setFriendRequest(friendRequests); 
             }
         } catch (error) {

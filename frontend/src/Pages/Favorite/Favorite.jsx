@@ -48,7 +48,7 @@ const Favoritos = () => {
                         key={room.id_room}
                         titulo={room.room_title}
                         descripcion={room.room_description}
-                        // imagen={room.room_image || "https://hips.hearstapps.com/hmg-prod/images/piso-familiar-coleccionsita-arte-sao-paulo-dormitorio-alfombras-superpuestas-1543243868.jpg"} // Imagen real o por defecto
+                        imagenes={room.images}
                         etiquetas={room.tags.split(',')} 
                     />
                     ))

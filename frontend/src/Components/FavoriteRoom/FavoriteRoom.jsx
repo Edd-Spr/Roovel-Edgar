@@ -1,15 +1,16 @@
 import './FavoriteRoom.css';
 
-const FavoriteCard = ({ titulo, descripcion, etiquetas }) => {
-  const tagsArray = Array.isArray(etiquetas) ? etiquetas : etiquetas ? etiquetas.split(',') : [];
+const FavoriteCard = ({ titulo, descripcion, imagenes = [], etiquetas = [] }) => {
+  const tagsArray = Array.isArray(etiquetas) ? etiquetas : etiquetas?.split(',') || [];
+  const imageArray = Array.isArray(imagenes) ? imagenes : imagenes?.split(',') || [];
 
   return (
     <div className="roomCard">
-      {/* <img
-        src={imagen || './no_disponible.jpg'}
+      <img
+        src={imageArray[0] || "./no_disponible.jpg"}
         alt={titulo}
         className="roomCardImg"
-      /> */}
+      />
       <div className="roomCardInfo">
         <h3 className="roomCardTitle">{titulo}</h3>
         <p className="roomCardDesc">{descripcion}</p>

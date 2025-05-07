@@ -40,16 +40,16 @@ const Favoritos = () => {
                 {favoritos.length === 0 ? (
                     <div className='sinAmigos'>
                                 <img src= {dog} />
-                                <span>No tienes amigos todavía</span>
+                                <span>No tienes habitaciones todavía</span>
                                 </div>
                 ) : (
                     favoritos.map((room) => (
-                    <FavoriteCard
+                      <FavoriteCard
                         key={room.id_room}
-                        // titulo={room.room_title}
+                        titulo={room.room_title}
                         descripcion={room.room_description}
-                        imagen={"https://hips.hearstapps.com/hmg-prod/images/piso-familiar-coleccionsita-arte-sao-paulo-dormitorio-alfombras-superpuestas-1543243868.jpg"}
-                        etiquetas={['Amueblado', 'Pet Friendly', 'Estudiante']} // Puedes reemplazar esto con etiquetas reales si las tienes
+                        // imagen={room.room_image || "https://hips.hearstapps.com/hmg-prod/images/piso-familiar-coleccionsita-arte-sao-paulo-dormitorio-alfombras-superpuestas-1543243868.jpg"} // Imagen real o por defecto
+                        etiquetas={room.tags.split(',')} 
                     />
                     ))
                 )}

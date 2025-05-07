@@ -4,7 +4,23 @@ import { useState, useEffect } from 'react';
 import { RiHeartLine, RiHeartFill } from 'react-icons/ri';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const RoomOverview = ({ room, property, setHouseEditorProgress, setSelectedProperty, closeRoomOverviewOpen, setIsPropertyOverviewOpen }) => {
+const RoomOverview = ({ 
+
+    room_name,
+    room_description,
+    room_price,
+    room_tags,
+    room_images,
+    room_main_image,
+    room_address,
+    room_owner,
+    room_id,
+    property, 
+    setSelectedProperty, 
+    closeRoomOverviewOpen, 
+    setIsPropertyOverviewOpen 
+
+    }) => {
     const [selectedImageIndex, setSelectedImageIndex] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [liked, setLiked] = useState(false);
@@ -15,9 +31,12 @@ const RoomOverview = ({ room, property, setHouseEditorProgress, setSelectedPrope
         return () => clearTimeout(timer);
     }, []);
 
-    if (isLoading || !room) return <RoomOverviewSkeleton />;
+    if (isLoading || !room_name) return <RoomOverviewSkeleton />;
 
-    const allImages = [room.mainImage[0].image_content, ...room.images.map(image => image.image_content)];
+    const allImages = [
+        room_main_image?.[0]?.image_content,
+        ...(room_images?.map(image => image.image_content) || [])
+      ];
 
     const openModalWithImage = (index) => {
         setSelectedImageIndex(index);
@@ -87,7 +106,7 @@ const RoomOverview = ({ room, property, setHouseEditorProgress, setSelectedPrope
                         whileHover={{ scale: 1.03 }}
                     >
                         <img
-                            src={room.mainImage[0].image_content}
+                            src={room_main_image[0].image_content}
                             alt=""
                             draggable="false"
                             className={Styles['images-container__image']}
@@ -95,11 +114,11 @@ const RoomOverview = ({ room, property, setHouseEditorProgress, setSelectedPrope
                     </motion.div>
 
                     <RenderImages
-                        images={room.images}
+                        images={room_images}
                         openModalWithImage={(index) => openModalWithImage(index + 1)}
                     />
 
-                    {room.images.length > 4 && (
+                    {room_images?.length > 4 && (
                         <motion.button
                             className={Styles['images-container__button-see-more']}
                             onClick={() => openModalWithImage(5)}
@@ -117,16 +136,16 @@ const RoomOverview = ({ room, property, setHouseEditorProgress, setSelectedPrope
                     transition={{ delay: 0.3 }}
                 >
                     <div className={Styles['info-container__left__container']}>
-                        <h1 className={Styles['info-container__name']}>{room.home_name}</h1>
-                        <p className={Styles['info-container__address']}>{room.address}</p>
+                        <h1 className={Styles['info-container__name']}>{room_name}</h1>
+                        <p className={Styles['info-container__address']}>{room_address}</p>
                         <div className={Styles['info-container__remaining-rooms']}>
                             <p className={Styles['remaining-rooms__number']}>
-                                ${room.room_price}
+                                ${room_price}
                                 <br/> 
                                 <span className={Styles['remaining-rooms__subtitle']}>Mensuales</span></p>
                         </div>
                         <div className={Styles['remaining-rooms__tags-container']}>
-                        {room.tags.map(tag => (
+                        {room_tags?.map(tag => (
                             <div key={tag.id_tag} className={Styles['property-tag__item']}>
                                 <img src="/Graphics/Icons/paw-icon.png" alt="" className={Styles['property-tag__icon']} />
                                 <span className={Styles['property-tag__name']} >{tag.tag_content}</span>
@@ -186,7 +205,7 @@ const RoomOverview = ({ room, property, setHouseEditorProgress, setSelectedPrope
                         </div>
                         <div className={Styles['property-overview__des-container']}>
                             <h1 className={Styles['info-container__name']}>Descripción</h1>
-                            <p className={Styles['property-overview__description']}>{room.romm_description}</p>
+                            <p className={Styles['property-overview__description']}>{room_description}</p>
                         </div>
 
 
@@ -248,7 +267,7 @@ const RoomOverview = ({ room, property, setHouseEditorProgress, setSelectedPrope
 };
 
 const RenderImages = ({ images, openModalWithImage }) => {
-    const total = images.length;
+    const total = images?.length;
 
     if (total === 0) {
         return (

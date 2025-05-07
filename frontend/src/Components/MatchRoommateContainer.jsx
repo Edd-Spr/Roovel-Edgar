@@ -61,7 +61,7 @@ const MatchRoommateContainer = () => {
                 const data = await response.json();
                 console.log('Datos obtenidos de la API:', data);
                 if (response && data) {
-                    setProfiles(data); // Actualizar el estado con los perfiles
+                    setProfiles(data.reverse()); // Actualizar el estado con los perfiles
                 }
             } catch (error) {
                 console.error('Error al obtener los perfiles:', error);

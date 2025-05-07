@@ -304,7 +304,15 @@ export default function PropertyManager() {
 
       {isPropertyOverviewOpen && (
         <PropertyOverview
-          property={selectedProperty}
+          property_name={selectedProperty.home_name}
+          property_description={selectedProperty.home_description}
+          property_address={selectedProperty.address}
+          property_tags={selectedProperty.tags}
+          property_images={selectedProperty.images.map((img) => img.image_content)}
+          property_main_image={selectedProperty.mainImage[0].image_content}
+          property_owner={selectedProperty.home_owner}
+          property_id_home={selectedProperty.id_home}
+          
           rooms={pendingRooms.filter((room) => room.id_home === selectedProperty.id_home)} 
           closePropertyOverview={() => setIsPropertyOverviewOpen(false)}
           OpenRoomOverview={()=> setIsRoomOverviewOpen(true)}

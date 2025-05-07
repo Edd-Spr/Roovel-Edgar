@@ -30,7 +30,7 @@ const CustomRightArrow = ({ onClick }) => (
     </button>
 );
 
-const RoomSlider = ({ roomSliderTitle, rooms }) => {
+const RoomSlider = ({ roomSliderTitle, rooms, setIsRoomOverviewOpen, setSelectedRoom }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -60,7 +60,7 @@ const RoomSlider = ({ roomSliderTitle, rooms }) => {
                         customLeftArrow={<CustomLeftArrow />}
                         customRightArrow={<CustomRightArrow />}
                     >
-                        {rooms.map((room) => <RoomBox key={room.id} room={room} />)}
+                        {rooms.map((room) => <RoomBox key={room.id} room={room} setIsRoomOverviewOpen={setIsRoomOverviewOpen} setSelectedRoom={setSelectedRoom}/>)}
                     </Carousel>
                 )}
             </div>
@@ -68,9 +68,15 @@ const RoomSlider = ({ roomSliderTitle, rooms }) => {
     );
 };
 
-const RoomBox = ({ room }) => {
+const RoomBox = ({ room, setIsRoomOverviewOpen, setSelectedRoom}) => {
+
+    const handleClick = () => {
+        console.log('-----------------------', room);
+        setIsRoomOverviewOpen(true);
+        setSelectedRoom(room);
+    }
     return (
-        <div className={Styles.roomBox}>
+        <div className={Styles.roomBox} onClick={handleClick}>
             <div className={Styles.imageContainer}>
                 <img 
                     src={room.image} 

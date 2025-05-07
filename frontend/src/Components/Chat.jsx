@@ -147,8 +147,20 @@ useEffect(() => {
               setActualChatType={setActualChatType}
             />
           ) : (
-            <div className="emptyContainer">
-              <p>Descubre nuevas personas y grupos para chatear.</p>
+            <div className="empty-screen">
+              <img 
+                src="/Graphics/Icons/empty-screen_icon-dog.png" 
+                alt="" 
+                draggable="false"
+                style={{
+                  width: '10rem',
+                  margin: '0 auto',
+                  opacity: '0.3',
+                  userSelect: 'none',
+                  pointerEvents: 'none',
+                }}
+              />
+              <p className="property-manager__message">No tienes amigos.</p>
             </div>
           )
         ) : (

@@ -1,11 +1,7 @@
 import Styles from './FifthStep.module.css';
 import { motion } from 'framer-motion';
 
-const ThirdStep = ({ setHouseEditorProgress, allImageFiles, setPendingRooms, closeModal }) => {
-    const handleSave = () => {
-
-    };
-
+export default function ThirdStep({ onSubmit }) {
     return (
         <motion.article
             style={{
@@ -24,11 +20,9 @@ const ThirdStep = ({ setHouseEditorProgress, allImageFiles, setPendingRooms, clo
             transition={{ duration: 1 }}
         >
             <h1 className={Styles['third-step__title']}>Propiedad terminada</h1>
-            <button className={Styles['third-step__button']} onClick={handleSave}>
-                Finalizar
+            <button className={Styles['third-step__button']} onClick={ onSubmit }>
+                Guardar y Publicar
             </button>
         </motion.article>
     );
 };
-
-export default ThirdStep;

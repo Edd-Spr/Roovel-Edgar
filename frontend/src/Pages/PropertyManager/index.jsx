@@ -1,5 +1,5 @@
 import Styles from './PropertyManager.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Layout from '../Layout';
 import HouseEditor from '../../Components/HouseEditor';
@@ -9,243 +9,258 @@ import RoomOverview from '../../Components/RoomOverview';
 import DashboardSidebar from './Components/DashboardSidebar';
 import PropertyManagerPanel from './Components/PropertyManagerPanel';
 
-const PropertyManager = () => {
-  const [isHouseEditorOpen, setIsHouseEditorOpen] = useState(true);
+import AuthLoader from '../Authentication/Components/AuthLoader/index.jsx';
+import swal from 'sweetalert2';
+
+import useMainImages from './hooks/useMainImages';
+import useInfoProperty from './hooks/useInfoProperty';
+
+import { apiRequest } from '../../utils/api.js';
+import { API_URL_HOUSE, API_URL_ROOM } from '../../env.js';
+
+import { DUMMY_PROPERTIES, DUMMY_PENDING_ROOMS } from './dummies.js';
+// import Index from '../Map/Components/MapForm/index.jsx';
+
+export default function PropertyManager() {
+  const [isHouseEditorOpen, setIsHouseEditorOpen] = useState(false);
   const [isRoomEditorOpen, setIsRoomEditorOpen] = useState(false);
   const [isPropertyOverviewOpen, setIsPropertyOverviewOpen] = useState(false);
   const [isRoomOverviewOpen, setIsRoomOverviewOpen] = useState(false);
 
   const [selectedRoom, setSelectedRoom] = useState(null);
-  const [selectedHouse, setSelectedHouse] = useState(null);
+  const [selectedHouseId, setSelectedHouseId] = useState(null);
   const [selectedProperty, setSelectedProperty] = useState(null);
 
-  const [propertys, setPropertys] = useState([
-    {
-      id_home: 1,
-      home_owner: 1,
-      home_name: 'Casa Chapultepec',
-      home_on_sale: 1,
-      home_all_in: 0,
-      home_description: 'Casa amplia en zona céntrica, ideal para estudiantes.',
-      address: 'Calle Falsa 123, Ciudad de México',
-      home_ubication: [20.6736, -103.3440],
-      tags: [
-        { id_tag: 1, tag_content: 'Ecológico' },
-        { id_tag: 2, tag_content: 'Sustentable' },
-        { id_tag: 3, tag_content: 'Ahorro' },
-        { id_tag: 4, tag_content: 'Decoración' },
-        { id_tag: 5, tag_content: 'Minimalismo' },
-        { id_tag: 5, tag_content: 'Minimalismo' }
-      ],
-      mainImage: [{ id_image: 1, image_content: '/PropertyImages/111-house.jpeg' }],
-      images: [
-        { id_image: 2, image_content: '/PropertyImages/112-house.jpeg' },
-        { id_image: 3, image_content: '/PropertyImages/113-house.jpeg' },
-        { id_image: 4, image_content: '/PropertyImages/114-house.jpeg' },
-      ]
-    },
-    {
-      id_home: 2,
-      home_owner: 2,
-      home_name: 'Loft Roma Norte',
-      home_on_sale: 0,
-      home_all_in: 1,
-      home_description: 'Loft moderno con excelente iluminación natural.',
-      address: 'Av. Álvaro Obregón 85, CDMX',
-      home_ubication: [19.4174, -99.1626],
-      tags: [
-        { id_tag: 1, tag_content: 'Moderno' },
-        { id_tag: 3, tag_content: 'Ahorro' },
-        { id_tag: 6, tag_content: 'Conectado' }
-      ],
-      mainImage: [{ id_image: 1, image_content: '/PropertyImages/121-house.jpeg' }],
-      images: [
-        { id_image: 2, image_content: '/PropertyImages/122-house.jpg' },
-        { id_image: 3, image_content: '/PropertyImages/123-house.jpeg' },
-        { id_image: 4, image_content: '/PropertyImages/124-house.jpeg' },
-        { id_image: 4, image_content: '/PropertyImages/125-house.jpg' },
-      ]
-    },
-    {
-      id_home: 3,
-      home_owner: 3,
-      home_name: 'Departamento Vista al Parque',
-      home_on_sale: 1,
-      home_all_in: 1,
-      home_description: 'Espacio cómodo con vista privilegiada al parque central.',
-      address: 'Calle del Parque 456, Guadalajara',
-      home_ubication: [20.6765, -103.3476],
-      tags: [
-        { id_tag: 2, tag_content: 'Sustentable' },
-        { id_tag: 4, tag_content: 'Decoración' },
-        { id_tag: 7, tag_content: 'Pet Friendly' }
-      ],
-      mainImage: [{ id_image: 1, image_content: '/PropertyImages/121-room.jpeg' }],
-      images: [
-      ]
-    }
-  ]);
+  const [properties, setPropertys] = useState( DUMMY_PROPERTIES );
+  const [pendingRooms, setPendingRooms] = useState( DUMMY_PENDING_ROOMS );
 
-const [pendingRooms, setPendingRooms] = useState([
-  {
-    id_room: 1,
-    id_home: 1,
-    room_ocupied: 0,
-    room_price: 4500,
-    romm_description: 'Habitación con luz natural y clóset amplio.',
-    home_owner: 1,
-    home_name: 'Habitación en Casa Chapultepec',
-    tags: [
-        {
-            id_tag: 6,
-            tag_content: 'Moderno'
-        },
-        {
-            id_tag: 7,
-            tag_content: 'Luz natural'
-        },
-        {
-            id_tag: 8,
-            tag_content: 'Espacioso'
-        }
-    ],
-    mainImage: [
-        {
-            id_image: 6,
-            image_content: '/PropertyImages/121-room.jpeg'
-        }
-    ],
-    images: [
-        {
-            id_image: 7,
-            image_content: '/PropertyImages/123-room.jpeg'
-        }
-    ]
-},
-{
-    id_room: 2,
-    id_home: 1,
-    room_ocupied: 1,
-    room_price: 4700,
-    romm_description: 'Cuarto amueblado con cama individual y escritorio.',
-    home_owner: 1,
-    home_name: 'Habitación en Casa Chapultepec',
-    tags: [
-        {
-            id_tag: 9,
-            tag_content: 'Minimalista'
-        },
-        {
-            id_tag: 10,
-            tag_content: 'Vista al jardín'
-        },
-        {
-            id_tag: 11,
-            tag_content: 'Silenciosa'
-        }
-    ],
-    mainImage: [
-        {
-            id_image: 8,
-            image_content: '/PropertyImages/123-room.jpeg'
-        }
-    ],
-    images: [
-        {
-            id_image: 9,
-            image_content: '/PropertyImages/122-room.jpeg'
-        }
-    ]
-},
-{
-    id_room: 3,
-    id_home: 1,
-    room_ocupied: 0,
-    room_price: 4300,
-    romm_description: 'Habitación con baño compartido y vista al patio.',
-    home_owner: 1,
-    home_name: 'Habitación en Casa Chapultepec',
-    tags: [
-        {
-            id_tag: 12,
-            tag_content: 'Estilo rústico'
-        },
-        {
-            id_tag: 13,
-            tag_content: 'Techo alto'
-        },
-        {
-            id_tag: 14,
-            tag_content: 'Amueblada'
-        }
-    ],
-    mainImage: [
-        {
-            id_image: 10,
-            image_content: '/PropertyImages/122-room.jpeg'
-        }
-    ],
-    images: [
-        {
-            id_image: 11,
-            image_content: '/PropertyImages/123-room.jpeg'
-        }
-    ]
-},
-{
-    id_room: 3,
-    id_home: 2,
-    room_ocupied: 0,
-    room_price: 4300,
-    romm_description: 'Habitación con baño compartido y vista al patio.',
-    home_owner: 1,
-    home_name: 'Habitación en Casa Chapultepec',
-    tags: [
-        {
-            id_tag: 12,
-            tag_content: 'Estilo rústico'
-        },
-        {
-            id_tag: 13,
-            tag_content: 'Techo alto'
-        },
-        {
-            id_tag: 14,
-            tag_content: 'Amueblada'
-        }
-    ],
-    mainImage: [
-        {
-            id_image: 10,
-            image_content: '/PropertyImages/221-room.avif'
-        }
-    ],
-    images: [
-        {
-            id_image: 11,
-            image_content: '/PropertyImages/222-room.jpeg',
-            image_content: '/PropertyImages/223-room.jpeg',
-        }
-    ]
-}
+  // property in json format
+  // already created
+  const [createdProperty, setCreatedProperty] = useState();
+  // rooms already created
+  const [createdRooms, setCreatedRooms] = useState();
 
-]);
+  const [createdPropertyId, setCreatedPropertyId] = useState();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
+  const [success, setSuccess] = useState();
 
+  // image hook for room creation
+  const {
+    images,
+    mainImage,
+    fileInputRef,
+    errorMessage,
+    handleImageClick,
+    handleMainFileChange,
+    handleImageChange,
+    handleCropComplete,
+    handleCancelCrop,
+    handleDeleteImage,
+    croppingImage,
+    setCroppedMainImage,
+    isModalOpen,
+    setIsModalOpen,
+    imageFile,
+    setImageFile,
+    originalFile,
+    setOriginalFile,
+    resetHook: resetMainImages
+  } = useMainImages();
+
+  // property info hook
+  // location for rooms not needed
+  const { 
+    propertyName, 
+    propertyType, 
+    propertyPrice,
+    propertyDescription, 
+    propertyTags, 
+    handlePropertyNameChange, 
+    handlePropertyTypeChange, 
+    handlePropertyPriceChange, 
+    handlePropertyDescriptionChange, 
+    handleTagsChange,
+    resetHook: resetInfoProperty
+  } = useInfoProperty({ price: createdProperty?.price, tags: createdProperty?.tags });
+
+  const firstStepRoomValues = {
+    images,
+    mainImage,
+    fileInputRef,
+    errorMessage,
+    croppingImage,
+    isModalOpen,
+    imageFile,
+    originalFile
+  }
+
+  const firstStepRoomHandlers = {
+    handleImageClick,
+    handleMainFileChange,
+    handleImageChange,
+    handleCropComplete,
+    handleCancelCrop,
+    handleDeleteImage,
+    setCroppedMainImage,
+    setIsModalOpen,
+    setImageFile,
+    setOriginalFile
+  }
+
+  const secondStepRoomValues = {
+    propertyName,
+    propertyType,
+    // set house price as default when creating a room
+    // if the user modifies the price, it will be updated accordingly
+    propertyPrice: propertyPrice,
+    propertyDescription,
+    propertyTags
+  }
+
+  const secondStepRoomHandlers = {
+    handlePropertyNameChange,
+    handlePropertyTypeChange,
+    handlePropertyPriceChange,
+    handlePropertyDescriptionChange,
+    handleTagsChange
+  }
+
+  // TODO: Editing house
 
   const handlePropertyCardClick = (property) => {
     setSelectedProperty(property);
     setIsPropertyOverviewOpen(true);
   };
 
+  function handleSaveProperty( jsonProperty ) {
+    // const newProperty = JSON.parse(jsonProperty);
+    setCreatedProperty( jsonProperty );
+  }
+
+  function handleSaveRoom() {
+    const newRoom = roomToJson();// creates the room from the hook's state
+    // clean hooks
+    resetMainImages();
+    resetInfoProperty();
+
+    // update the list of rooms
+    if ( createdRooms ) {
+      setCreatedRooms( [ ...createdRooms, newRoom ] );
+    }
+    else {
+      setCreatedRooms( [ newRoom ] );
+    }
+  }
+
+  function roomToJson() {
+    return {
+      name: propertyName,
+      images: [ mainImage, ...images ],
+      price: propertyPrice,
+      description: propertyDescription,
+      tags: propertyTags
+    }
+  }
+
+  function handleDeleteRoom( roomId ) {
+    const updatedRooms = createdRooms.filter( (room, index) => { if ( index !== roomId ) return room } )
+    setCreatedRooms( updatedRooms );
+  }
+
+  async function submitProperty() {
+    setLoading(true);
+    try {
+      const propertyRes = await saveProperty();
+      console.log( 'Property response:', propertyRes );
+      if ( propertyRes.data.insertId ) {
+        const insertedId = propertyRes.data.insertId;
+        setCreatedPropertyId( insertedId );
+        
+        const roomPromises = createdRooms?.map( async (room) =>
+          saveRoom( { ...room, id_home: propertyRes.data.insertId } )
+        )
+        
+        const results = await Promise.all(roomPromises);
+        
+        if ( results.every( res => res.status === 201 ) ) {
+          setSuccess('Propiedad y habitaciones guardadas con éxito');
+        }
+
+        if ( results.some( res => !([201, 200, 204].includes( res.status )) ) ) {
+          setError('Error al guardar las habitaciones');
+        } else {
+          console.error('Error saving some rooms:', results);
+          setError('Error al guardar algunas habitaciones');
+        }
+      }
+    } catch (error) {
+      console.error('Error submitting property:', error);
+      setError('Error al guardar la propiedad');
+    } finally {
+      setLoading(false);
+      setIsHouseEditorOpen(false);
+      setIsModalOpen(false);
+      setIsRoomEditorOpen(false);
+      setCreatedProperty(null);
+      setCreatedRooms(null);
+      setCreatedPropertyId(null);
+    }
+  }
+
+  async function saveProperty() {
+    try {
+      const propertyRes = await apiRequest('post', `${ API_URL_HOUSE }/create`, createdProperty, {}, true);
+      if (!propertyRes?.data?.insertId) {
+        throw new Error('La propiedad no fue creada correctamente');
+      }
+      return propertyRes;
+    } catch (error) {
+      console.error('Error saving property:', error);
+    }
+  }
+
+  async function saveRoom(room) {
+    try {
+      const roomRes = await apiRequest('post', `${ API_URL_ROOM }/create`, room, {}, true);
+      return roomRes
+    } catch (error) {
+      console.error('Error saving room:', error);
+    }
+  }
+
+  useEffect(() => {
+    if ( success ) {
+      swal.fire({
+        title: 'Casa creada',
+        text: success,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+      setSuccess(null);
+    }
+
+    if ( error ) {
+      swal.fire({
+        title: 'Error',
+        text: error,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+      setError(null);
+    }
+  }, [ success, error, loading ]);
+
   return (
     <Layout>
-
+      {loading && <AuthLoader />}
+      
       <article className={Styles['property-manager__container']}>
         <DashboardSidebar
           pendingRooms={pendingRooms}
         />
         <PropertyManagerPanel 
-          propertys={propertys} 
+          propertys={properties} 
           setPropertys={setPropertys} 
           setIsHouseEditorOpen={setIsHouseEditorOpen} 
           onPropertyCardClick={handlePropertyCardClick} 
@@ -254,40 +269,38 @@ const [pendingRooms, setPendingRooms] = useState([
           setSelectedRoom={setSelectedRoom}
           setIsRoomOverviewOpen={setIsRoomOverviewOpen}
           openHouseEditor={(house) => {
-            setSelectedHouse(house.id_home || null);
+            setSelectedHouseId(house.id_home || null);
             setIsHouseEditorOpen(true);
           }}
-          setSelectedHouse={setSelectedHouse}
+          setSelectedHouse={setSelectedHouseId}
         />
       </article>
 
-
-
       {isHouseEditorOpen && (
         <HouseEditor
-          property={propertys.find(prop => prop.id_home === selectedHouse)}
           closeModal={() => setIsHouseEditorOpen(false)}
           openRoomEditor={(room) => {
             setSelectedRoom(room || null);
             setIsRoomEditorOpen(true);
           }}
           closeHouseEditor={() => setIsHouseEditorOpen(false)}
-          pendingRooms={pendingRooms}
-          setPendingRooms={setPendingRooms}
-          setIsPropertyOverviewOpen={setIsPropertyOverviewOpen}
+          relatedRooms={ createdRooms }
+          onSave={ handleSaveProperty }
+          onRoomDelete={ handleDeleteRoom }
+          onSubmit={ submitProperty }
         />
       )}
 
       {isRoomEditorOpen && (
         <RoomEditor
-          room={selectedRoom}
+          firstStepValues={firstStepRoomValues}
+          firstStepHandlers={firstStepRoomHandlers}
+          secondStepValues={secondStepRoomValues}
+          secondStepHandlers={secondStepRoomHandlers}
           closeModal={() => setIsRoomEditorOpen(false) }
-          house={selectedHouse} 
-          pendingRooms={pendingRooms}
-          setPendingRooms={setPendingRooms}
+          onSubmit={ handleSaveRoom }
         />
       )}
-
 
       {isPropertyOverviewOpen && (
         <PropertyOverview
@@ -298,22 +311,16 @@ const [pendingRooms, setPendingRooms] = useState([
           setSelectedRoom={setSelectedRoom}
         />
       )}
+      
       {isRoomOverviewOpen && (
         <RoomOverview
           room={selectedRoom}
-          property={propertys.find( prop => prop.id_home === selectedRoom.id_home )}
+          property={properties.find( prop => prop.id_home === selectedRoom.id_home )}
           setSelectedProperty={setSelectedProperty}
           closeRoomOverviewOpen={()=>setIsRoomOverviewOpen(false)}
           setIsPropertyOverviewOpen={() => setIsPropertyOverviewOpen(true)}
         />
       )}
     </Layout>
-
   );
 };
-
-
-
-
-
-export default PropertyManager;

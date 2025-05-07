@@ -84,7 +84,14 @@ export const ClientPlugin_group_chat = {
 };
 export const ClientPligin_friends = {
   get : async(url) => {
-    return new Error('This part code isnt implement');  
+    try {
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      throw error;
+      
+    }
   },
   post: async (url, body) => {
 

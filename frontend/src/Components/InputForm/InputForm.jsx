@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Styles from './InputForm.module.css';
 
-const InputForm = ({title, type, Width, Height, options, onChange, content}) => {
+const InputForm = ({title, type, Width, Height, options, onChange, content, value}) => {
 
     const [visiblePassword, setVisiblePassword] = useState(false);
 
@@ -15,7 +15,7 @@ const InputForm = ({title, type, Width, Height, options, onChange, content}) => 
                         required
                         style={{width: Width, height: Height, paddingRight: type === 'password' && '2.5vw'}}
                         onChange={onChange}
-                        defaultValue={type !== 'password' ? content : undefined} // Valor por defecto excepto para contraseñas
+                        value={ value || content }
                     />
                     <label htmlFor="" className={Styles.labelInputForm}>{title}</label>
                     {type === 'password' && (
@@ -38,7 +38,7 @@ const InputForm = ({title, type, Width, Height, options, onChange, content}) => 
                     {type === 'select' && (
                         <>
                             <select name="" id="" className={Styles.inputForm} onChange={onChange} required style={{width: Width, height: Height}} defaultValue={content}>
-                                {options?.map((value) => <option value={value} key={value}>{value}</option>)}
+                                {options?.map((optionVal) => <option selected={ optionVal === value } value={optionVal} key={optionVal}>{optionVal}</option>)}
                             </select>
                             <label htmlFor="" className={Styles.labelInputForm}>{title}</label>
                         </>
@@ -52,8 +52,9 @@ const InputForm = ({title, type, Width, Height, options, onChange, content}) => 
                                 rows="10" 
                                 className={Styles.inputForm} 
                                 style={{ width: Width, height: Height, resize: "none", paddingTop: '10px' }} 
-                                defaultValue={content} // Valor por defecto para textarea
-                            ></textarea>
+                                onChange={onChange}
+                                value={value || content} // Valor controlado para textarea
+                            >{ content || value }</textarea>
                             <label htmlFor="" className={Styles.labelInputForm}>{title}</label>
                         </>
                     )}

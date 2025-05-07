@@ -2,4 +2,7 @@ User-agent: *
 Disallow: /admin
 Disallow: /admin/*
 
+Disallow: /property-manager
+Disallow: /profile
+
 Allow: /

@@ -4,7 +4,9 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 
-const InfoSolicitud = (idCurrentUserSenn) => {
+const InfoSolicitud = ({ idCurrentUserSenn }) => {
+    console.log('idCurrentUserSenn -------', idCurrentUserSenn);
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const [actualImage, setActualImage] = useState(0);
     const [infoIsOpen, setInfoIsOpen] = useState(false);
@@ -14,35 +16,41 @@ const InfoSolicitud = (idCurrentUserSenn) => {
     const swipeDirectionRef = useRef(null);
 
     const [PROFILES, setProfiles] = useState([]);
-    const userCard = PROFILES[currentIndex];
-    const nextUserCard = PROFILES[currentIndex + 1];
+    const userCard = PROFILES;
 
     useEffect(() => {
-        const fetchProfil = async () => {
+        const fetchProfiles = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/solicitud?currentUserId=${idCurrentUserSenn}');
+                const response = await fetch(`http://localhost:3000/api/solicitud?user=${idCurrentUserSenn}`);
                 const data = await response.json();
-                setProfiles(data);
+
+                if (data && typeof data === 'object') {
+                    setProfiles(data); // Asigna el objeto directamente al estado
+                } else {
+                    console.error('La respuesta no es un objeto válido:', data);
+                }
             } catch (error) {
                 console.error('Error fetching profiles:', error);
             }
-        }
-        fetchProfil();
+        };
+
+        fetchProfiles();
     }, [idCurrentUserSenn]);
 
-    
+    console.log('userCard -------', userCard);
 
     function back() {
         if (actualImage > 0) setActualImage(actualImage - 1);
     }
 
     function next() {
-        if (userCard.images && actualImage < userCard.images.length - 1) {
+        if (userCard?.images && actualImage < userCard.images.length - 1) {
             setActualImage(actualImage + 1);
         }
     }
+    function nextUserCard() {
+    }
 
-    
     if (!userCard || !userCard.images) return <p>Cargando perfiles...</p>;
 
     return (

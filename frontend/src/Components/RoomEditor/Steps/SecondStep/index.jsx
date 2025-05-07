@@ -1,25 +1,20 @@
 import Styles from './SecondStep.module.css';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import InputForm from '../../../InputForm/InputForm.jsx';
 
-const SecondStep = ({ info, setInfo, selectedTags, setSelectedTags }) => {
-
-    const handleInputChange = (field, value) => {
-        setInfo((prevInfo) => ({
-            ...prevInfo,
-            [field]: value,
-        }));
-    };
-
-    function onToggleTag(e) {
-        e.preventDefault();
-        const tag = e.target.value;
-
-        setSelectedTags((prev) =>
-            prev.includes(tag) ? prev.filter((n) => n !== tag) : [...prev, tag]
-        );
-    }
+export default function SecondStep({ values, handlers }) {
+    const { 
+        handlePropertyNameChange: handleRoomNameChange,
+        handlePropertyPriceChange: handleRoomPriceChange,
+        handlePropertyDescriptionChange: handleRoomDescriptionChange,
+        handleTagsChange 
+    } = handlers;
+    const { 
+        propertyName: roomName,
+        propertyPrice: roomPrice,
+        propertyDescription: roomDescription,
+        propertyTags: roomTags
+    } = values;
 
     return (
         <motion.article
@@ -41,42 +36,27 @@ const SecondStep = ({ info, setInfo, selectedTags, setSelectedTags }) => {
                 <p className={Styles['second-step__title']}>Información</p>
                 <InputForm
                     Width="100%"
-                    title="Escribe tu nombre"
+                    title="Nombre de la habitación"
                     type="text"
-                    content={info.name}
-                    onChange={(e) => handleInputChange('name', e.target.value)}
+                    content={ roomName}
+                    onChange={ handleRoomNameChange }
                 />
                 <div style={{ display: 'flex', gap: '1rem', width: '100%' }}>
                     <InputForm
                         Width="100%"
-                        title="Tipo de propiedad"
-                        type="select"
-                        options={['', 'Masculino', 'Femenino']}
-                        content={info.propertyType}
-                        onChange={(e) => handleInputChange('propertyType', e.target.value)}
-                    />
-                    <InputForm
-                        Width="100%"
                         title="Precio mensual"
                         type="number"
-                        content={info.price}
-                        onChange={(e) => handleInputChange('price', e.target.value)}
+                        content={ roomPrice }
+                        onChange={ handleRoomPriceChange }
                     />
                 </div>
                 <InputForm
-                    Width="100%"
-                    title="Ubicación"
-                    type="text"
-                    content={info.address}
-                    onChange={(e) => handleInputChange('address', e.target.value)}
-                />
-                <InputForm
-                    Height="29vh"
+                    Height="40vh"
                     Width="100%"
                     title="Añade una descripción"
                     type="area"
-                    content={info.description}
-                    onChange={(e) => handleInputChange('description', e.target.value)}
+                    content={ roomDescription }
+                    onChange={ handleRoomDescriptionChange}
                 />
             </section>
 
@@ -87,8 +67,8 @@ const SecondStep = ({ info, setInfo, selectedTags, setSelectedTags }) => {
                         <button
                             key={i}
                             value={tag}
-                            onClick={onToggleTag}
-                            className={selectedTags.includes(tag) ? Styles['activeTag'] : Styles['tagFirstStep']}
+                            onClick={ handleTagsChange}
+                            className={roomTags?.includes(tag) ? Styles['activeTag'] : Styles['tagFirstStep']}
                         >
                             {tag}
                         </button>
@@ -168,5 +148,3 @@ let tags = [
     'RedesProfesionales',
     'Comunidad',
 ];
-
-export default SecondStep;

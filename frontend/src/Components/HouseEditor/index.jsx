@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Styles from './HouseEditor.module.css';
 
 // Steps
@@ -9,91 +9,166 @@ import ThirdStep from './Steps/ThirdStep';
 import FourthStep from './Steps/FourthStep';
 import FifthStep from './Steps/FifthStep';
 
-const HouseEditor = ({ property, openRoomEditor, pendingRooms, setPendingRooms, closeHouseEditor }) => {
+import useMainImages from '../../Pages/PropertyManager/hooks/useMainImages';
+import useInfoProperty from '../../Pages/PropertyManager/hooks/useInfoProperty';
+import useLocation from '../../Pages/PropertyManager/hooks/useLocation';
+
+export default function HouseEditor({ openRoomEditor, relatedRooms, closeHouseEditor, onSave, onRoomDelete, onSubmit }) {
     const [houseEditorProgress, setHouseEditorProgress] = useState(0);
 
-    const [images, setImages] = useState([]);
-    const [imageFiles, setImageFiles] = useState([]);
-    const [imageFile, setImageFile] = useState(null);
-    const [croppedMainImage, setCroppedMainImage] = useState(null);
-
-    const relatedRooms = pendingRooms.filter((room) => room.id_home === property?.id_home);
-
-    const [temporaryRooms, setTemporaryRooms] = useState([]);
-
-    // Determina si estás editando o creando una casa
-    const isEditing = !!property;
-
-    // Cargar datos iniciales en caso de edición
-    useEffect(() => {
-        if (isEditing) {
-            // Si estás editando, carga los datos de la propiedad en los estados
-            setImages(property.images || []);
-            setImageFiles(property.images || []);
-            setCroppedMainImage(property.mainImage?.[0]?.image_content || null);
-            setTemporaryRooms(relatedRooms || []);
-        } else {
-            // Si estás creando, inicializa los estados vacíos
-            setImages([]);
-            setImageFiles([]);
-            setCroppedMainImage(null);
-            setTemporaryRooms([]);
-        }
-    //}, [property, isEditing, relatedRooms]);
-    }, []);
-
-    const allImageFiles = {
+    const {
         images,
-        imageFiles,
-        setImages,
-        setImageFiles,
+        mainImage,
+        fileInputRef,
+        errorMessage,
+        handleImageClick,
+        handleMainFileChange,
+        handleImageChange,
+        handleCropComplete,
+        handleCancelCrop,
+        handleDeleteImage,
+        croppingImage,
+        setCroppedMainImage,
+        isModalOpen,
+        setIsModalOpen,
         imageFile,
         setImageFile,
-        croppedMainImage,
-        setCroppedMainImage,
-    };
+        originalFile,
+        setOriginalFile
+    } = useMainImages();
 
-    const back = () => {
-        if (houseEditorProgress > 0) {
+    const { 
+        propertyName, 
+        propertyType, 
+        propertyPrice,
+        propertyDescription, 
+        propertyTags, 
+        handlePropertyNameChange, 
+        handlePropertyTypeChange, 
+        handlePropertyPriceChange, 
+        handlePropertyDescriptionChange, 
+        handleTagsChange,
+    } = useInfoProperty();
+    
+    const {
+        propertyLocation,
+        propertyCoordinates,
+        setPropertyLocation,
+        setPropertyCoordinates,
+        handlePropertyLocationChange
+    } = useLocation();
+
+    function backStep() {
+        if (houseEditorProgress > 0)
             setHouseEditorProgress(houseEditorProgress - 1);
-        }
     };
 
-    const next = () => {
-        if (houseEditorProgress < 5) {
-            setHouseEditorProgress(houseEditorProgress + 1);
+    function nextStep() {
+        const increment = () => setHouseEditorProgress(houseEditorProgress + 1);
+
+        // to pre load the data and make it available for room editor
+        if ( houseEditorProgress === 3 ) {
+            //before opening the room editor
+            const propertyData = convertPropertyToJSON();
+            onSave(propertyData);
+            increment();
         }
+
+        if ( houseEditorProgress === 4) { 
+            const propertyData = convertPropertyToJSON();
+            //TODO: Save property data
+            onSave(propertyData);
+            increment();
+        }
+        if (houseEditorProgress < 5) 
+            increment();
     };
+
+    // TODO: implement error assertion to check if there are no null values
+    function convertPropertyToJSON() {
+        const propertyData = {
+            name: propertyName,
+            type: propertyType,
+            price: propertyPrice,
+            description: propertyDescription,
+            tags: propertyTags,
+            location: propertyCoordinates,
+            images: [ mainImage, ...images ],// the main image is the first one
+        };
+        return propertyData;
+    }
+
+    function onMapSubmit(e, data) {
+        e.preventDefault();
+        const { lat, lng, readableLoc } = data;
+        setPropertyCoordinates({ lat, lng });
+        setPropertyLocation( readableLoc );
+        setHouseEditorProgress(houseEditorProgress + 1);
+    }
+
+    const firstStepValues = {
+        images,
+        mainImage,
+        fileInputRef,
+        errorMessage,
+        croppingImage,
+        isModalOpen,
+        imageFile,
+        originalFile
+    }
+
+    const firstStepHandlers = {
+        handleImageClick,
+        handleMainFileChange,
+        handleImageChange,
+        handleCropComplete,
+        handleCancelCrop,
+        handleDeleteImage,
+        setCroppedMainImage,
+        setIsModalOpen,
+        setImageFile,
+        setOriginalFile
+    }
+
+    const secondStepValues = {
+        propertyName,
+        propertyType,
+        propertyPrice,
+        propertyLocation,
+        propertyDescription,
+        propertyTags
+    }
+
+    const secondStepEHandlers = {
+        handlePropertyNameChange,
+        handlePropertyTypeChange,
+        handlePropertyPriceChange,
+        handlePropertyLocationChange,
+        handlePropertyDescriptionChange,
+        handleTagsChange
+    }
+
+    // room handlers
 
     return (
         <article className={Styles['house-editor__overlay']}>
             <section className={Styles['house-editor__card-container']}>
-                {houseEditorProgress === 0 && <StartStep setHouseEditorProgress={setHouseEditorProgress} />}
-                {houseEditorProgress === 1 && <FirstStep allImageFiles={allImageFiles} />}
-                {houseEditorProgress === 2 && <SecondStep />}
-                {houseEditorProgress === 3 && <ThirdStep />}
+                {houseEditorProgress === 0 && <StartStep setHouseEditorProgress={ setHouseEditorProgress } onClose={ closeHouseEditor} />}
+                {houseEditorProgress === 1 && <FirstStep values={ firstStepValues } handlers={ firstStepHandlers } />}
+                {houseEditorProgress === 2 && <SecondStep values={ secondStepValues } eventHandlers={ secondStepEHandlers } />}
+                {houseEditorProgress === 3 && <ThirdStep readableLoc={ propertyLocation } propertyName={ propertyName } onSubmit={ onMapSubmit } />}
                 {houseEditorProgress === 4 && (
                     <FourthStep
-                        setPendingRooms={setPendingRooms}
-                        setHouseEditorProgress={setHouseEditorProgress}
+                        onDelete={ onRoomDelete }
                         openRoomEditor={openRoomEditor}
-                        relatedRooms={relatedRooms}
-                        setTemporaryRooms={setTemporaryRooms}
-                        images={images}
-                        setImages={setImages}
-                        imageFiles={imageFiles}
-                        setImageFiles={setImageFiles}
-                        imageFile={imageFile}
-                        setImageFile={setImageFile}
-                        croppedMainImage={croppedMainImage}
-                        setCroppedMainImage={setCroppedMainImage}
+                        rooms={relatedRooms}
                     />
                 )}
-                {houseEditorProgress === 5 && <FifthStep />}
+                {houseEditorProgress === 5 && <FifthStep onSubmit={ onSubmit } />}
 
                 {houseEditorProgress > 0 && (
                     <div className={Styles['house-editor__progress']}>
-                        <button className={Styles['pogress__button-back']} onClick={back}>
+                        <button className={Styles['pogress__button-back']} onClick={backStep}>
                             Atrás
                         </button>
                         {Array.from({ length: 5 }).map((_, i) => (
@@ -109,7 +184,7 @@ const HouseEditor = ({ property, openRoomEditor, pendingRooms, setPendingRooms, 
                             </p>
                         ))}
                         {houseEditorProgress < 5 && 
-                        <button className={Styles['pogress__button-next']} onClick={next}>
+                        <button className={Styles['pogress__button-next']} onClick={nextStep}>
                             Siguiente
                         </button>}
                     </div>
@@ -128,5 +203,3 @@ const HouseEditor = ({ property, openRoomEditor, pendingRooms, setPendingRooms, 
         </article>
     );
 };
-
-export default HouseEditor;

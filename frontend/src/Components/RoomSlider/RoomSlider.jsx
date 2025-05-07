@@ -43,7 +43,7 @@ const RoomSlider = ({ roomSliderTitle, rooms, setIsRoomOverviewOpen, setSelected
 
     const responsive = {
         static: {
-            breakpoint: { max: 4000, min: 0 },
+            breakpoint: { max: 8000, min: 0 },
             items: 4,
         },
     };

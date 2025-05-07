@@ -3,17 +3,17 @@ import axios from "axios";
 
 import { useMap as useMapLeaflet, useMapEvents } from "react-leaflet";
 
-export default function useMap(vagueReadableDirection) {
+export default function useMap( vagueReadableDirection ) {
   const [position, setPosition] = useState([0, 0]); // 20.6597586, -103.324082
-  const [readableDirection, setReadableDirection] = useState(vagueReadableDirection || "");
+  const [readableDirection, setReadableDirection] = useState( vagueReadableDirection || "" );
   const [home, setHome] = useState({});
   const [searched, setSearched] = useState(false);
 
-  const [dirTyped, setDirTyped] = useState(vagueReadableDirection);
+  const [dirTyped, setDirTyped] = useState( vagueReadableDirection );
   const [possiblePlaces, setPossiblePlaces] = useState([]);
 
   async function getReadableDirection(position) {
-    const url = "https://nominatim.openstreetmap.org/reverse";
+    const url = `https://nominatim.openstreetmap.org/reverse`;
     const params = `format=json&lat=${position[0]}&lon=${position[1]}&zoom=18&addressdetails=1`;
     const response = await axios.get(`${url}?${params}`);
 
@@ -21,7 +21,7 @@ export default function useMap(vagueReadableDirection) {
   }
 
   async function getSimilarPlaces(readable_location) {
-    const url = "https://nominatim.openstreetmap.org/search";
+    const url = `https://nominatim.openstreetmap.org/search`;
     const params = `q=${readable_location}&format=json&addressdetails=1`;
     const response = await axios.get(`${url}?${params}`);
 
@@ -29,7 +29,7 @@ export default function useMap(vagueReadableDirection) {
   }
 
   async function getLatLng(readable_location) {
-    const url = "https://nominatim.openstreetmap.org/search";
+    const url = `https://nominatim.openstreetmap.org/search`;
     const params = `q=${readable_location}&format=json`;
     const response = await axios.get(`${url}?${params}`);
 
@@ -50,9 +50,7 @@ export default function useMap(vagueReadableDirection) {
         setSearched(true);
         setPosition([lat, lng]);
       })();
-
-      // Aquí asumimos que setDisplayCard estaba definido antes. Si no, elimínalo o define la función.
-      // setDisplayCard(1);
+      setDisplayCard(1);
     },
   };
 
@@ -89,11 +87,12 @@ export default function useMap(vagueReadableDirection) {
   function onOptionSelected(e) {
     const selectedOption = e.target.textContent;
 
-    const place = possiblePlaces.find((place) => place.display_name === selectedOption);
-    if (!place || !place.ubication) return;
+    const { ubication } = possiblePlaces.find((place) => place.display_name === selectedOption);
+    if (!ubication) return;
 
-    setPosition(place.ubication);
+    setPosition(ubication);
     setReadableDirection(selectedOption);
+
     setDirTyped(selectedOption);
     setPossiblePlaces([]);
     setSearched(true);
@@ -127,6 +126,7 @@ export default function useMap(vagueReadableDirection) {
     }
   }, [dirTyped]);
 
+  // Actualizar dirección legible cuando cambie la posición
   useEffect(() => {
     (async () => {
       const readableDirection = await getReadableDirection(position);

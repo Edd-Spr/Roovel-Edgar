@@ -1,14 +1,36 @@
 import { Link, useLocation } from 'react-router-dom';
 import '../Styles/NavBar.css';
 import { useEffect, useState } from 'react';
-import AdvertisingBanner from './AdvertisingBanner';
+import { useAuth } from '../hooks/auth/index.jsx';
+import jwtDecode from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
     const location = useLocation();
     const [profileImage, setProfileImage] = useState(null);
-    const [AdvertisingBannerIsOpen, setAdvertisingBannerIsOpen] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false); // Estado para rastrear el scroll
-    const currentUser = 8;
+    const { usrToken, isAuthenticated } = useAuth();
+  const [IDUSER, setIDUSER] = useState(0); // Estado para almacenar el ID del usuario
+  const [currentUser, setCurrentUser] = useState(IDUSER); // Estado para sincronizar con IDUSER
+    useEffect(() => {
+      if (usrToken) {
+          try {
+              const decodedToken = jwtDecode(usrToken);
+              console.log('Token decodificado:', decodedToken);
+              console.log('ID del Usuario:', decodedToken.userId);
+              console.log('Estado de autenticación:', isAuthenticated);
+              setIDUSER(decodedToken.userId);
+          } catch (error) {
+              console.error('Error al decodificar el token:', error);
+          }
+      } else {
+          console.log('No hay token disponible.');
+      }
+  }, [usrToken]);
+  
+  useEffect(() => {
+      setCurrentUser(IDUSER);
+  }, [IDUSER]);
+  
 
     useEffect(() => {
         const fetchProfileImage = async () => {
@@ -16,7 +38,8 @@ const NavBar = () => {
                 const response = await fetch(`http://localhost:3000/images?id_user=${currentUser}`);
                 const data = await response.json();
                 if (Array.isArray(data) && data.length > 0) {
-                    setProfileImage(data[0].image_content);
+                    setProfileImage(data[0].image_src);
+                    console.log("Imágenes recibidas para foto de perfil:", data[0].image_src);
                 }
             } catch (error) {
                 console.error("Error al obtener imagen de perfil:", error);
@@ -93,7 +116,7 @@ const NavBar = () => {
                     <Link to="/profile">
                         {profileImage ? (
                             <img
-                                src={profileImage}
+                                src={`http://localhost:3000/` + profileImage}
                                 alt="Foto de perfil"
                                 style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
                             />

@@ -52,7 +52,7 @@ export default function ThirdStep({ readableLoc, onSubmit, propertyName }) {
       submitMessage={ submitMessage }
     />
     <CustomMap 
-      className={ Styles['modal__map'] }
+      className={ Styles[`modal__map`] }	
       position={ position } 
       MapLocator={ MapLocator } 
       readableDirection={ readableDirection }

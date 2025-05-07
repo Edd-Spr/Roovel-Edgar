@@ -4,83 +4,27 @@ import { useRef, useState } from 'react';
 import ImageCropperRectangleHorizontal from '../../../ImageCropper/ImageCropperRectangleHorizontal';
 import ImageCropperRect from '../../../ImageCropper/ImageCropperRectH';
 
-const FirstStep = ({ allImageFiles, room }) => {
-    const fileInputRef = useRef(null);
-    const [errorMessage, setErrorMessage] = useState("");
-    const { images, 
-            imageFiles, 
-            setImages, 
-            setImageFiles, 
-            imageFile, 
-            setImageFile, 
-            croppedMainImage, 
-            setCroppedMainImage
-          } = allImageFiles;
+export default function FirstStep({ values, handlers }) {
+    const {
+        errorMessage,
+        mainImage,
+        images,
+        fileInputRef,
+        croppingImage,
+        isModalOpen,
+        imageFile
+    } = values;
 
-    const [croppingImage, setCroppingImage] = useState(null);
-    const [originalFile, setOriginalFile] = useState(null);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    // Maneja el clic para abrir el input de archivo
-    const handleImageClick = () => {
-        fileInputRef.current.click();
-    };
-
-    // Maneja el cambio de archivo en el contenedor principal
-    const handleMainFileChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setImageFile(URL.createObjectURL(file));
-            setIsModalOpen(true);
-            event.target.value = "";
-        }
-    };
-
-    // Maneja el cambio de archivo para imágenes adicionales
-    const handleImageChange = (e) => {
-        const files = Array.from(e.target.files);
-        const newFile = files[0];
-
-        if (!newFile) return;
-
-        const isDuplicate = imageFiles.some((existingFile) => existingFile.name === newFile.name);
-        if (isDuplicate) {
-            setErrorMessage("No puedes subir la misma imagen 2 veces");
-            setTimeout(() => setErrorMessage(""), 3000);
-            return;
-        }
-
-        const newImageUrl = URL.createObjectURL(newFile);
-        setCroppingImage(newImageUrl);
-        setOriginalFile(newFile);
-
-        e.target.value = "";
-    };
-
-    // Maneja el recorte completo de la imagen
-    const handleCropComplete = (croppedImageBlob) => {
-        if (!croppedImageBlob) return;
-
-        const imageUrl = URL.createObjectURL(croppedImageBlob);
-        setImages((prev) => [...prev, imageUrl]);
-        setImageFiles((prev) => [...prev, originalFile]);
-
-        setCroppingImage(null);
-        setOriginalFile(null);
-    };
-
-    // Maneja la cancelación del recorte
-    const handleCancelCrop = () => {
-        setCroppingImage(null);
-        setOriginalFile(null);
-    };
-
-    // Maneja la eliminación de una imagen adicional
-    const handleDeleteImage = (index) => {
-        setImages((prev) => prev.filter((_, i) => i !== index));
-        setImageFiles((prev) => prev.filter((_, i) => i !== index));
-    };
+    const {
+        handleImageClick,
+        handleMainFileChange,
+        handleImageChange,
+        handleCropComplete,
+        handleCancelCrop,
+        handleDeleteImage,
+        setCroppedMainImage,
+        setIsModalOpen,
+    } = handlers;
 
     return (
         <motion.article
@@ -133,13 +77,13 @@ const FirstStep = ({ allImageFiles, room }) => {
                         onChange={handleMainFileChange}
                     />
                     <img
-                        src={croppedMainImage || "/Graphics/Icons/camera-icon.png"}
+                        src={mainImage || "/Graphics/Icons/camera-icon.png"}
                         alt="Foto de perfil"
                         draggable="false"
                         style={{
                             pointerEvents: 'none',
                             cursor: 'pointer',
-                            width: croppedMainImage ? '100%' : '50%',
+                            width: mainImage ? '100%' : '50%',
                         }}
                         onClick={() => setIsModalOpen(true)}
                     />
@@ -162,7 +106,7 @@ const FirstStep = ({ allImageFiles, room }) => {
                     onChange={handleImageChange}
                 />
 
-                    {images.map((imgSrc, index) => (
+                    {images?.map((imgSrc, index) => (
                         <NewImage
                             key={index}
                             src={imgSrc}
@@ -220,5 +164,3 @@ const NewImage = ({ src, onDelete }) => {
         </div>
     );
 };
-
-export default FirstStep;

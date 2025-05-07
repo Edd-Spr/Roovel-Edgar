@@ -82,6 +82,7 @@ const AmigosList = ({ currentUser }) => {
 
   return (
     <div className="amigos-container" ref={containerRef}>
+      <h2 className='titleAmigo'>Amigos</h2>
       {amigos.length === 0 ? (
         <div className="empty-screen">
           <img 

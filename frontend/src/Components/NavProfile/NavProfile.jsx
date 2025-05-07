@@ -10,7 +10,7 @@ const Menu = () => {
   const navItems = [
     { label: 'Profile', icon: <FiUser size={28} />, path: '/profile' },
     { label: 'Favoritos', icon: <FiHeart size={28} />, path: '/Favorite' },
-    { label: 'Terminos', icon: <FiHome  size={28} />, path: '/cuartos' }
+    { label: 'TerminosyCondiciones', icon: <FiHome  size={28} />, path: '/TyC' }
   ];
 
   return (

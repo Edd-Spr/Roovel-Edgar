@@ -342,9 +342,16 @@ export default function PropertyManager() {
       {isRoomOverviewOpen && (
         <RoomOverview
           room={selectedRoom}
-          property={properties.find( prop => prop.id_home === selectedRoom.id_home )}
+          room_name={selectedRoom?.home_name || ''}
+          room_description={selectedRoom?.romm_description || ''}
+          room_price={selectedRoom?.room_price || ''}
+          room_tags={selectedRoom?.tags || []}
+          room_images={selectedRoom?.room_images || []}
+          room_main_image={selectedRoom?.mainImage || ''}
+          room_address={selectedRoom?.room_address || ''}
+          property={properties.find((prop) => prop.id_home === selectedRoom?.id_home) || {}}
           setSelectedProperty={setSelectedProperty}
-          closeRoomOverviewOpen={()=>setIsRoomOverviewOpen(false)}
+          closeRoomOverviewOpen={() => setIsRoomOverviewOpen(false)}
           setIsPropertyOverviewOpen={() => setIsPropertyOverviewOpen(true)}
         />
       )}

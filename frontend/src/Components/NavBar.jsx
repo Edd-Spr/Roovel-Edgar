@@ -4,7 +4,6 @@ import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '../hooks/auth/index.jsx';
 import AdvertisingBanner from './AdvertisingBanner';
 import jwtDecode from 'jwt-decode';
-import { useAuth } from '../hooks/auth';
 
 const NavBar = () => {
     const location = useLocation();

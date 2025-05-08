@@ -210,13 +210,21 @@ const RoomOverview = ({
                         <div className={Styles['property-overview__des-container']}>
                             <h1 className={Styles['info-container__name']}>Descripción</h1>
                             <p className={Styles['property-overview__description']}>{room_description}</p>
-                            <button className={Styles['property-overview__button-reservation']} onClick={() => navigate(`/Pay/${room_id}`)}>Reservar Habitación</button>
+                            {console.log('room_description----', room_id)}
+                            <button   className={Styles['property-overview__button-reservation']}
+                                onClick={() => {
+
+                                    if (!room_id) {
+                                    console.error('room_id no está definido');
+                                    return;
+                                    }
+                                    const params = new URLSearchParams({
+                                        room_id: room_id,
+                                    }); 
+
+                                    navigate(`/Pay?${params.toString()}`);
+                                }}>Reservar Habitación</button>
                         </div>
-
-
-
-
-
                     </motion.section>
                 )}
             </motion.section>

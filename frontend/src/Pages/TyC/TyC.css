@@ -1,37 +1,21 @@
-h1, h2 {
+.tittle, .subtittle {
     color: #4A617F;
 }
 .tyc{
     padding: 30px;
     background-color: #e0dede;
 }
-h1 {
+.tittle {
     border-bottom: 2px solid #4A617F;
     padding-bottom: 10px;
     margin-bottom: 20px;
 
     }
-        section {
+        .tycContainer {
             margin-bottom: 25px;
             padding: 15px;
             background-color: white; 
             border-radius: 8px; 
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
         }
-        ol {
-            list-style-type: decimal;
-            padding-left: 25px;
-        }
-        li {
-            margin-bottom: 12px;
-        }
-        a {
-            color: #C98765; 
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        p {
-            color: #555; 
-        }
+        

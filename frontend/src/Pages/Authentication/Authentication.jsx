@@ -11,6 +11,8 @@ import { useAuth } from '../../hooks/auth';
 import { fromURLtoB64, apiRequest } from '../../utils';
 import { API_URL_AUTH } from '../../env';
 
+import Swal from 'sweetalert2'
+
 const Authentication = () => {
   const { login } = useAuth();
   const [searchParams] = useSearchParams();
@@ -48,18 +50,33 @@ const Authentication = () => {
 
   function matchingPasswords(password, passwordConfirm){
     if ( password.value.trim().length < 8 ) {
-      alert('La contraseña debe tener al menos 8 caracteres')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'La contraseña debe tener al menos 8 caracteres',
+        confirmButtonText: 'Ok'
+      })
       password.focus()
       return false
     }
     if ( password.value.trim().length > 20 ) {
-      alert('La contraseña no puede tener más de 20 caracteres')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'La contraseña no puede tener más de 20 caracteres',
+        confirmButtonText: 'Ok'
+      })
       password.focus()
       return false
     }
 
     if ( password.value !== passwordConfirm.value ) {
-      alert('Las contraseñas no coinciden')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Las contraseñas no coinciden',
+        confirmButtonText: 'Ok'
+      })
       password.focus()
       return false
     }
@@ -75,14 +92,24 @@ const Authentication = () => {
     const passwordConfirmValue = passwordConfirm.value
 
     if ( !matchingPasswords(password, passwordConfirm) ) {
-      alert('Las contraseñas no coinciden')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Las contraseñas no coinciden',
+        confirmButtonText: 'Ok'
+      })
       password.focus()
       setCustomizationStep(false)
       return
     }
     
     if ( emailValue === '' || passwordValue === '' || passwordConfirmValue === '' ) {
-      alert('Por favor completa todos los campos')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Por favor completa todos los campos',
+        confirmButtonText: 'Ok'
+      })
       email.focus()
     }
 
@@ -96,7 +123,12 @@ const Authentication = () => {
         const response = await validateEmail()
 
         if ( response.status === 409 ) {
-          alert('El email ya está en uso')
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El email ya está en uso',
+            confirmButtonText: 'Ok'
+          })
           email.focus()
           
           setCustomizationStep(false)
@@ -104,7 +136,12 @@ const Authentication = () => {
         }
 
         if ( response.status === 400 ) {
-          alert('Algo salió mal, por favor intenta de nuevo')
+            Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Algo salió mal, por favor intenta de nuevo',
+            confirmButtonText: 'Ok'
+            })
           email.focus()
 
           setCustomizationStep(false)
@@ -119,18 +156,33 @@ const Authentication = () => {
       } catch (error) {
         console.error(error)
         if ( error?.response?.status === 409 ) {
-          alert('El email ya está en uso')
+            Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El email ya está en uso',
+            confirmButtonText: 'Ok'
+            })
           email.focus()
           
           setCustomizationStep(false)
           return
         }
         if ( error?.code == 'ERR_NETWORK' ) {
-          alert('Algo salió mal, por favor intenta de nuevo')
+            Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Algo salió mal, por favor intenta de nuevo',
+            confirmButtonText: 'Ok'
+            })
           setCustomizationStep(false)
           return
         }
-        alert('Algo salió mal, por favor intenta de nuevo')
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor intenta de nuevo',
+          confirmButtonText: 'Ok'
+        })
         setCustomizationStep(false)
         return
       }
@@ -153,15 +205,30 @@ const Authentication = () => {
     const description = e.target.form[5].value
 
     if ( fullName === '' || birthdate === '' || lookingForDescription === '' || description === '' ) {
-      alert('Por favor completa todos los campos')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Por favor completa todos los campos',
+        confirmButtonText: 'Ok'
+      })
       return
     }
     if ( imageFile === '' ) {
-      alert('Por favor selecciona una imagen de perfil')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Por favor selecciona una imagen de perfil',
+        confirmButtonText: 'Ok'
+      })
       return
     }
     if ( selectedTags.length === 0 ) {
-      alert('Por favor selecciona al menos una etiqueta')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Por favor selecciona al menos una etiqueta',
+        confirmButtonText: 'Ok'
+      })
       return
     }
 
@@ -173,6 +240,7 @@ const Authentication = () => {
     setProfilePhoto(imageFile)
     setLookingForDescription(lookingForDescription)
     setDescription(description)
+    return true
   }
 
   function handleUserTypeChoice( type ) {
@@ -188,32 +256,46 @@ const Authentication = () => {
   async function onRegisterUser() {
     try {
         const response = await apiRequest('post', `${API_URL_AUTH}/register`, {
-            user_email: signUpEmail,
-            user_pass: signUpPassword,
-            user_name: fullName,
-            user_birthdate: birthdate,
-            user_is_host: Boolean( userType ),
+          user_email: signUpEmail,
+          user_pass: signUpPassword,
+          user_name: fullName,
+          user_birthdate: birthdate,
+          user_is_host: Boolean(userType),
         });
 
         if (response.status === 201) {
             const { token } = response.data; // Extrae el token del objeto
-            console.log('Token recibido:', token);
 
             if (!token) {
                 console.error('El servidor no devolvió un token válido.');
-                alert('Algo salió mal, por favor intenta de nuevo.');
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Algo salió mal, por favor intenta de nuevo.',
+                  confirmButtonText: 'Ok'
+                });
                 return false;
             }
 
             login({ token }); // Guarda el token en el contexto de autenticación
             return true;
         } else {
-            alert('Algo salió mal, por favor intenta de nuevo.');
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Algo salió mal, por favor intenta de nuevo.',
+              confirmButtonText: 'Ok'
+            });
             return false;
         }
     } catch (error) {
         console.error('Error en onRegisterUser:', error);
-        alert('Algo salió mal, por favor intenta de nuevo.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Algo salió mal, por favor intenta de nuevo.',
+          confirmButtonText: 'Ok'
+        });
         return false;
     }
 }
@@ -232,7 +314,12 @@ const Authentication = () => {
     if ( response.status === 201 ) {
       return true
     } else {
-      alert('Algo salió mal, por favor intenta de nuevo')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Algo salió mal, por favor intenta de nuevo',
+        confirmButtonText: 'Ok'
+      })
       return
     }
     
@@ -242,19 +329,45 @@ const Authentication = () => {
     const listOfImages = [ profilePhoto, ...data ]
 
     if ( listOfImages.length === 0 ) {
-      alert('Por favor selecciona al menos una imagen')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Por favor selecciona al menos una imagen',
+        confirmButtonText: 'Ok'
+      })
       return
     }
 
     if ( signUpEmail === '' || signUpPassword === '' || fullName === '' || birthdate === '' ) {
-      alert('Por favor completa todos los campos')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Por favor completa todos los campos',
+        confirmButtonText: 'Ok'
+      })
       return
     }
 
     try {
       const serials = listOfImages.map( ( image ) => {
-        return fromURLtoB64( image )
-      })
+        const imgRes = fromURLtoB64( image )
+        console.log( 'imgRes', imgRes )
+        if (imgRes.startsWith('data:text/html')) {
+          console.warn('Skipping image as it is of type HTML:', imgRes);
+          return null;
+        }
+        return imgRes
+      }).filter((serial) => serial !== null);
+
+      if ( serials.length === 0 ) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Por favor selecciona al menos una imagen',
+          confirmButtonText: 'Ok'
+        })
+        return
+      }
   
       const registerUser = await onRegisterUser()
       if ( !registerUser ) return
@@ -271,7 +384,12 @@ const Authentication = () => {
       return true
     } catch (error) {
       console.error('Error in onThirdPersoSubmit:', error)
-      alert('Algo salió mal, por favor intenta de nuevo')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Algo salió mal, por favor intenta de nuevo',
+        confirmButtonText: 'Ok'
+      })
       return
     }
   }

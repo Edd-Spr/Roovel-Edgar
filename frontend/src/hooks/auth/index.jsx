@@ -22,33 +22,36 @@ export const AuthProvider = ({ children }) => {
         try {
             const decoded = jwtDecode( usrToken );
             if ( !decoded ) {
-                Swal.fire({
-                    title: 'Acceso denegado',
-                    text: 'No tienes permiso para acceder a esta página.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                })
-                navigate('/auth');
+                throw new Error('Token no válido o expirado');
             }
             return decoded;
         } catch (err) {
             console.error('Error al decodificar el token:', err);
+            Swal.fire({
+                title: 'Inicia sesión',
+                text: 'Necesitas iniciar sesión para acceder a esta página.',
+                icon: 'info',
+                confirmButtonText: 'OK'
+            })
+            navigate('/auth');
             return null;
         }
     }
 
-    function redirectBasedOnRole( path, condition, actions = (() => {}) ) {
+    function redirectBasedOnRole( path = '/', condition, actions = (() => {}), onElseActions = (() => {}) ) {
         const decoded = decodeToken();
         if ( !decoded ) {
             console.error('No se pudo decodificar el token. Redirigiendo a /auth...');
-            navigate( path );
             return;
         }
 
         if ( condition( decoded ) ) {
-            console.log( actions )
+            console.log( 'Condition met, executing actions...' );
             actions();
             navigate( path );
+        } else {
+            console.log( 'Condition not met, executing else actions...' );
+            onElseActions();
         }
     }
 
@@ -63,12 +66,16 @@ export const AuthProvider = ({ children }) => {
                 const decodedUser = jwtDecode( storedToken );
                 setUser(decodedUser);
             } else {
-                Swal.fire({
-                    title: 'Acceso denegado',
-                    text: 'No tienes permiso para acceder a esta página.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                })
+                const currentPath = window.location.pathname;
+                if ( currentPath !== '/' && currentPath !== '/auth' ) {
+                    Swal.fire({
+                        title: 'Acceso denegado',
+                        text: 'No tienes permiso para acceder a esta página.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                    navigate('/auth');
+                }
                 console.log('No se encontró un token en sessionStorage.');
                 setLoading(false);
             }

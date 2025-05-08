@@ -15,10 +15,11 @@ const ProfileCustomization = ({ userType, onFirstSubmit, onSecondSubmit, onThird
 
     const handleFirstSubmit = (e, data) => {
         e.preventDefault();
-        onFirstSubmit(e, data);
-        // Should the user is a landlord, we skip the second step
-        // and go directly to the third step.
-        setCustomProgress( customProgress + ( ( userType === 1 ) ? 2 : 1 ) );
+        if ( onFirstSubmit(e, data) ) {
+            // Should the user is a landlord, we skip the second step
+            // and go directly to the third step.
+            setCustomProgress( customProgress + ( ( userType === 1 ) ? 2 : 1 ) );
+        }
     }
     const handleSecondSubmit = ( option ) => {
         onSecondSubmit( option );

@@ -4,8 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  optimizeDeps: {
-    exclude: ['@babel/runtime/helpers/extends', '@babel/runtime/helpers/inheritsLoose'],
-    include: ['jwt-decode'],
+  server: {
+    allowedHosts: ['higher-remain-felt-mike.trycloudflare.com'],
   },
 })

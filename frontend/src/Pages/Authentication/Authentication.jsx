@@ -188,16 +188,15 @@ const Authentication = () => {
   async function onRegisterUser() {
     try {
         const response = await apiRequest('post', `${API_URL_AUTH}/register`, {
-            user_email: signUpEmail,
-            user_pass: signUpPassword,
-            user_name: fullName,
-            user_birthdate: birthdate,
-            user_is_host: Boolean( userType ),
+          user_email: signUpEmail,
+          user_pass: signUpPassword,
+          user_name: fullName,
+          user_birthdate: birthdate,
+          user_is_host: Boolean(userType),
         });
 
         if (response.status === 201) {
             const { token } = response.data; // Extrae el token del objeto
-            console.log('Token recibido:', token);
 
             if (!token) {
                 console.error('El servidor no devolvió un token válido.');

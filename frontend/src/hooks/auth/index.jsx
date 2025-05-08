@@ -63,12 +63,16 @@ export const AuthProvider = ({ children }) => {
                 const decodedUser = jwtDecode( storedToken );
                 setUser(decodedUser);
             } else {
-                Swal.fire({
-                    title: 'Acceso denegado',
-                    text: 'No tienes permiso para acceder a esta página.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                })
+                const currentPath = window.location.pathname;
+                if ( currentPath !== '/' && currentPath !== '/auth' ) {
+                    Swal.fire({
+                        title: 'Acceso denegado',
+                        text: 'No tienes permiso para acceder a esta página.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                    navigate('/auth');
+                }
                 console.log('No se encontró un token en sessionStorage.');
                 setLoading(false);
             }

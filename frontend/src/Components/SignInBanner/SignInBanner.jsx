@@ -2,7 +2,7 @@ import Styles from './SignInBanner.module.css';
 
 import { useNavigate } from 'react-router-dom';
 
-const SignInBanner = () => {
+const SignInBanner = ({isAuthenticated}) => {
     const nav = useNavigate();
 
     function handleSignIn() {
@@ -25,14 +25,21 @@ const SignInBanner = () => {
                 <section className={Styles.signInBannerInfo}>
                     <h1 className={Styles.signInTitle}>Tu proximo roomie a un click de distancia</h1>
                     <p className={Styles.signInDescription}>Las mejores habitaciones y roomies te están esperando. Inicia sesión para encontrarlos.</p>
-                    <button 
-                        className={Styles.signInButton}
-                        onClick={handleSignIn}
-                        >Iniciar Sesión</button>
-                    <button 
-                        className={Styles.signUpButton}
-                        onClick={handleSignUp}
-                        >Registrarse</button>
+                   { !isAuthenticated &&<>
+                        <button 
+                            className={Styles.signInButton}
+                            onClick={handleSignIn}
+                        >
+                            Iniciar Sesión
+                        </button>
+
+                        <button 
+                            className={Styles.signUpButton}
+                            onClick={handleSignUp}
+                        >
+                            Registrarse
+                        </button>
+                    </>}
                 </section>
 
             </div>

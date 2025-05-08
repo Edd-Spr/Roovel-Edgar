@@ -9,4 +9,4 @@ export const API_URL_AUTH = `${ API_URL }/auth`;
 export const API_URL_USERS = `${ API_URL }/user`;
 
 export const API_URL_HOUSE = `${ API_URL }/house`;
-export const API_URL_ROOM = `${ API_URL }/room`;
+export const API_URL_ROOM = `${ API_URL }/RoomTagsImage`;

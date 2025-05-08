@@ -242,7 +242,7 @@ const Home = () => {
         <Layout>
                 <FeaturesCarousel actualCarousel={actualCarousel} setActualCarousel={setActualCarousel}/>
                 <StayFinder />
-                {isLogged || <SignInBanner />}
+                <SignInBanner isAuthenticated={isAuthenticated}/>
                 <RoomSlider
                     roomSliderTitle='Vistos Recientemente'
                     rooms={rooms}

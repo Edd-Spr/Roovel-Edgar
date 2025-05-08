@@ -80,6 +80,38 @@ const AmigosList = ({ currentUser }) => {
     });
   };
 
+  const handlebloquearAmigo = (friend) => {
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, bloquear"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.put('http://localhost:3000/api/friends/remove', {
+            id_user: currentUser,
+            friend: friend.id_user
+          });
+
+          setAmigos((prevAmigos) => prevAmigos.filter(f => f.id_user !== friend.id_user));
+
+          Swal.fire({
+            title: "Eliminado",
+            text: "El amigo ha sido bloqueado.",
+            icon: "success"
+          });
+        } catch (error) {
+          console.error('Error al eliminar al amigo:', error);
+          Swal.fire("Error", "No se pudo eliminar el amigo.", "error");
+        }
+      }
+    });
+  };
+
   return (
     <div className="amigos-container" ref={containerRef}>
       <h2 className='titleAmigo'>Amigos</h2>
@@ -119,7 +151,7 @@ const AmigosList = ({ currentUser }) => {
                 <div className="amigos-icons-row">
                   <img src={friend.avatar || 'https://i.pravatar.cc/100?img=3'} alt={friend.name} className="amigos-avatar" />
                   <div className="amigos-icons">
-                    <button className="action red" onClick={() => handleEliminarAmigo(friend)}>
+                    <button className="action red" onClick={() => handlebloquearAmigo(friend)}>
                       <FiSlash size={20} />
                     </button>
                     <button className="action grey" onClick={() => handleEliminarAmigo(friend)}>

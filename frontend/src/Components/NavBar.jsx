@@ -2,9 +2,8 @@ import { Link, useLocation } from 'react-router-dom';
 import '../Styles/NavBar.css';
 import { useEffect, useState, useRef } from 'react';
 import AdvertisingBanner from './AdvertisingBanner';
-// import { useAuth } from '../hooks/auth/index.jsx';
+import { useAuth } from '../hooks/auth/index.jsx';
 import jwtDecode from 'jwt-decode';
-import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
     const location = useLocation();
@@ -138,6 +137,7 @@ const NavBar = () => {
 
                 {isAuthenticated &&
                 <ProfileImage 
+                    onClick={ logout }
                     containerRef={containerRef}
                     profileImage={profileImage}
                     setIsMenuOpen={setIsMenuOpen}
@@ -150,7 +150,7 @@ const NavBar = () => {
 
 };
 
-function ProfileImage({containerRef, profileImage, isMenuOpen, setIsMenuOpen}){
+function ProfileImage({containerRef, profileImage, isMenuOpen, setIsMenuOpen, onClick}){
     return (
         <div
         className="userPhotoProfileContainer"
@@ -172,7 +172,7 @@ function ProfileImage({containerRef, profileImage, isMenuOpen, setIsMenuOpen}){
             <div className="dropdownMenu">
                 <Link to="/profile" className="dropdownMenuButton">Ver perfil</Link>
                 <button
-                    onClick={() => console.log('cerrar sesión')}
+                    onClick={ onClick }
                     className="dropdownMenuButton"
                 >
                     Cerrar sesión

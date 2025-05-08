@@ -31,7 +31,7 @@ export default function AdvertisingBanner({ title, description, image, color, cl
                 <div className={Styles.signInBannerBlur}></div>
                 <section className={Styles.signInBannerInfo}>
                     <h1 className={Styles.signInTitle}>¿Tienes una habitación disponible?</h1>
-                    <p className={Styles.signInDescription}>Publica tu habitación fácilmente y encuentra al roomie ideal. Regístrate gratis y empieza a recibir solicitudes hoy mismo.</p>
+                    <p className={Styles.signInDescription}>Publica tu habitación fácilmente y encuentra al roomie ideal. Regístrate gratis como <b><i>arrendador</i></b> y empieza a recibir solicitudes hoy mismo.</p>
                     <button 
                         className={Styles.signUpButton}
                         onClick={closeBanner}

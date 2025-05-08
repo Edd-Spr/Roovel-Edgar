@@ -1,11 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 import '../Styles/NavBar.css';
-
-import { useAuth } from '../hooks/auth/index.jsx';
 import { useEffect, useState, useRef } from 'react';
 import AdvertisingBanner from './AdvertisingBanner';
 import jwtDecode from 'jwt-decode';
-import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
     const location = useLocation();
@@ -24,10 +21,6 @@ const NavBar = () => {
       if (usrToken) {
           try {
               const decodedToken = jwtDecode(usrToken);
-              console.log('Token decodificado:', decodedToken);
-              console.log('ID del Usuario:', decodedToken.userId);
-              console.log('Type user:', decodedToken.type_user);
-              console.log('Estado de autenticación:', isAuthenticated);
               setIDUSER(decodedToken.userId);
           } catch (error) {
               console.error('Error al decodificar el token:', error);
@@ -49,7 +42,6 @@ const NavBar = () => {
                 const data = await response.json();
                 if (Array.isArray(data) && data.length > 0) {
                     setProfileImage(data[0].image_src);
-                    console.log("Imágenes recibidas para foto de perfil:", data[0].image_src);
                 }
             } catch (error) {
                 console.error("Error al obtener imagen de perfil:", error);
@@ -139,6 +131,7 @@ const NavBar = () => {
 
                 {isAuthenticated ?
                 <ProfileImage 
+                    onClick={ logout }
                     containerRef={containerRef}
                     profileImage={profileImage}
                     setIsMenuOpen={setIsMenuOpen}
@@ -157,7 +150,7 @@ const NavBar = () => {
 
 };
 
-function ProfileImage({containerRef, profileImage, isMenuOpen, setIsMenuOpen}){
+function ProfileImage({containerRef, profileImage, isMenuOpen, setIsMenuOpen, onClick}){
     return (
         <div
         className="userPhotoProfileContainer"
@@ -178,9 +171,8 @@ function ProfileImage({containerRef, profileImage, isMenuOpen, setIsMenuOpen}){
         {isMenuOpen && (
             <div className="dropdownMenu">
                 <Link to="/profile" className="dropdownMenuButton">Ver perfil</Link>
-                <Link to="/favorite" className="dropdownMenuButton">Favoritos</Link>
                 <button
-                    onClick={() => console.log('cerrar sesión')}
+                    onClick={ onClick }
                     className="dropdownMenuButton"
                 >
                     Cerrar sesión

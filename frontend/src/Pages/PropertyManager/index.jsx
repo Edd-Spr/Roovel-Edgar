@@ -11,6 +11,7 @@ import PropertyManagerPanel from './Components/PropertyManagerPanel';
 
 import AuthLoader from '../Authentication/Components/AuthLoader/index.jsx';
 import swal from 'sweetalert2';
+import { useAuth } from '../../hooks/auth';
 
 import useMainImages from './hooks/useMainImages';
 import useInfoProperty from './hooks/useInfoProperty';
@@ -44,6 +45,8 @@ export default function PropertyManager() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
   const [success, setSuccess] = useState();
+
+  const { redirectBasedOnRole } = useAuth();
 
   // image hook for room creation
   const {
@@ -250,6 +253,22 @@ export default function PropertyManager() {
       setError(null);
     }
   }, [ success, error, loading ]);
+
+  useEffect(()=>{
+    // check if not a host
+    const condition = ({ user_is_host }) => { return user_is_host !== 1};
+    const action = () => {
+      swal.fire({
+        title: 'Acceso denegado',
+        text: 'No tienes permiso para acceder a esta página.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    }
+
+    redirectBasedOnRole( '/', condition, action )
+
+  }, [])
 
   return (
     <Layout>

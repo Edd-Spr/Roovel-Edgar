@@ -13,12 +13,14 @@ const ProfileCustomization = ({ userType, onFirstSubmit, onSecondSubmit, onThird
     const [customizationIsLoading, setCustomizationIsLoading] = useState(false)
     const navigate = useNavigate();
 
-    const handleFirstSubmit = (e, data) => {
+    const handleFirstSubmit = async (e, data) => {
         e.preventDefault();
-        onFirstSubmit(e, data);
-        // Should the user is a landlord, we skip the second step
-        // and go directly to the third step.
-        setCustomProgress( customProgress + ( ( userType === 1 ) ? 2 : 1 ) );
+        const res = await onFirstSubmit( e, data );
+        if ( res ) {
+            // Should the user is a landlord, we skip the second step
+            // and go directly to the third step.
+            setCustomProgress( customProgress + ( ( userType === 1 ) ? 2 : 1 ) );
+        }
     }
     const handleSecondSubmit = ( option ) => {
         onSecondSubmit( option );
@@ -42,6 +44,29 @@ const ProfileCustomization = ({ userType, onFirstSubmit, onSecondSubmit, onThird
             setCustomProgress(customProgress - 2);
         }
 
+    }
+
+    const handleStepClick = (step) => {
+        return;
+        switch (step) {
+            case 1:
+                if ( onFirstSubmit() ) {
+                    setCustomProgress(1);
+                }
+                break;
+            case 2:
+                if ( handleSecondSubmit() ) {
+                    if (userType !== 1) {
+                        setCustomProgress(2);
+                    }
+                }
+                break;
+            case 3:
+                if ( handleThirdSubmit() ) setCustomProgress(3);
+                break;
+            default:
+                break;
+        }
     }
 
     return (
@@ -76,15 +101,15 @@ const ProfileCustomization = ({ userType, onFirstSubmit, onSecondSubmit, onThird
             <section className={Styles.customProgressContainer}>
                 <button 
                     className={`${Styles.customProgressButton} ${customProgress >= 1 && Styles.activeCustomProgressButton}`} 
-                    onClick={ () => setCustomProgress(1) }>1</button>
+                    onClick={ () => handleStepClick(1) }>1</button>
                 <button 
                     title={ landlordMessage } 
                     className={`${Styles.customProgressButton} ${customProgress >= 2 && Styles.activeCustomProgressButton}`} 
                     disabled={ userType === 1 }
-                    onClick={ () => setCustomProgress(2) }>2</button>
+                    onClick={ () => handleStepClick(2) }>2</button>
                 <button 
                     className={`${Styles.customProgressButton} ${customProgress >= 3 && Styles.activeCustomProgressButton}`}
-                    onClick={ () => setCustomProgress(3) }>3</button>
+                    onClick={ () => handleStepClick(3) }>3</button>
             </section>}
 
             {customizationIsLoading && (

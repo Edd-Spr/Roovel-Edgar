@@ -8,7 +8,7 @@ import AmigosList from '../../Components/Friends/Friends';
 import Carousel from '../../Components/Carousel/Carousel';
 import { useAuth } from '../../hooks/auth/index.jsx';
 import jwtDecode from 'jwt-decode';
-import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 import ProfileCustomization from '../../Components/ProfileCustomization/ProfileCustomization';
 // import axios from 'axios';
@@ -27,6 +27,8 @@ const Profile = () => {
     description: '',
     user_birthdate: '', 
   });
+  const { redirectBasedOnRole } = useAuth();
+
   useEffect(() => {
     if (usrToken) {
         try {
@@ -39,9 +41,32 @@ const Profile = () => {
             console.error('Error al decodificar el token:', error);
         }
     } else {
-        console.log('No hay token disponible.');
+        Swal.fire({
+          title: 'Acceso denegado',
+          text: 'No tienes permiso para acceder a esta página.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
     }
 }, [usrToken]);
+
+useEffect(() => {
+  // check if the user id is null
+  // because, to be able to redirect and call the action
+  // the condition must be true
+  const condition = ({ userId }) => userId === null;
+  const action = () => {
+    Swal.fire({
+      title: 'Acceso denegado',
+      text: 'No tienes permiso para acceder a esta página.',
+      icon: 'error',
+      confirmButtonText: 'OK'
+    })
+  }
+
+  redirectBasedOnRole('/auth', condition, action);
+
+}, [])
 
 useEffect(() => {
     setCurrentUser(IDUSER);
@@ -68,7 +93,6 @@ useEffect(() => {
 
             const response = await fetch(`http://localhost:3000/images?id_user=${currentUser}`);
             const data = await response.json();
-            console.log("Imágenes recibidas para foto de perfil:", data);
 
             if (Array.isArray(data) && data.length > 0) {
                 setProfileImage(data[0].image_src); 

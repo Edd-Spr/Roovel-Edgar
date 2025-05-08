@@ -82,6 +82,7 @@ const AmigosList = ({ currentUser }) => {
 
   return (
     <div className="amigos-container" ref={containerRef}>
+      <h2 className='titleAmigo'>Amigos</h2>
       {amigos.length === 0 ? (
         <div className="empty-screen">
           <img 
@@ -118,11 +119,8 @@ const AmigosList = ({ currentUser }) => {
                 <div className="amigos-icons-row">
                   <img src={friend.avatar || 'https://i.pravatar.cc/100?img=3'} alt={friend.name} className="amigos-avatar" />
                   <div className="amigos-icons">
-                    <button className="action red">
+                    <button className="action red" onClick={() => handleEliminarAmigo(friend)}>
                       <FiSlash size={20} />
-                    </button>
-                    <button className="action yellow">
-                      <FiAlertCircle size={20} />
                     </button>
                     <button className="action grey" onClick={() => handleEliminarAmigo(friend)}>
                       <FiTrash2 size={20} />

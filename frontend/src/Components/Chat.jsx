@@ -70,6 +70,7 @@ const Chat = () =>{
         try {
             if (user !== 0) { // Verifica que `user` no sea 0
                 const friendRequests = await getFriendsRequest(user);
+                console.log('friendRequests',friendRequests)
                 setFriendRequest(friendRequests); 
             }
         } catch (error) {
@@ -164,7 +165,7 @@ useEffect(() => {
             </div>
           )
         ) : (
-          <FriendsRequest friendRequestUsers={friendRequestUsers} />
+          <FriendsRequest friendRequestUsers={friendRequestUsers} currentUser={IDUSER}/>
         )}
       </section>
 
@@ -287,14 +288,15 @@ const LeftBarChat = ({
   );
 };
 
-const FriendsRequest = ({ friendRequestUsers }) => {
+const FriendsRequest = ({ friendRequestUsers , currentUser }) => {
+  console.log('friendRequestUsers ----',friendRequestUsers.id, currentUser)
   return (
     <div className="friendsRequestContainer">
       {friendRequestUsers.length > 0 ? (
         <>
           <h1 className="friendsRequestContainer__title">Solicitudes</h1>
           {friendRequestUsers?.map(user => (
-            <FriendRequestBox key={user.id} user={user} />
+            <FriendRequestBox key={user.id} user={user} currentUser = {currentUser} />
           ))}
         </>
       ) : (

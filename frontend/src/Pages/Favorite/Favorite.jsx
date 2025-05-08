@@ -8,7 +8,6 @@ import dog from '../../Components/Friends/dog_waiting.jpg';
 import { FaHeart } from "react-icons/fa";
 
 import { useAuth } from '../../hooks/auth';
-import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 
 const Favoritos = () => {

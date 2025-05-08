@@ -4,32 +4,34 @@ import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const Paypage = () => {
-  const { id_room } = useParams();
-  // const id_room = 3;
+  const { room_id} = useParams();
   const [room, setRoom] = useState({ room_price: 0, room_description: '' });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/pay/${id_room}`)
-      .then((res) => {
-        console.log('Respuesta del servidor:', res);
-        if (!res.ok || res.headers.get('content-type')?.includes('text/html')) {
-          throw new Error('Respuesta no válida o no es JSON');
-        }
-        return res.json();
-      })
-      .then((data) => {
+    const fetchRoom = async () => {
+      try {
+        const res = await fetch(`http://localhost:3000/api/pay/${room_id}`);
+        
+        if (!res.ok) throw new Error('Habitación no encontrada');
+        
+        const data = await res.json();
+        console.log('Datos obtenidos:', data);
+        
         setRoom(data);
         setIsLoading(false);
-      })
-      .catch((err) => {
-        console.error('Error al cargar datos de habitación:', err);
-        setIsLoading(false);
-      });
-  }, [id_room]);
+      } catch (error) {
+        console.error('Error al obtener habitación:', error);
+        Swal.fire('Error', 'No se pudo cargar la habitación.', 'error');
+      }
+    };
+  
+    fetchRoom();
+  }, [room_id]);
+  
 
   const handleConfirmPayment = () => {
-    fetch(`http://localhost:3000/api/pay/confirm/${id_room}`, {
+    fetch(`http://localhost:3000/api/pay/confirm/${room_id}`, {
       method: 'PUT',
     })
       .then((res) => res.json())

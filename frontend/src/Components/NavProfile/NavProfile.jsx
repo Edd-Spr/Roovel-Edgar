@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { FiHeart, FiUser, FiHome, FiSettings } from "react-icons/fi";
+import { FiHeart, FiUser, FiFile  } from "react-icons/fi";
 
 import './NavProfile.css';
 
@@ -10,7 +10,7 @@ const Menu = () => {
   const navItems = [
     { label: 'Profile', icon: <FiUser size={28} />, path: '/profile' },
     { label: 'Favoritos', icon: <FiHeart size={28} />, path: '/Favorite' },
-    { label: 'TerminosyCondiciones', icon: <FiHome  size={28} />, path: '/TyC' }
+    { label: 'TerminosyCondiciones', icon: <FiFile   size={28} />, path: '/TyC' }
   ];
 
   return (

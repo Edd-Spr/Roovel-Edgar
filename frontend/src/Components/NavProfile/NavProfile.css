@@ -10,7 +10,7 @@
   width: 60px;
   transition: width 0.3s ease-in-out;
   overflow: hidden;
-  Position: absolute;
+  /* Position: absolute; */
   Left: 0;
 }
 

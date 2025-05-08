@@ -3,6 +3,7 @@ import RoomOverviewSkeleton from './RoomOverviewSkeleton';
 import { useState, useEffect } from 'react';
 import { RiHeartLine, RiHeartFill } from 'react-icons/ri';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const RoomOverview = ({ 
 
@@ -25,6 +26,7 @@ const RoomOverview = ({
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [liked, setLiked] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
 
     console.log('room_main_image', room_main_image)
 
@@ -208,7 +210,7 @@ const RoomOverview = ({
                         <div className={Styles['property-overview__des-container']}>
                             <h1 className={Styles['info-container__name']}>Descripción</h1>
                             <p className={Styles['property-overview__description']}>{room_description}</p>
-                            <button className={Styles['property-overview__button-reservation']}>Reservar Habitación</button>
+                            <button className={Styles['property-overview__button-reservation']} onClick={() => navigate(`/Pay/${room_id}`)}>Reservar Habitación</button>
                         </div>
 
 

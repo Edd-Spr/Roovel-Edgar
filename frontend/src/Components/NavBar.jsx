@@ -3,6 +3,7 @@ import '../Styles/NavBar.css';
 import { useEffect, useState, useRef } from 'react';
 import AdvertisingBanner from './AdvertisingBanner';
 import jwtDecode from 'jwt-decode';
+import { useAuth } from '../hooks/auth';
 
 const NavBar = () => {
     const location = useLocation();

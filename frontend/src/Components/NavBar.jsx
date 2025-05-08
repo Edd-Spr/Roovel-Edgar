@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import '../Styles/NavBar.css';
 import { useEffect, useState, useRef } from 'react';
 import AdvertisingBanner from './AdvertisingBanner';
-// import { useAuth } from '../hooks/auth/index.jsx';
+import { useAuth } from '../hooks/auth/index.jsx';
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 

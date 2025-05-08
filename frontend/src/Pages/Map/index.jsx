@@ -113,13 +113,13 @@ export default function Map() {
         <RoomOverview
           room={selectedRoom}
           room_name={selectedRoom.home_name}
-          room_description={selectedRoom.romm_description}
+          room_description={selectedRoom.room_description}
           room_price={selectedRoom.room_price}
           room_tags={selectedRoom.tags}
           room_images={selectedRoom.images}
-          room_main_image={selectedRoom.mainImage}
+          room_main_image={selectedRoom.mainImage[0].image_src}
           property={home}
-          
+          room_id={selectedRoom.id_room}
           setSelectedProperty={setSelectedProperty}
           closeRoomOverviewOpen={()=>setIsRoomOverviewOpen(false)}
           setIsPropertyOverviewOpen={() => setIsPropertyOverviewOpen(true)}

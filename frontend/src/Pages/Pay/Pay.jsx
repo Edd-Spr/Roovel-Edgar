@@ -1,23 +1,33 @@
 import './Pay.css';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const Paypage = () => {
-  const { room_id} = useParams();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const room_id = queryParams.get('room_id'); 
   const [room, setRoom] = useState({ room_price: 0, room_description: '' });
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log('ID de la habitación:', room_id);
+
   useEffect(() => {
+    if (!room_id) {
+      console.error('room_id es undefined');
+      Swal.fire('Error', 'No se proporcionó un ID de habitación.', 'error');
+      return;
+    }
+
     const fetchRoom = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/pay/${room_id}`);
-        
+        const res = await fetch(`http://localhost:3000/api/pay?id_room=${room_id}`);
+
         if (!res.ok) throw new Error('Habitación no encontrada');
-        
+
         const data = await res.json();
         console.log('Datos obtenidos:', data);
-        
+
         setRoom(data);
         setIsLoading(false);
       } catch (error) {
@@ -25,31 +35,46 @@ const Paypage = () => {
         Swal.fire('Error', 'No se pudo cargar la habitación.', 'error');
       }
     };
-  
+
     fetchRoom();
   }, [room_id]);
-  
 
-  const handleConfirmPayment = () => {
-    fetch(`http://localhost:3000/api/pay/confirm/${room_id}`, {
-      method: 'PUT',
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        Swal.fire({
-          title: '¡Pago confirmado!',
-          text: 'La habitación ha sido marcada como ocupada.',
-          icon: 'success',
-        });
-      })
-      .catch((err) => {
-        console.error('Error al confirmar pago:', err);
-        Swal.fire({
-          title: 'Error',
-          text: 'No se pudo confirmar el pago',
-          icon: 'error',
-        });
+  const handleConfirmPayment = async () => {
+    if (!room_id) {
+      Swal.fire('Error', 'No se puede confirmar el pago sin un ID de habitación.', 'error');
+      return;
+    }
+
+    try {
+      console.log('ID de la habitación:', room_id);
+
+      const res = await fetch(`http://localhost:3000/api/pay/confirm`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id_room: room_id }),
       });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Error al confirmar el pago');
+      }
+
+      const data = await res.json();
+      Swal.fire({
+        title: '¡Pago confirmado!',
+        text: 'La habitación ha sido marcada como ocupada.',
+        icon: 'success',
+      });
+    } catch (err) {
+      console.error('Error al confirmar pago:', err);
+      Swal.fire({
+        title: 'Error',
+        text: err.message || 'No se pudo confirmar el pago',
+        icon: 'error',
+      });
+    }
   };
 
   if (isLoading) {

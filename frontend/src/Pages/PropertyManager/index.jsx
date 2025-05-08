@@ -256,7 +256,7 @@ export default function PropertyManager() {
 
   useEffect(()=>{
     // check if not a host
-    const condition = ({ typeuser }) => typeuser !== 1;
+    const condition = ({ user_is_host }) => { return user_is_host !== 1};
     const action = () => {
       swal.fire({
         title: 'Acceso denegado',

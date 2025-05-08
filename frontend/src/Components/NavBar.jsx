@@ -22,10 +22,6 @@ const NavBar = () => {
       if (usrToken) {
           try {
               const decodedToken = jwtDecode(usrToken);
-              console.log('Token decodificado:', decodedToken);
-              console.log('ID del Usuario:', decodedToken.userId);
-              console.log('Type user:', decodedToken.type_user);
-              console.log('Estado de autenticación:', isAuthenticated);
               setIDUSER(decodedToken.userId);
           } catch (error) {
               console.error('Error al decodificar el token:', error);
@@ -47,7 +43,6 @@ const NavBar = () => {
                 const data = await response.json();
                 if (Array.isArray(data) && data.length > 0) {
                     setProfileImage(data[0].image_src);
-                    console.log("Imágenes recibidas para foto de perfil:", data[0].image_src);
                 }
             } catch (error) {
                 console.error("Error al obtener imagen de perfil:", error);

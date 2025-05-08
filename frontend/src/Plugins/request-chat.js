@@ -110,7 +110,17 @@ export const ClientPligin_friends = {
     }
 },
   put: async(url, body) => {
-    return new Error('This part code isnt implement');
+    try {
+      const response = await axios.put(url, body,{
+        headers: {
+          'Content-Type': 'application/json',
+        },  
+      })
+      return response.data;
+    } catch (error) {
+      console.error('Error al actualizar:', error);
+      throw error;
+    }
   },  
   delete: async(url, body) => { 
     return new Error('This part code isnt implement');

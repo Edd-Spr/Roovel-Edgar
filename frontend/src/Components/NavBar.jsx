@@ -1,7 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
 import '../Styles/NavBar.css';
-
-import { useAuth } from '../hooks/auth/index.jsx';
 import { useEffect, useState, useRef } from 'react';
 import AdvertisingBanner from './AdvertisingBanner';
 // import { useAuth } from '../hooks/auth/index.jsx';

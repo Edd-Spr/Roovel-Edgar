@@ -364,7 +364,9 @@ const ProfileCardInfo = ({userCard, infoIsOpen, setInfoIsOpen}) => {
                 </div>
 
                 <div className="tagsContainer">
-                {userCard.tags && Array.isArray(userCard.tags) && userCard.tags.map((tag, index) => <p key={index} className="tagProfileCard">{tag}</p>)}                
+                {userCard.tags && Array.isArray(userCard.tags) && userCard.tags.map((tag, index) => <p key={index} className="tagProfileCard">{tag}</p>)}    
+                {/* <p className='profileLocationMatchCard' style={{color: '#878787'}}>{userCard.description}</p> */}
+            
                 </div>
 
                 <div className="lookingForContainer">

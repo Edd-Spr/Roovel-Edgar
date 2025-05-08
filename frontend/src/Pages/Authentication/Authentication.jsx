@@ -195,7 +195,7 @@ const Authentication = () => {
     setAuthenticationIsLoading( false )
   }
 
-  function onFirstPersoSubmit(e, data) {
+  async function onFirstPersoSubmit(e, data) {
     e.preventDefault();
     const { imageFile, selectedTags, gender, pronouns } = data
 
@@ -213,7 +213,7 @@ const Authentication = () => {
       })
       return
     }
-    if ( imageFile === '' ) {
+    if ( imageFile === '' || !imageFile ) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -232,12 +232,18 @@ const Authentication = () => {
       return
     }
 
+    const b64 = await fromURLtoB64(imageFile);
+    if (b64?.startsWith('data:text/html')) {
+      console.warn('Skipping image as it is of type HTML:', b64);
+      return null;
+    }
+
     setFullName(fullName)
     setBirthdate(birthdate)
     setTags(selectedTags)
     setGender(gender)
     setPronouns(pronouns)
-    setProfilePhoto(imageFile)
+    setProfilePhoto( b64 )
     setLookingForDescription(lookingForDescription)
     setDescription(description)
     return true
@@ -250,7 +256,17 @@ const Authentication = () => {
   }
 
   function onSecondPersoSubmit( option ) {
+    if ( !option ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Por favor selecciona una opción',
+        confirmButtonText: 'Ok'
+      })
+      return
+    }
     setIsProfilePrivate( option === 2 )
+    return true
   }
 
   async function onRegisterUser() {
@@ -349,21 +365,23 @@ const Authentication = () => {
     }
 
     try {
-      const serials = listOfImages.map( ( image ) => {
-        const imgRes = fromURLtoB64( image )
-        console.log( 'imgRes', imgRes )
-        if (imgRes.startsWith('data:text/html')) {
+      const serials = await Promise.all( 
+        listOfImages.map( async ( image ) => {
+        const imgRes = await fromURLtoB64( image )
+        if (imgRes?.startsWith('data:text/html')) {
           console.warn('Skipping image as it is of type HTML:', imgRes);
           return null;
         }
         return imgRes
-      }).filter((serial) => serial !== null);
+      }))
+      
+      const filteredSerials = serials.filter((serial) => serial !== null);
 
-      if ( serials.length === 0 ) {
+      if ( filteredSerials.length === 0 || filteredSerials.length < 5 ) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Por favor selecciona al menos una imagen',
+          text: 'Por favor selecciona 4 imágenes en total',
           confirmButtonText: 'Ok'
         })
         return
@@ -372,10 +390,7 @@ const Authentication = () => {
       const registerUser = await onRegisterUser()
       if ( !registerUser ) return
   
-      const imgs = await Promise.all( serials )
-      const filteredImgs = imgs.filter( ( img ) => img !== null )
-  
-      const saveProfile = onSaveProfile( { imgs: filteredImgs } )
+      const saveProfile = onSaveProfile( { imgs: filteredSerials } )
       if ( !saveProfile ) return
       
       setAuthenticationIsLoading( false )

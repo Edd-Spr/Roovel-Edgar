@@ -1,9 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 import '../Styles/NavBar.css';
-
-import { useAuth } from '../hooks/auth/index.jsx';
 import { useEffect, useState, useRef } from 'react';
 import AdvertisingBanner from './AdvertisingBanner';
+import { useAuth } from '../hooks/auth/index.jsx';
 import jwtDecode from 'jwt-decode';
 
 const NavBar = () => {
@@ -172,7 +171,6 @@ function ProfileImage({containerRef, profileImage, isMenuOpen, setIsMenuOpen, on
         {isMenuOpen && (
             <div className="dropdownMenu">
                 <Link to="/profile" className="dropdownMenuButton">Ver perfil</Link>
-                <Link to="/favorite" className="dropdownMenuButton">Favoritos</Link>
                 <button
                     onClick={ onClick }
                     className="dropdownMenuButton"

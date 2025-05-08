@@ -3,13 +3,14 @@ import { useState, useRef, useEffect } from 'react';
 import { BiLike, BiSolidLike, BiDislike, BiSolidDislike } from "react-icons/bi";
 import { IoIosClose } from "react-icons/io";
 import InfoSolicitud from '../../Components/InfoSolicitud/InfoSolucitud.jsx';
+import {putFriendsRequest} from '../../templade/callback_chat_messges.js'
 
-const FriendRequestBox = ({ user }) => {
+const FriendRequestBox = ({ user, currentUser }) => {
     const [hoverLike, setHoverLike] = useState(false);
     const [hoverDislike, setHoverDislike] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
     const modalRef = useRef(); // Referencia para el modal
-    console.log('user -------', user.id);
+    console.log('user -------', user.id, currentUser);
 
     // Manejador de clic para abrir/cerrar el modal
     const handleContainerClick = () => {
@@ -29,6 +30,7 @@ const FriendRequestBox = ({ user }) => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+    
 
     // Calcular edad a partir de la fecha de nacimiento
     function ageInYears(birthdate) {
@@ -65,7 +67,10 @@ const FriendRequestBox = ({ user }) => {
                         className={Styles.like}
                         onMouseEnter={() => setHoverLike(true)}
                         onMouseLeave={() => setHoverLike(false)}
-                        onClick={(e) => e.stopPropagation()} // Evita que el clic cierre el modal
+                        onClick={(e) => {
+                            e.stopPropagation() 
+                            putFriendsRequest(user.id, currentUser )
+                        }} // Evita que el clic cierre el modal
                     >
                         {hoverLike ? <BiSolidLike /> : <BiLike />}
                     </button>

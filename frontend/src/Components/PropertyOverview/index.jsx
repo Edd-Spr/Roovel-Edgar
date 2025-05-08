@@ -31,13 +31,13 @@ const PropertyOverview = ({
         return () => clearTimeout(timer);
     }, []);
 
-    if (isLoading || !property_name || !rooms) return <PropertyOverviewSkeleton />;
+    if (isLoading || !property_name) return <PropertyOverviewSkeleton />;
 
     const allImages = [
         property_main_image?.[0],
         ...((property_images && Array.isArray(property_images)) ? property_images : [])
     ];
-    const relatedRooms = rooms.filter(room => room.id_home === property_id_home);
+    const relatedRooms = rooms //.filter(room => room.id_home === property_id_home);
 
     const openModalWithImage = (index) => {
         setSelectedImageIndex(index);
@@ -112,7 +112,7 @@ const PropertyOverview = ({
                         <p className={Styles['info-container__address']}>{property_address}</p>
                         <div className={Styles['info-container__remaining-rooms']}>
                             <p className={Styles['remaining-rooms__number']}>
-                                {relatedRooms.filter(room => room.room_ocupied === 0).length}
+                            {relatedRooms?.filter(room => room.room_ocupied === 0).length}
                                 <br/> 
                                 <span className={Styles['remaining-rooms__subtitle']}>Disponibles</span></p>
                         </div>
@@ -155,7 +155,7 @@ const PropertyOverview = ({
                     </div>
                 </motion.section>
 
-                {relatedRooms.length > 0 && (
+                {relatedRooms?.length > 0 && (
                     <motion.section
                         className={Styles['property-overview__rooms-container']}
                         initial={{ y: 20, opacity: 0 }}
@@ -174,7 +174,7 @@ const PropertyOverview = ({
                                 }}
                             >
                                 <img
-                                    src={room.mainImage[0].image_content}
+                                    src={room.mainImage[0].image_src || room.mainImage[0].image_content}
                                     alt=""
                                     draggable="false"
                                     className={`${Styles['rooms-container__room__image']} ${room.room_ocupied === 1 && Styles['rooms-container__room__image-occupied']}`}

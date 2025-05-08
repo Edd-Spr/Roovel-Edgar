@@ -26,6 +26,8 @@ const RoomOverview = ({
     const [liked, setLiked] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
+    console.log('room_main_image', room_main_image)
+
     useEffect(() => {
         const timer = setTimeout(() => setIsLoading(false), 3000);
         return () => clearTimeout(timer);
@@ -34,7 +36,7 @@ const RoomOverview = ({
     if (isLoading || !room_name) return <RoomOverviewSkeleton />;
 
     const allImages = [
-        room_main_image?.[0]?.image_content,
+        room_main_image?.[0]?.image_content, room_main_image?.[0]?.image_src,
         ...(room_images?.map(image => image.image_content) || [])
       ];
 
@@ -206,6 +208,7 @@ const RoomOverview = ({
                         <div className={Styles['property-overview__des-container']}>
                             <h1 className={Styles['info-container__name']}>Descripción</h1>
                             <p className={Styles['property-overview__description']}>{room_description}</p>
+                            <button className={Styles['property-overview__button-reservation']}>Reservar Habitación</button>
                         </div>
 
 

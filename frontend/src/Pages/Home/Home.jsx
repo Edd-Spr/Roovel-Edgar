@@ -263,14 +263,14 @@ const Home = () => {
                     setIsRoomOverviewOpen={setIsRoomOverviewOpen}
                     setSelectedRoom={setSelectedRoom}
                 />
-                <AdvertisingSection
+                {/* <AdvertisingSection
                 title='¿Problemas con los gastos compartidos?' 
                 description='Evita malentendidos y disputas por los pagos. Usa nuestra app para dividir de forma precisa y justa lo que le toca a cada uno.'
                 direction=''
                 image="/Graphics/advertising-image-div.jpeg" 
                 position={2}
                 color='#CEB6A9'
-                />
+                /> */}
 
                 {isRoomOverviewOpen && (
                     <RoomOverview
@@ -326,7 +326,7 @@ const CAROUSEL_CONTENT = [
         image: '/Graphics/carousel-publi.jpeg',
         buttonName: 'Publicar',
         buttonContent: 'Explorar',
-        direction: '/propertyManager'
+        direction: '/property-manager'
     },
 ];
 

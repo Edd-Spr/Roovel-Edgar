@@ -29,6 +29,7 @@ export default function Map() {
     isRoomOverviewOpen,
     selectedRoom,
     selectedProperty,
+    roomDetails,
     SetViewOnUpdate, 
     MapLocator,
     onPositionUpdate,
@@ -40,6 +41,7 @@ export default function Map() {
     setIsRoomOverviewOpen,
     setSelectedRoom,
     setSelectedProperty,
+    getRoomDetails,
     eventHandlers,
   } = useCustomMap();
   const inputPlaceholder = 'Ubicación';
@@ -49,7 +51,7 @@ export default function Map() {
     return room.room_ocupied ? count : count + 1;
   }, 0);
 
-  console.log( 'imagenes - - - - - - - ', home.imgs )
+  console.log( 'ROOMS - - - - - - - ', roomDetails )
   return (
     <Layout height='92vh'>
       <MapForm 
@@ -101,7 +103,7 @@ export default function Map() {
           property_owner={home.home_owner}
           property_id_home={home.id_home}
           
-          rooms={home.rooms} 
+          rooms={roomDetails} 
           closePropertyOverview={() => setIsPropertyOverviewOpen(false)}
           OpenRoomOverview={()=> setIsRoomOverviewOpen(true)}
           setSelectedRoom={setSelectedRoom}
@@ -116,7 +118,7 @@ export default function Map() {
           room_tags={selectedRoom.tags}
           room_images={selectedRoom.images}
           room_main_image={selectedRoom.mainImage}
-          property={propertys.find( prop => prop.id_home === selectedRoom.id_home )}
+          property={home}
           
           setSelectedProperty={setSelectedProperty}
           closeRoomOverviewOpen={()=>setIsRoomOverviewOpen(false)}

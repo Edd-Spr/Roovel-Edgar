@@ -85,6 +85,17 @@
   }
   
 
+  .startButton{
+    background-color: white;
+    height: 6vh;
+    width: 10rem;
+    border: none;
+    color: var(--primary-color);
+    margin: 0 10px;
+  }
+  .startButton:hover{
+    background-color: #f0f0f0;
+  }
   .dropdownMenu{
     position: absolute;
     top: 130%;

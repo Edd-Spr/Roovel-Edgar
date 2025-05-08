@@ -2,9 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import '../Styles/NavBar.css';
 import { useEffect, useState, useRef } from 'react';
 import AdvertisingBanner from './AdvertisingBanner';
-import { useAuth } from '../hooks/auth/index.jsx';
 import jwtDecode from 'jwt-decode';
-import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
     const location = useLocation();
@@ -23,10 +21,6 @@ const NavBar = () => {
       if (usrToken) {
           try {
               const decodedToken = jwtDecode(usrToken);
-              console.log('Token decodificado:', decodedToken);
-              console.log('ID del Usuario:', decodedToken.userId);
-              console.log('Type user:', decodedToken.type_user);
-              console.log('Estado de autenticación:', isAuthenticated);
               setIDUSER(decodedToken.userId);
           } catch (error) {
               console.error('Error al decodificar el token:', error);
@@ -48,7 +42,6 @@ const NavBar = () => {
                 const data = await response.json();
                 if (Array.isArray(data) && data.length > 0) {
                     setProfileImage(data[0].image_src);
-                    console.log("Imágenes recibidas para foto de perfil:", data[0].image_src);
                 }
             } catch (error) {
                 console.error("Error al obtener imagen de perfil:", error);
@@ -126,23 +119,30 @@ const NavBar = () => {
                         <button className="actionButtons" key={action.id}>{action.name}</button>
                     )
                 )}
-                <button className="notificationButton">
+                {/*<button className="notificationButton">
                     <img
                         src="/Graphics/Icons/campana-de-notificacion.png"
                         alt="Notificaciones"
                         style={{ width: '100%', height: '75%' }}
                         draggable="false"
                     />
-                </button>
+                </button>*/}
                 
 
-                {isAuthenticated &&
+                {isAuthenticated ?
                 <ProfileImage 
+                    onClick={ logout }
                     containerRef={containerRef}
                     profileImage={profileImage}
                     setIsMenuOpen={setIsMenuOpen}
                     isMenuOpen={isMenuOpen}
-                />}
+                /> :
+                <Link to="/auth">
+                    <button className='startButton'>Comenzar</button>
+                    </Link>
+                
+
+                }
             </div>
             {AdvertisingBannerIsOpen && <AdvertisingBanner closeBanner={() => setAdvertisingBannerIsOpen(false)} />}
         </header>
@@ -150,7 +150,7 @@ const NavBar = () => {
 
 };
 
-function ProfileImage({containerRef, profileImage, isMenuOpen, setIsMenuOpen}){
+function ProfileImage({containerRef, profileImage, isMenuOpen, setIsMenuOpen, onClick}){
     return (
         <div
         className="userPhotoProfileContainer"
@@ -172,7 +172,7 @@ function ProfileImage({containerRef, profileImage, isMenuOpen, setIsMenuOpen}){
             <div className="dropdownMenu">
                 <Link to="/profile" className="dropdownMenuButton">Ver perfil</Link>
                 <button
-                    onClick={() => console.log('cerrar sesión')}
+                    onClick={ onClick }
                     className="dropdownMenuButton"
                 >
                     Cerrar sesión

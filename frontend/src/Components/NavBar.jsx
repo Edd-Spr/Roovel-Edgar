@@ -4,7 +4,6 @@ import '../Styles/NavBar.css';
 import { useAuth } from '../hooks/auth/index.jsx';
 import { useEffect, useState, useRef } from 'react';
 import AdvertisingBanner from './AdvertisingBanner';
-import { useAuth } from '../hooks/auth/index.jsx';
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
@@ -128,23 +127,29 @@ const NavBar = () => {
                         <button className="actionButtons" key={action.id}>{action.name}</button>
                     )
                 )}
-                <button className="notificationButton">
+                {/*<button className="notificationButton">
                     <img
                         src="/Graphics/Icons/campana-de-notificacion.png"
                         alt="Notificaciones"
                         style={{ width: '100%', height: '75%' }}
                         draggable="false"
                     />
-                </button>
+                </button>*/}
                 
 
-                {isAuthenticated &&
+                {isAuthenticated ?
                 <ProfileImage 
                     containerRef={containerRef}
                     profileImage={profileImage}
                     setIsMenuOpen={setIsMenuOpen}
                     isMenuOpen={isMenuOpen}
-                />}
+                /> :
+                <Link to="/auth">
+                    <button className='startButton'>Comenzar</button>
+                    </Link>
+                
+
+                }
             </div>
             {AdvertisingBannerIsOpen && <AdvertisingBanner closeBanner={() => setAdvertisingBannerIsOpen(false)} />}
         </header>

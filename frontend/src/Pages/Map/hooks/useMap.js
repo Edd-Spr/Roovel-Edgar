@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 
-import { API_URL_MAP__NEAREST_PLACES, API_URL_MAP__HOME } from "../../../env";
+import { API_URL_MAP__NEAREST_PLACES, API_URL_MAP__HOME, API_URL_ROOM } from "../../../env";
 
 import { useMap as useMapLeaflet, useMapEvents } from "react-leaflet";
 
@@ -12,6 +12,7 @@ export default function useMap() {
   const [displayCard, setDisplayCard] = useState(0);
   const [places, setPlaces] = useState([]);
   const [home, setHome] = useState({});
+  const [roomDetails, setRoomDetails] = useState([]);
   const [searched, setSearched] = useState(false);
 
   const [dirTyped, setDirTyped] = useState("");
@@ -164,6 +165,19 @@ export default function useMap() {
     setSearched(true);
   }
 
+
+  async function getRoomDetails(homeId) {
+    try {
+      const response = await axios.get(`${API_URL_ROOM}?idHome=${homeId}`);
+      console.log("Respuesta del backend:", response.data, 'idhomeee',home.id_home); // Verifica qué datos devuelve el backend
+      if (response && response.data) {
+        return response.data;
+      }
+    } catch (error) {
+      console.error("Error al obtener los detalles de la habitación:", error);
+    }
+  }
+
   useEffect(() => {
     if (dirTyped) {
       const timeout = setTimeout(async () => {
@@ -236,6 +250,21 @@ export default function useMap() {
     })();
   }, [position]);
 
+  useEffect(() => {
+    async function fetchRoomDetails() {
+      console.log("Home actual:", home); // Verifica el valor de `home`
+      if (home?.id_home) {
+        const rooms = await getRoomDetails(home.id_home);
+        if (rooms) {
+          setRoomDetails(rooms);
+          console.log("Detalles de la habitación:", rooms); // Verifica los detalles de la habitación
+        }
+      }
+    }
+
+    fetchRoomDetails();
+  }, [home]);
+
   return {
     position,
     readableDirection,
@@ -249,6 +278,7 @@ export default function useMap() {
     isRoomOverviewOpen,
     selectedRoom,
     selectedProperty,
+    roomDetails,
     SetViewOnUpdate,
     MapLocator,
     onPositionUpdate,
@@ -261,6 +291,7 @@ export default function useMap() {
     setIsRoomOverviewOpen,
     setSelectedRoom,
     setSelectedProperty,
+    getRoomDetails,
     eventHandlers,
   };
 }

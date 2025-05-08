@@ -1,10 +1,11 @@
 import './Pay.css';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const Paypage = () => {
   const location = useLocation();
+  const navigate = useNavigate(); // Hook para redirigir programáticamente
   const queryParams = new URLSearchParams(location.search);
   const room_id = queryParams.get('room_id'); 
   const [room, setRoom] = useState({ room_price: 0, room_description: '' });
@@ -16,6 +17,7 @@ const Paypage = () => {
     if (!room_id) {
       console.error('room_id es undefined');
       Swal.fire('Error', 'No se proporcionó un ID de habitación.', 'error');
+      navigate('/'); // Redirige a la página principal si no hay room_id
       return;
     }
 
@@ -33,15 +35,17 @@ const Paypage = () => {
       } catch (error) {
         console.error('Error al obtener habitación:', error);
         Swal.fire('Error', 'No se pudo cargar la habitación.', 'error');
+        navigate('/'); // Redirige a la página principal si ocurre un error
       }
     };
 
     fetchRoom();
-  }, [room_id]);
+  }, [room_id, navigate]);
 
   const handleConfirmPayment = async () => {
     if (!room_id) {
       Swal.fire('Error', 'No se puede confirmar el pago sin un ID de habitación.', 'error');
+      navigate('/'); // Redirige a la página principal si no hay room_id
       return;
     }
 
@@ -66,6 +70,8 @@ const Paypage = () => {
         title: '¡Pago confirmado!',
         text: 'La habitación ha sido marcada como ocupada.',
         icon: 'success',
+      }).then(() => {
+        navigate('/'); // Redirige a la página principal después del pago exitoso
       });
     } catch (err) {
       console.error('Error al confirmar pago:', err);
@@ -73,6 +79,8 @@ const Paypage = () => {
         title: 'Error',
         text: err.message || 'No se pudo confirmar el pago',
         icon: 'error',
+      }).then(() => {
+        navigate('/'); // Redirige a la página principal si ocurre un error
       });
     }
   };
